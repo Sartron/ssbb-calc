@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -111,8 +112,8 @@ namespace attackcalculator
                 //Check is PSA code/lines are being pasted
                 if (Clipboard.GetText(TextDataFormat.Text).Contains('/') && Clipboard.GetText(TextDataFormat.Text).Contains('\\'))
                 {
-                    //Split codes
-                    String[] codes = Clipboard.GetText(TextDataFormat.Text).Split('/');
+                    //Split codes, remove empty array entries
+                    String[] codes = Clipboard.GetText(TextDataFormat.Text).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                     //Convert code to text and new format
                     foreach (String code in codes)
                     {
@@ -121,8 +122,8 @@ namespace attackcalculator
                 }
                 else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision"))
                 {
-                    //Split lines
-                    string[] lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                    //Split lines, remove empty array entries
+                    string[] lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                     //Convert to new format
                     foreach (String line in lines)
                     {
@@ -152,8 +153,8 @@ namespace attackcalculator
                     //Contains text
                     if (Clipboard.GetText(TextDataFormat.Text).Contains('/') && Clipboard.GetText(TextDataFormat.Text).Contains('\\'))
                     {
-                        //Split codes
-                        String[] codes = Clipboard.GetText(TextDataFormat.Text).Split('/');
+                        //Split codes, remove empty array entries
+                        String[] codes = Clipboard.GetText(TextDataFormat.Text).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                         //Convert code to text and new format
                         foreach (String code in codes)
                         {
@@ -163,8 +164,8 @@ namespace attackcalculator
                     }
                     else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision"))
                     {
-                        //Split codes
-                        string[] lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                        //Split lines, remove empty array entries
+                        string[] lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                         //Convert to new format
                         foreach (String line in lines)
                         {
@@ -185,23 +186,23 @@ namespace attackcalculator
             }
         }
         #endregion
-        private string CodetoEvent(String clipboardtext)
+        private string CodetoEvent(string clipboardtext)
         {
-            String str_event = String.Empty;
+           string str_event = String.Empty;
             if (clipboardtext.Contains(':') && clipboardtext.Contains(',') && clipboardtext.Contains("Offensive Collision"))
             {
                 //Processed, return what was given
                 Boolean bool_special = false;
                 if (clipboardtext.Contains("Special Offensive Collision: ") && (clipboardtext.Contains("Rehit Rate") && clipboardtext.Contains("Special Flags")))
                 {
-                    clipboardtext = clipboardtext.Replace("Special Offensive Collision: ", string.Empty);
+                    clipboardtext = clipboardtext.Replace("Special Offensive Collision: ", String.Empty);
                     bool_special = true;
                 }
                 else if (clipboardtext.Contains("Offensive Collision: "))
                 {
-                    clipboardtext = clipboardtext.Replace("Offensive Collision: ", string.Empty);
+                    clipboardtext = clipboardtext.Replace("Offensive Collision: ", String.Empty);
                 }
-                String[] str_stats = clipboardtext.Split(',');
+                string[] str_stats = clipboardtext.Split(',');
                 if (bool_special)
                 {
                     //Special Offensive Collision
@@ -217,7 +218,7 @@ namespace attackcalculator
             else if (clipboardtext.Contains('|') && clipboardtext.Contains('\\'))
             {
                 //Not processed
-                String[] str_stats = clipboardtext.Split('|');
+                string[] str_stats = clipboardtext.Split('|');
                 switch (str_stats[0])
                 {
                     case "06000D00":
@@ -238,6 +239,35 @@ namespace attackcalculator
                 str_event = String.Empty;
             }
             return str_event;
+        }
+
+        private string EventToStat(string line, int stat)
+        {
+            //Check if line is a hitbox
+            if (!(line.Contains(':') && line.Contains(',') && line.Contains("Hitbox:")))
+            {
+                //Line isn't hitbox, exit function
+                return String.Empty;
+            }
+            string[] str_stat = line.Split(',');
+            str_stat[stat] = str_stat[stat].Trim();
+            str_stat[stat] = Regex.Replace(str_stat[stat], "[^0-9.]", String.Empty);
+            return str_stat[stat];
+        }
+
+        private void generateDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Split lines
+            string[] str_txtpsalines = txt_psa.Lines;
+            //Loop output
+            for (int int_line = 0; int_line < str_txtpsalines.Length; int_line++)
+            {
+                if (!(String.IsNullOrEmpty(str_txtpsalines[int_line])))
+                {
+                    //Output size
+                    MessageBox.Show(EventToStat(str_txtpsalines[int_line], 7));
+                }
+            }
         }
     }
 }

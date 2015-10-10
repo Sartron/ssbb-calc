@@ -200,6 +200,7 @@
             this.generateDataToolStripMenuItem.Name = "generateDataToolStripMenuItem";
             this.generateDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.generateDataToolStripMenuItem.Text = "Generate Data";
+            this.generateDataToolStripMenuItem.Click += new System.EventHandler(this.generateDataToolStripMenuItem_Click);
             // 
             // MainFrm
             // 
