@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace calc
+namespace attackcalculator
 {
-    public class Class1
+    class calculator
     {
     }
 }
