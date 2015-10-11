@@ -202,6 +202,10 @@ namespace attackcalculator
                 {
                     clipboardtext = clipboardtext.Replace("Offensive Collision: ", String.Empty);
                 }
+                if (clipboardtext.Contains('\t'))
+                {
+                    clipboardtext = Regex.Replace(clipboardtext, @"\t", String.Empty);
+                }
                 string[] str_stats = clipboardtext.Split(',');
                 if (bool_special)
                 {
@@ -262,10 +266,23 @@ namespace attackcalculator
             //Loop output
             for (int int_line = 0; int_line < str_txtpsalines.Length; int_line++)
             {
-                if (!(String.IsNullOrEmpty(str_txtpsalines[int_line])))
+                if (!(String.IsNullOrEmpty(str_txtpsalines[int_line])) && ((str_txtpsalines[int_line].Contains(':') && str_txtpsalines[int_line].Contains(',') && str_txtpsalines[int_line].Contains("Hitbox:"))))
                 {
-                    //Output size
-                    MessageBox.Show(EventToStat(str_txtpsalines[int_line], 7));
+                    Calculator.Hitbox.int_damage = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 1));
+                    Calculator.Hitbox.int_shielddamage = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 2));
+                    Calculator.Hitbox.int_angle = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 3));
+                    Calculator.Hitbox.int_bkb = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 4));
+                    Calculator.Hitbox.int_wdsk = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 5));
+                    Calculator.Hitbox.int_kbg = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 6));
+                    Calculator.Hitbox.double_size = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 7));
+                    Calculator.Hitbox.int_hitlagmultiplier = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 8));
+                    Calculator.Hitbox.int_sdimultiplier = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 9));
+                    Calculator.Hitbox.int_flags = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 10));
+                    if (str_txtpsalines[int_line].Contains("Rehit Rate") && str_txtpsalines[int_line].Contains("Special Flags"))
+                    {
+                        Calculator.Hitbox.int_rehitrate = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 11));
+                        Calculator.Hitbox.int_specialflags = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 12));
+                    }
                 }
             }
         }
