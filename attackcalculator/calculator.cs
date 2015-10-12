@@ -1,14 +1,20 @@
-﻿using System;
+﻿using attackcalculator.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace Calculator
 {
     public static class Character
     {
-
+        public static int[] int_damage;
+        public static int int_character;
+        public static bool bool_charging, bool_crouching;
     }
     public class Hitbox
     {
@@ -176,6 +182,22 @@ namespace Calculator
     }
     public static class Settings
     {
-
+        public static bool bool_xmlexists()
+        {
+            if (File.Exists(Application.StartupPath + "\\settings.xml"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static void createxml()
+        {
+            XmlDocument xml_settings = new XmlDocument();
+            xml_settings.LoadXml(attackcalculator.Properties.Resources.settings);
+            xml_settings.Save(Application.StartupPath + "\\settings.xml");
+        }
     }
 }

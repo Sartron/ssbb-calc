@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace attackcalculator.Properties
-{
-
-
+namespace attackcalculator.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,49 +22,64 @@ namespace attackcalculator.Properties
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("attackcalculator.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;settings&gt;
+        ///  &lt;output&gt;
+        ///    &lt;id enabled=&quot;true&quot;&gt;id&lt;/id&gt;
+        ///	&lt;size enabled=&quot;false&quot;&gt;size&lt;/size&gt;
+        ///	&lt;damage enabled=&quot;true&quot;&gt;dmg&lt;/damage&gt;
+        ///	&lt;shielddamage enabled=&quot;false&quot;&gt;sdmg&lt;/shielddamage&gt;
+        ///	&lt;angle enabled=&quot;true&quot;&gt;angle&lt;/angle&gt;
+        ///	&lt;kbunits enabled=&quot;false&quot;&gt;kbunits&lt;/kbunits&gt;
+        ///	&lt;bkb enabled=&quot;true&quot;&gt;bkb&lt;/bkb&gt;
+        ///	&lt;wdsk enabled=&quot;true&quot;&gt;wdsk&lt;/wdsk&gt;
+        ///	&lt;kbg enabled=&quot;true&quot;&gt;kbg&lt;/kbg&gt;
+        ///	&lt;hitlagmulti enabled=&quot;false&quot;&gt;hitlagmulti&lt;/hitlagmulti&gt;
+        ///	&lt;sdimulti enabled=&quot;false&quot;&gt;sdimulti&lt;/sdimulti&gt;
+        ///	&lt;c [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string settings {
+            get {
+                return ResourceManager.GetString("settings", resourceCulture);
             }
         }
     }

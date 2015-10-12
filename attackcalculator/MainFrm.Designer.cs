@@ -34,7 +34,6 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.outputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advantageCalculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chargeSmashAttackCalculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +52,8 @@
             this.txt_psa = new System.Windows.Forms.RichTextBox();
             this.tp_stats = new System.Windows.Forms.TabPage();
             this.txt_generatedstats = new System.Windows.Forms.RichTextBox();
+            this.outputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.victimToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ms_main.SuspendLayout();
             this.cms_main.SuspendLayout();
             this.tc_tabs.SuspendLayout();
@@ -91,17 +92,11 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.outputToolStripMenuItem});
+            this.outputToolStripMenuItem,
+            this.victimToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
-            // 
-            // outputToolStripMenuItem
-            // 
-            this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
-            this.outputToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.outputToolStripMenuItem.Text = "Output";
-            this.outputToolStripMenuItem.Click += new System.EventHandler(this.outputToolStripMenuItem_Click);
             // 
             // otherToolStripMenuItem
             // 
@@ -254,6 +249,19 @@
             this.txt_generatedstats.Text = "";
             this.txt_generatedstats.WordWrap = false;
             // 
+            // outputToolStripMenuItem
+            // 
+            this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
+            this.outputToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.outputToolStripMenuItem.Text = "Output";
+            this.outputToolStripMenuItem.Click += new System.EventHandler(this.outputToolStripMenuItem_Click);
+            // 
+            // victimToolStripMenuItem
+            // 
+            this.victimToolStripMenuItem.Name = "victimToolStripMenuItem";
+            this.victimToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.victimToolStripMenuItem.Text = "Victim";
+            // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -286,7 +294,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem outputToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem advantageCalculatorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chargeSmashAttackCalculatorToolStripMenuItem;
@@ -305,6 +312,8 @@
         private System.Windows.Forms.RichTextBox txt_psa;
         private System.Windows.Forms.TabPage tp_stats;
         private System.Windows.Forms.RichTextBox txt_generatedstats;
+        private System.Windows.Forms.ToolStripMenuItem outputToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem victimToolStripMenuItem;
     }
 }
 

@@ -15,6 +15,20 @@ namespace attackcalculator
 {
     public partial class MainFrm : Form
     {
+        #region Startup
+        public MainFrm()
+        {
+            InitializeComponent();
+        }
+
+        private void MainFrm_Load(object sender, EventArgs e)
+        {
+            if (!(Calculator.Settings.bool_xmlexists()))
+            {
+                Calculator.Settings.createxml();
+            }
+        }
+        #endregion
         #region Menus
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -25,21 +39,6 @@ namespace attackcalculator
         {
             Form OutputFrm = new OutputFrm();
             OutputFrm.Show();
-        }
-        #endregion
-        #region Startup
-        public MainFrm()
-        {
-            InitializeComponent();
-        }
-
-        private void MainFrm_Load(object sender, EventArgs e)
-        {
-            if (!(File.Exists(Application.StartupPath + "calc.dll")))
-            {
-                //MessageBox.Show("calc.dll does not exist!");
-                //Application.Exit();
-            }
         }
         #endregion
         #region Text Editor
@@ -186,9 +185,10 @@ namespace attackcalculator
             }
         }
         #endregion
+        #region Functions
         private string CodetoEvent(string clipboardtext)
         {
-           string str_event = String.Empty;
+            string str_event = String.Empty;
             if (clipboardtext.Contains(':') && clipboardtext.Contains(',') && clipboardtext.Contains("Offensive Collision"))
             {
                 //Processed, return what was given
@@ -258,6 +258,7 @@ namespace attackcalculator
             str_stat[stat] = Regex.Replace(str_stat[stat], "[^0-9.]", String.Empty);
             return str_stat[stat];
         }
+        #endregion
 
         private void generateDataToolStripMenuItem_Click(object sender, EventArgs e)
         {

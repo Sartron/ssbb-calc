@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <output>
+    <id enabled="true">id</id>
+	<size enabled="false">size</size>
+	<damage enabled="true">dmg</damage>
+	<shielddamage enabled="false">sdmg</shielddamage>
+	<angle enabled="true">angle</angle>
+	<kbunits enabled="false">kbunits</kbunits>
+	<bkb enabled="true">bkb</bkb>
+	<wdsk enabled="true">wdsk</wdsk>
+	<kbg enabled="true">kbg</kbg>
+	<hitlagmulti enabled="false">hitlagmulti</hitlagmulti>
+	<sdimulti enabled="false">sdimulti</sdimulti>
+	<clang enabled="false">clang</clang>
+	<target enabled="false">target</target>
+	<effect enabled="false">effect</effect>
+	<hitstun enabled="false">hitstun</hitstun>
+	<shieldstun enabled="false">shieldstun</shieldstun>
+	<hitlag enabled="false">hitlag</hitlag>
+	<hitlagadv enabled="false">hitlagadv</hitlagadv>
+	<absorb enabled="false">absorb</absorb>
+	<reflect enabled="false">reflect</reflect>
+  </output>
+  <victim>
+    <damage>0/100</damage>
+    <character>0</character>
+    <charging>0</charging>
+	<crouching>0</crouching>
+  </victim>
+</settings>
