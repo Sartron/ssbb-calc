@@ -1,0 +1,41 @@
+Bowser
+Captain Falcon
+Charizard
+Diddy Kong
+Donkey Kong
+Falco
+Fox
+Ganondorf
+Ice Climbers
+Ike
+Ivysaur
+Jigglypuff
+King Dedede
+Kirby
+Link
+Lucario
+Lucas
+Luigi
+Mario
+Marth
+Meta Knight
+Mewtwo
+Mr. Game & Watch
+Ness
+Olimar
+Peach
+Pikachu
+Pit
+R.O.B.
+Roy
+Samus
+Sheik
+Snake
+Sonic
+Squirtle
+Toon Link
+Wario
+Wolf
+Yoshi
+Zelda
+Zero Suit Samus

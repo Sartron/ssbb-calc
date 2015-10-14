@@ -92,10 +92,12 @@
             // 
             // txt_outputvariable
             // 
+            this.txt_outputvariable.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_outputvariable.Location = new System.Drawing.Point(15, 65);
             this.txt_outputvariable.Name = "txt_outputvariable";
-            this.txt_outputvariable.Size = new System.Drawing.Size(327, 20);
+            this.txt_outputvariable.Size = new System.Drawing.Size(327, 19);
             this.txt_outputvariable.TabIndex = 3;
+            this.txt_outputvariable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btn_savevariable
             // 
@@ -105,6 +107,7 @@
             this.btn_savevariable.TabIndex = 4;
             this.btn_savevariable.Text = "Save Variable";
             this.btn_savevariable.UseVisualStyleBackColor = true;
+            this.btn_savevariable.Click += new System.EventHandler(this.btn_savevariable_Click);
             // 
             // cb_enabled
             // 
@@ -118,10 +121,12 @@
             // 
             // txt_outputformat
             // 
+            this.txt_outputformat.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_outputformat.Location = new System.Drawing.Point(15, 140);
             this.txt_outputformat.Name = "txt_outputformat";
-            this.txt_outputformat.Size = new System.Drawing.Size(327, 20);
+            this.txt_outputformat.Size = new System.Drawing.Size(327, 19);
             this.txt_outputformat.TabIndex = 6;
+            this.txt_outputformat.Text = "id|dmg|angle|bkb/wdsk/kbg";
             // 
             // lbl_outputformat
             // 
@@ -148,6 +153,7 @@
             this.btn_saveoutputformat.TabIndex = 9;
             this.btn_saveoutputformat.Text = "Save Output Formatting";
             this.btn_saveoutputformat.UseVisualStyleBackColor = true;
+            this.btn_saveoutputformat.Click += new System.EventHandler(this.btn_saveoutputformat_Click);
             // 
             // OutputFrm
             // 

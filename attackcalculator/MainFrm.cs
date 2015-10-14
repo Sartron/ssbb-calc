@@ -40,6 +40,23 @@ namespace attackcalculator
             Form OutputFrm = new OutputFrm();
             OutputFrm.Show();
         }
+
+
+        private void victimToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form VictimFrm = new VictimFrm();
+            VictimFrm.Show();
+        }
+
+        private void advantageCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chargeSmashAttackCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
         #region Text Editor
         private void txt_psa_MouseUp(object sender, MouseEventArgs e)

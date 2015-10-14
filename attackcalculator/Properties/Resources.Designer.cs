@@ -61,25 +61,123 @@ namespace attackcalculator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///   Looks up a localized string similar to Bowser
+        ///Captain Falcon
+        ///Charizard
+        ///Diddy Kong
+        ///Donkey Kong
+        ///Falco
+        ///Fox
+        ///Ganondorf
+        ///Ice Climbers
+        ///Ike
+        ///Ivysaur
+        ///Jigglypuff
+        ///King Dedede
+        ///Kirby
+        ///Link
+        ///Lucario
+        ///Lucas
+        ///Luigi
+        ///Mario
+        ///Marth
+        ///Meta Knight
+        ///Mewtwo
+        ///Mr. Game &amp; Watch
+        ///Ness
+        ///Olimar
+        ///Peach
+        ///Pikachu
+        ///Pit
+        ///R.O.B.
+        ///Roy
+        ///Samus
+        ///Sheik
+        ///Snake
+        ///Sonic
+        ///Squirtle
+        ///Toon Link
+        ///Wario
+        ///Wolf
+        ///Yoshi
+        ///Zelda
+        ///Zero Suit Samus.
+        /// </summary>
+        internal static string characters {
+            get {
+                return ResourceManager.GetString("characters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
         ///&lt;settings&gt;
         ///  &lt;output&gt;
-        ///    &lt;id enabled=&quot;true&quot;&gt;id&lt;/id&gt;
-        ///	&lt;size enabled=&quot;false&quot;&gt;size&lt;/size&gt;
-        ///	&lt;damage enabled=&quot;true&quot;&gt;dmg&lt;/damage&gt;
-        ///	&lt;shielddamage enabled=&quot;false&quot;&gt;sdmg&lt;/shielddamage&gt;
-        ///	&lt;angle enabled=&quot;true&quot;&gt;angle&lt;/angle&gt;
-        ///	&lt;kbunits enabled=&quot;false&quot;&gt;kbunits&lt;/kbunits&gt;
-        ///	&lt;bkb enabled=&quot;true&quot;&gt;bkb&lt;/bkb&gt;
-        ///	&lt;wdsk enabled=&quot;true&quot;&gt;wdsk&lt;/wdsk&gt;
-        ///	&lt;kbg enabled=&quot;true&quot;&gt;kbg&lt;/kbg&gt;
-        ///	&lt;hitlagmulti enabled=&quot;false&quot;&gt;hitlagmulti&lt;/hitlagmulti&gt;
-        ///	&lt;sdimulti enabled=&quot;false&quot;&gt;sdimulti&lt;/sdimulti&gt;
-        ///	&lt;c [rest of string was truncated]&quot;;.
+        ///    &lt;variables&gt;
+        ///      &lt;var id=&quot;0&quot; enabled=&quot;true&quot;&gt;id&lt;/var&gt;
+        ///	  &lt;var id=&quot;1&quot; enabled=&quot;true&quot;&gt;size&lt;/var&gt;
+        ///	  &lt;var id=&quot;2&quot; enabled=&quot;true&quot;&gt;dmg&lt;/var&gt;
+        ///	  &lt;var id=&quot;3&quot; enabled=&quot;true&quot;&gt;sdmg&lt;/var&gt;
+        ///	  &lt;var id=&quot;4&quot; enabled=&quot;true&quot;&gt;angle&lt;/var&gt;
+        ///	  &lt;var id=&quot;5&quot; enabled=&quot;true&quot;&gt;kbunits&lt;/var&gt;
+        ///	  &lt;var id=&quot;6&quot; enabled=&quot;true&quot;&gt;bkb&lt;/var&gt;
+        ///	  &lt;var id=&quot;7&quot; enabled=&quot;true&quot;&gt;wdsk&lt;/var&gt;
+        ///	  &lt;var id=&quot;8&quot; enabled=&quot;true&quot;&gt;kbg&lt;/var&gt;
+        ///	  &lt;var id=&quot;9&quot; enabled=&quot;true&quot;&gt;hitlagmulti&lt;/var&gt;
+        ///	  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string settings {
             get {
                 return ResourceManager.GetString("settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 118
+        ///104
+        ///110
+        ///85
+        ///114
+        ///80
+        ///75
+        ///109
+        ///88
+        ///105
+        ///85
+        ///60
+        ///112
+        ///74
+        ///104
+        ///100
+        ///80
+        ///100
+        ///100
+        ///87
+        ///79
+        ///97
+        ///75
+        ///94
+        ///90
+        ///90
+        ///80
+        ///80
+        ///104
+        ///85
+        ///110
+        ///90
+        ///105
+        ///82
+        ///82
+        ///85
+        ///107
+        ///85
+        ///108
+        ///90
+        ///85.
+        /// </summary>
+        internal static string weights {
+            get {
+                return ResourceManager.GetString("weights", resourceCulture);
             }
         }
     }

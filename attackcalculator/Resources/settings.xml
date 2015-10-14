@@ -1,31 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <settings>
   <output>
-    <id enabled="true">id</id>
-	<size enabled="false">size</size>
-	<damage enabled="true">dmg</damage>
-	<shielddamage enabled="false">sdmg</shielddamage>
-	<angle enabled="true">angle</angle>
-	<kbunits enabled="false">kbunits</kbunits>
-	<bkb enabled="true">bkb</bkb>
-	<wdsk enabled="true">wdsk</wdsk>
-	<kbg enabled="true">kbg</kbg>
-	<hitlagmulti enabled="false">hitlagmulti</hitlagmulti>
-	<sdimulti enabled="false">sdimulti</sdimulti>
-	<clang enabled="false">clang</clang>
-	<target enabled="false">target</target>
-	<effect enabled="false">effect</effect>
-	<hitstun enabled="false">hitstun</hitstun>
-	<shieldstun enabled="false">shieldstun</shieldstun>
-	<hitlag enabled="false">hitlag</hitlag>
-	<hitlagadv enabled="false">hitlagadv</hitlagadv>
-	<absorb enabled="false">absorb</absorb>
-	<reflect enabled="false">reflect</reflect>
+    <variables>
+      <var id="0" enabled="true">id</var>
+	  <var id="1" enabled="true">size</var>
+	  <var id="2" enabled="true">dmg</var>
+	  <var id="3" enabled="true">sdmg</var>
+	  <var id="4" enabled="true">angle</var>
+	  <var id="5" enabled="true">kbunits</var>
+	  <var id="6" enabled="true">bkb</var>
+	  <var id="7" enabled="true">wdsk</var>
+	  <var id="8" enabled="true">kbg</var>
+	  <var id="9" enabled="true">hitlagmulti</var>
+	  <var id="10" enabled="true">sdimulti</var>
+	  <var id="11" enabled="true">clang</var>
+	  <var id="12" enabled="true">target</var>
+	  <var id="13" enabled="true">effect</var>
+	  <var id="14" enabled="true">hitstun</var>
+	  <var id="15" enabled="true">shieldstun</var>
+	  <var id="16" enabled="true">hitlag</var>
+	  <var id="17" enabled="true">hitlagadv</var>
+	  <var id="18" enabled="true">absorb</var>
+	  <var id="19" enabled="true">reflect</var>
+    </variables>
+    <format>id|dmg|angle|bkb/wdsk/kbg</format>
   </output>
   <victim>
     <damage>0/100</damage>
     <character>0</character>
-    <charging>0</charging>
-	<crouching>0</crouching>
+    <charging>false</charging>
+    <crouching>false</crouching>
   </victim>
 </settings>
