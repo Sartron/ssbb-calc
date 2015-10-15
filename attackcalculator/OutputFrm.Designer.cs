@@ -65,7 +65,8 @@
             "Hitlag",
             "Hitlag Advantage",
             "Absorbability",
-            "Reflectability"});
+            "Reflectability",
+            "Launch Speed"});
             this.cb_output.Location = new System.Drawing.Point(15, 25);
             this.cb_output.Name = "cb_output";
             this.cb_output.Size = new System.Drawing.Size(327, 21);

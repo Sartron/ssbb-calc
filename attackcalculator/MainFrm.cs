@@ -286,6 +286,7 @@ namespace attackcalculator
             {
                 if (!(String.IsNullOrEmpty(str_txtpsalines[int_line])) && ((str_txtpsalines[int_line].Contains(':') && str_txtpsalines[int_line].Contains(',') && str_txtpsalines[int_line].Contains("Hitbox:"))))
                 {
+                    //Set up Hitbox Variables
                     Calculator.Hitbox.int_damage = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 1));
                     Calculator.Hitbox.int_shielddamage = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 2));
                     Calculator.Hitbox.int_angle = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 3));
@@ -300,6 +301,22 @@ namespace attackcalculator
                     {
                         Calculator.Hitbox.int_rehitrate = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 11));
                         Calculator.Hitbox.int_specialflags = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 12));
+                    }
+                    //Set up Victim Variables
+                    if (Calculator.Settings.Victim.readsetting(0).Contains('/'))
+                    {
+                        String[] str_splitdamage = Calculator.Settings.Victim.readsetting(0).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (String dmg in str_splitdamage)
+                        {
+                            Calculator.Character.initvictim(Convert.ToInt16(dmg), Convert.ToInt16(Calculator.Settings.Victim.readsetting(1)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3)));
+                            //Dump Data
+                        }
+                    }
+                    else
+                    {
+                        Calculator.Character.initvictim(Convert.ToInt16(Calculator.Settings.Victim.readsetting(0)), Convert.ToInt16(Calculator.Settings.Victim.readsetting(1)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3)));
+                        //Dump Data
+
                     }
                 }
             }

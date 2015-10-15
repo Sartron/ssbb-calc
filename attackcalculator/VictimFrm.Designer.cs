@@ -66,6 +66,7 @@
             this.btn_confirm.TabIndex = 11;
             this.btn_confirm.Text = "Confirm";
             this.btn_confirm.UseVisualStyleBackColor = true;
+            this.btn_confirm.Click += new System.EventHandler(this.btn_confirm_Click);
             // 
             // Label1
             // 
@@ -88,7 +89,7 @@
             // txt_damage
             // 
             this.txt_damage.Location = new System.Drawing.Point(14, 27);
-            this.txt_damage.MaxLength = 3;
+            this.txt_damage.MaxLength = 50;
             this.txt_damage.Name = "txt_damage";
             this.txt_damage.Size = new System.Drawing.Size(257, 20);
             this.txt_damage.TabIndex = 7;

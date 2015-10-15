@@ -12,9 +12,32 @@ namespace Calculator
 {
     public static class Character
     {
-        public static int[] int_damage;
-        public static int int_character;
+        public static int int_damage;
+        public static int int_character, int_weight;
         public static bool bool_charging, bool_crouching;
+        private static string ReadLine(string text, int lineNumber)
+        {
+            //Code by Paul Ruane
+            var reader = new StringReader(text);
+            string line;
+            int currentLineNumber = 0;
+            do
+            {
+                currentLineNumber += 1;
+                line = reader.ReadLine();
+            }
+            while (line != null && currentLineNumber < lineNumber);
+            return (currentLineNumber == lineNumber) ? line :
+                                                       string.Empty;
+        }
+        public static void initvictim(int damage, int charid, bool charging, bool crouching)
+        {
+            int_damage = damage;
+            int_character = charid;
+            int_weight = Convert.ToInt16(ReadLine(attackcalculator.Properties.Resources.weights, charid));
+            bool_charging = charging;
+            bool_crouching = crouching;
+        }
     }
     public class Hitbox
     {
@@ -62,7 +85,47 @@ namespace Calculator
     }
     public static class Calculations
     {
-
+        private static double dec_charging()
+        {
+            if (Character.bool_charging)
+            {
+                return 1.2;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        private static double dec_crouching()
+        {
+            if (Character.bool_crouching)
+            {
+                return 0.66;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        private static double dec_electric()
+        {
+            if (Hitbox.int_element(Hitbox.int_flags) == 3)
+            {
+                return 1.5;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        public static double kb_normal()
+        {
+            return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * ((Hitbox.int_damage * (Hitbox.int_damage + Character.int_damage) * 0.05) + (Hitbox.int_damage + Character.int_damage) * 0.1))));
+        }
+        public static double kb_wdsk()
+        {
+            return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * (Hitbox.int_wdsk * 10 * 0.05 + 1))));
+        }
     }
     public static class Conversions
     {
