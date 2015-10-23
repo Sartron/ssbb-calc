@@ -101,14 +101,14 @@
             // outputToolStripMenuItem
             // 
             this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
-            this.outputToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.outputToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.outputToolStripMenuItem.Text = "Output";
             this.outputToolStripMenuItem.Click += new System.EventHandler(this.outputToolStripMenuItem_Click);
             // 
             // victimToolStripMenuItem
             // 
             this.victimToolStripMenuItem.Name = "victimToolStripMenuItem";
-            this.victimToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.victimToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.victimToolStripMenuItem.Text = "Victim";
             this.victimToolStripMenuItem.Click += new System.EventHandler(this.victimToolStripMenuItem_Click);
             // 
@@ -245,6 +245,8 @@
             // tp_stats
             // 
             this.tp_stats.Controls.Add(this.txt_generatedstats);
+            this.tp_stats.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tp_stats.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tp_stats.Location = new System.Drawing.Point(4, 22);
             this.tp_stats.Name = "tp_stats";
             this.tp_stats.Padding = new System.Windows.Forms.Padding(3);

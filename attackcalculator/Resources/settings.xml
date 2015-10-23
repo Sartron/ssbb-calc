@@ -24,10 +24,10 @@
       <var id="19" enabled="true">reflect</var>
       <var id="20" enabled="true">launch</var>
     </variables>
-    <format>id|dmg|angle|bkb/wdsk/kbg</format>
+    <format>id|dmg|angle°|bkb/wdsk/kbg</format>
   </output>
   <victim>
-    <damage>0/100</damage> <!-- Should only be separated by / -->
+    <damage>0/100</damage> <!-- Should only be separated by '/' -->
     <character>0</character>
     <charging>false</charging>
     <crouching>false</crouching>

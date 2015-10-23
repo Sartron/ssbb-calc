@@ -53,12 +53,27 @@ namespace attackcalculator
 
         private void btn_savevariable_Click(object sender, EventArgs e)
         {
-            Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, cb_enabled.Checked, txt_outputvariable.Text);
+            if (String.IsNullOrEmpty(txt_outputvariable.Text))
+            {
+                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, false, txt_outputvariable.Text);
+            }
+            else
+            {
+                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, cb_enabled.Checked, txt_outputvariable.Text);
+            }
         }
 
         private void btn_saveoutputformat_Click(object sender, EventArgs e)
         {
             Calculator.Settings.Output.writeformat(txt_outputformat.Text);
+        }
+
+        private void txt_outputvariable_TextChanged(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(txt_outputvariable.Text))
+            {
+                cb_enabled.Checked = false;
+            }
         }
     }
 }

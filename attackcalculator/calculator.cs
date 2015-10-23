@@ -34,14 +34,14 @@ namespace Calculator
         {
             int_damage = damage;
             int_character = charid;
-            int_weight = Convert.ToInt16(ReadLine(attackcalculator.Properties.Resources.weights, charid));
+            int_weight = Convert.ToInt16(ReadLine(attackcalculator.Properties.Resources.weights, charid + 1));
             bool_charging = charging;
             bool_crouching = crouching;
         }
     }
     public class Hitbox
     {
-        public static int int_damage, int_shielddamage, int_angle, int_bkb, int_wdsk, int_kbg, int_hitlagmultiplier, int_sdimultiplier, int_flags, int_rehitrate, int_specialflags;
+        public static int int_id, int_damage, int_shielddamage, int_angle, int_bkb, int_wdsk, int_kbg, int_hitlagmultiplier, int_sdimultiplier, int_flags, int_rehitrate, int_specialflags;
         public static double double_size;
         public static string int_aerialgrounded(int flags)
         {
@@ -49,7 +49,7 @@ namespace Calculator
             //Bit 16 = Grounded
             int int_aerialbit = Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(flags)).Substring(14, 1));
             int int_groundedbit = Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(flags)).Substring(15, 1));
-            if (!((int_aerialbit == 1) && (int_groundedbit == 1)))
+            if (!(int_aerialbit == 1 && int_groundedbit == 1))
             {
                 //Return both bits if they aren't both 0
                 return String.Empty + int_aerialbit + int_groundedbit;
@@ -125,6 +125,31 @@ namespace Calculator
         public static double kb_wdsk()
         {
             return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * (Hitbox.int_wdsk * 10 * 0.05 + 1))));
+        }
+        public static double launchspeed(double knockback)
+        {
+            //Knockback * 0.03
+            return knockback * 0.03;
+        }
+        public static int hitstun(double knockback)
+        {
+            //Floor(Knockback * 0.4)
+            return Convert.ToInt16(Math.Floor(knockback * 0.4));
+        }
+        public static int shieldstun()
+        {
+            //Floor((Damage + 4.45) / 2.235)
+            return Convert.ToInt16(Math.Floor((Hitbox.int_damage + 4.45) / 2.235));
+        }
+        public static int hitlag_victim()
+        {
+            //Floor((Floor(Damage * 0.3333334 + 3) * Electric) * Hitlag Multiplier)
+            return Convert.ToInt16(Math.Floor((Math.Floor(Hitbox.int_damage * 0.3333334 + 3) * dec_electric()) * Hitbox.int_hitlagmultiplier));
+        }
+        public static int hitlag_attacker()
+        {
+            //Floor(Damage * 0.3333334 + 3) * Hitlag Multiplier
+            return Convert.ToInt16(Math.Floor(Hitbox.int_damage * 0.3333334 + 3) * Hitbox.int_hitlagmultiplier);
         }
     }
     public static class Conversions
@@ -278,7 +303,7 @@ namespace Calculator
                     XmlAttribute attribute_id = var.Attributes["id"];
                     XmlAttribute attribute_enabled = var.Attributes["enabled"];
                     //Run checks to make sure the variables are filled
-                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 19))
+                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 20)) //Not null or greater than 20
                     {
                         ////Debug
                         //Console.WriteLine("ID: " + attribute_id.Value + "\nEnabled: " + attribute_enabled.Value + "\nName: " + var.InnerText + "\n");
@@ -322,7 +347,7 @@ namespace Calculator
                     XmlAttribute attribute_id = var.Attributes["id"];
                     XmlAttribute attribute_enabled = var.Attributes["enabled"];
                     //Run checks to make sure the variables are filled
-                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 19))
+                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 20)) //Not null or greater than 20
                     {
                         ////Debug
                         //Console.WriteLine("ID: " + attribute_id.Value + "\nEnabled: " + attribute_enabled.Value + "\nName: " + var.InnerText + "\n");
