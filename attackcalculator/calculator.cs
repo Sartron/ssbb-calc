@@ -41,8 +41,8 @@ namespace Calculator
     }
     public class Hitbox
     {
-        public static int int_id, int_damage, int_shielddamage, int_angle, int_bkb, int_wdsk, int_kbg, int_hitlagmultiplier, int_sdimultiplier, int_flags, int_rehitrate, int_specialflags;
-        public static double double_size;
+        public static int int_id, int_damage, int_shielddamage, int_angle, int_bkb, int_wdsk, int_kbg, int_flags, int_rehitrate, int_specialflags;
+        public static double double_size, double_hitlagmultiplier, double_sdimultiplier;
         public static string int_aerialgrounded(int flags)
         {
             //Bit 15 = Aerial
@@ -144,12 +144,12 @@ namespace Calculator
         public static int hitlag_victim()
         {
             //Floor((Floor(Damage * 0.3333334 + 3) * Electric) * Hitlag Multiplier)
-            return Convert.ToInt16(Math.Floor((Math.Floor(Hitbox.int_damage * 0.3333334 + 3) * dec_electric()) * Hitbox.int_hitlagmultiplier));
+            return Convert.ToInt16(Math.Floor((Math.Floor(Hitbox.int_damage * 0.3333334 + 3) * dec_electric()) * Hitbox.double_hitlagmultiplier));
         }
         public static int hitlag_attacker()
         {
             //Floor(Damage * 0.3333334 + 3) * Hitlag Multiplier
-            return Convert.ToInt16(Math.Floor(Hitbox.int_damage * 0.3333334 + 3) * Hitbox.int_hitlagmultiplier);
+            return Convert.ToInt16(Math.Floor(Hitbox.int_damage * 0.3333334 + 3) * Hitbox.double_hitlagmultiplier);
         }
     }
     public static class Conversions
