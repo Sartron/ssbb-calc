@@ -7,21 +7,41 @@
       <var id="2" enabled="true">dmg</var>
       <var id="3" enabled="true">sdmg</var>
       <var id="4" enabled="true">angle</var>
-      <var id="5" enabled="true">kbunits</var>
+      <var id="5" enabled="true">
+        <name>kbunits</name>
+        <weight>true</weight>
+      </var>
       <var id="6" enabled="true">bkb</var>
       <var id="7" enabled="true">wdsk</var>
       <var id="8" enabled="true">kbg</var>
       <var id="9" enabled="true">hitlagmulti</var>
       <var id="10" enabled="true">sdimulti</var>
-      <var id="11" enabled="true">clang</var>
-      <var id="12" enabled="true">target</var>
+      <var id="11" enabled="true">
+        <name>clang</name>
+        <datatype>0</datatype>
+      </var>
+      <var id="12" enabled="true">
+        <name>target</name>
+        <print>1</print>
+      </var>
       <var id="13" enabled="true">effect</var>
       <var id="14" enabled="true">hitstun</var>
       <var id="15" enabled="true">shieldstun</var>
       <var id="16" enabled="true">hitlag</var>
-      <var id="17" enabled="true">hitlagadv</var>
-      <var id="18" enabled="true">absorb</var>
-      <var id="19" enabled="true">reflect</var>
+      <var id="17" enabled="true">
+        <name>hitlagadv</name>
+        <print>1</print>
+      </var>
+      <var id="18" enabled="true">
+        <name>absorb</name>
+        <datatype>0</datatype>
+        <print>1</print>
+      </var>
+      <var id="19" enabled="true">
+        <name>reflect</name>
+        <datatype>0</datatype>
+        <print>1</print>
+      </var>
       <var id="20" enabled="true">launch</var>
     </variables>
     <format>id|dmg|angle°|bkb/wdsk/kbg</format>

@@ -39,6 +39,10 @@
             this.lbl_outputformat = new System.Windows.Forms.Label();
             this.panel_separator = new System.Windows.Forms.Panel();
             this.btn_saveoutputformat = new System.Windows.Forms.Button();
+            this.cb_datatype = new System.Windows.Forms.ComboBox();
+            this.lbl_datatype = new System.Windows.Forms.Label();
+            this.cb_print = new System.Windows.Forms.ComboBox();
+            this.lbl_print = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cb_output
@@ -103,7 +107,7 @@
             // 
             // btn_savevariable
             // 
-            this.btn_savevariable.Location = new System.Drawing.Point(15, 91);
+            this.btn_savevariable.Location = new System.Drawing.Point(15, 130);
             this.btn_savevariable.Name = "btn_savevariable";
             this.btn_savevariable.Size = new System.Drawing.Size(327, 23);
             this.btn_savevariable.TabIndex = 4;
@@ -124,7 +128,7 @@
             // txt_outputformat
             // 
             this.txt_outputformat.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_outputformat.Location = new System.Drawing.Point(15, 140);
+            this.txt_outputformat.Location = new System.Drawing.Point(15, 178);
             this.txt_outputformat.Name = "txt_outputformat";
             this.txt_outputformat.Size = new System.Drawing.Size(327, 19);
             this.txt_outputformat.TabIndex = 6;
@@ -133,7 +137,7 @@
             // lbl_outputformat
             // 
             this.lbl_outputformat.AutoSize = true;
-            this.lbl_outputformat.Location = new System.Drawing.Point(12, 124);
+            this.lbl_outputformat.Location = new System.Drawing.Point(12, 162);
             this.lbl_outputformat.Name = "lbl_outputformat";
             this.lbl_outputformat.Size = new System.Drawing.Size(74, 13);
             this.lbl_outputformat.TabIndex = 7;
@@ -142,14 +146,14 @@
             // panel_separator
             // 
             this.panel_separator.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel_separator.Location = new System.Drawing.Point(15, 120);
+            this.panel_separator.Location = new System.Drawing.Point(15, 158);
             this.panel_separator.Name = "panel_separator";
             this.panel_separator.Size = new System.Drawing.Size(328, 1);
             this.panel_separator.TabIndex = 8;
             // 
             // btn_saveoutputformat
             // 
-            this.btn_saveoutputformat.Location = new System.Drawing.Point(15, 166);
+            this.btn_saveoutputformat.Location = new System.Drawing.Point(15, 204);
             this.btn_saveoutputformat.Name = "btn_saveoutputformat";
             this.btn_saveoutputformat.Size = new System.Drawing.Size(327, 23);
             this.btn_saveoutputformat.TabIndex = 9;
@@ -157,11 +161,57 @@
             this.btn_saveoutputformat.UseVisualStyleBackColor = true;
             this.btn_saveoutputformat.Click += new System.EventHandler(this.btn_saveoutputformat_Click);
             // 
+            // cb_datatype
+            // 
+            this.cb_datatype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_datatype.FormattingEnabled = true;
+            this.cb_datatype.Items.AddRange(new object[] {
+            "Boolean",
+            "Integer"});
+            this.cb_datatype.Location = new System.Drawing.Point(15, 103);
+            this.cb_datatype.Name = "cb_datatype";
+            this.cb_datatype.Size = new System.Drawing.Size(160, 21);
+            this.cb_datatype.TabIndex = 10;
+            // 
+            // lbl_datatype
+            // 
+            this.lbl_datatype.AutoSize = true;
+            this.lbl_datatype.Location = new System.Drawing.Point(12, 87);
+            this.lbl_datatype.Name = "lbl_datatype";
+            this.lbl_datatype.Size = new System.Drawing.Size(57, 13);
+            this.lbl_datatype.TabIndex = 11;
+            this.lbl_datatype.Text = "Data Type";
+            // 
+            // cb_print
+            // 
+            this.cb_print.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_print.FormattingEnabled = true;
+            this.cb_print.Items.AddRange(new object[] {
+            "Print",
+            "Empty"});
+            this.cb_print.Location = new System.Drawing.Point(181, 103);
+            this.cb_print.Name = "cb_print";
+            this.cb_print.Size = new System.Drawing.Size(161, 21);
+            this.cb_print.TabIndex = 12;
+            // 
+            // lbl_print
+            // 
+            this.lbl_print.AutoSize = true;
+            this.lbl_print.Location = new System.Drawing.Point(178, 87);
+            this.lbl_print.Name = "lbl_print";
+            this.lbl_print.Size = new System.Drawing.Size(85, 13);
+            this.lbl_print.TabIndex = 13;
+            this.lbl_print.Text = "If Empty or False";
+            // 
             // OutputFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(371, 200);
+            this.ClientSize = new System.Drawing.Size(371, 239);
+            this.Controls.Add(this.lbl_print);
+            this.Controls.Add(this.cb_print);
+            this.Controls.Add(this.lbl_datatype);
+            this.Controls.Add(this.cb_datatype);
             this.Controls.Add(this.btn_saveoutputformat);
             this.Controls.Add(this.panel_separator);
             this.Controls.Add(this.lbl_outputformat);
@@ -195,5 +245,9 @@
         private System.Windows.Forms.Label lbl_outputformat;
         private System.Windows.Forms.Panel panel_separator;
         private System.Windows.Forms.Button btn_saveoutputformat;
+        private System.Windows.Forms.ComboBox cb_datatype;
+        private System.Windows.Forms.Label lbl_datatype;
+        private System.Windows.Forms.ComboBox cb_print;
+        private System.Windows.Forms.Label lbl_print;
     }
 }

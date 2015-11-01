@@ -131,7 +131,7 @@ namespace attackcalculator
                     //Split codes, remove empty array entries
                     String[] codes = Clipboard.GetText(TextDataFormat.Text).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                     //Convert code to text and new format
-                    foreach (String code in codes)
+                    foreach (string code in codes)
                     {
                         txt_psa.AppendText(CodetoEvent(code) + "\n");
                     }
@@ -139,11 +139,21 @@ namespace attackcalculator
                 else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision"))
                 {
                     //Split lines, remove empty array entries
-                    string[] lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] str_lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                     //Convert to new format
-                    foreach (String line in lines)
+                    if (txt_psa.SelectedText.Length == 0)
                     {
-                        txt_psa.AppendText(CodetoEvent(line) + "\n");
+                        foreach (string str_line in str_lines)
+                        {
+                            txt_psa.AppendText(CodetoEvent(str_line) + "\n");
+                        }
+                    }
+                    else
+                    {
+                        foreach (string str_line in str_lines)
+                        {
+                            txt_psa.SelectedText = CodetoEvent(str_line) + "\n";
+                        }
                     }
                 }
                 else
@@ -181,12 +191,23 @@ namespace attackcalculator
                     else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision"))
                     {
                         //Split lines, remove empty array entries
-                        string[] lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] str_lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                         //Convert to new format
-                        foreach (String line in lines)
+                        if (txt_psa.SelectedText.Length == 0)
                         {
-                            e.Handled = true;
-                            txt_psa.AppendText(CodetoEvent(line) + "\n");
+                            foreach (string str_line in str_lines)
+                            {
+                                e.Handled = true;
+                                txt_psa.AppendText(CodetoEvent(str_line) + "\n");
+                            }
+                        }
+                        else
+                        {
+                            foreach (string str_line in str_lines)
+                            {
+                                e.Handled = true;
+                                txt_psa.SelectedText = CodetoEvent(str_line) + "\n";
+                            }
                         }
                     }
                     else

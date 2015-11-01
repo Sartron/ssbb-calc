@@ -290,7 +290,7 @@ namespace Calculator
         }
         public static class Output
         {
-            public static void writevariable(int index, bool enabled, string name)
+            public static void writevariable(int index, bool enabled, string name, int datatype, int print)
             {
                 XmlDocument xml_settings = new XmlDocument();
                 xml_settings.Load(str_xmlpath);
@@ -323,9 +323,37 @@ namespace Calculator
                         //Check if the current variable is equal to index
                         if (int_curnode == index)
                         {
+                            Console.WriteLine("Index: {0}\n-------\n{1}\n{2}\n{3}\n{4}", index, enabled.ToString().ToLower(), name, datatype.ToString(), print.ToString());
                             //Change the variable on index
-                            attribute_enabled.Value = enabled.ToString().ToLower();
-                            var.InnerText = name;
+                            if (index == 19 || index == 18)
+                            {
+                                attribute_enabled.Value = enabled.ToString().ToLower();
+                                var.SelectSingleNode("name").InnerText = name;
+                                var.SelectSingleNode("datatype").InnerText = datatype.ToString();
+                                var.SelectSingleNode("print").InnerText = print.ToString();
+                            }
+                            else if (index == 17 || index == 12)
+                            {
+                                attribute_enabled.Value = enabled.ToString().ToLower();
+                                var.SelectSingleNode("name").InnerText = name;
+                                var.SelectSingleNode("print").InnerText = print.ToString();
+                            }
+                            else if (index == 11)
+                            {
+                                attribute_enabled.Value = enabled.ToString().ToLower();
+                                var.SelectSingleNode("name").InnerText = name;
+                                var.SelectSingleNode("datatype").InnerText = datatype.ToString();
+                            }
+                            else if (index == 5)
+                            {
+                                attribute_enabled.Value = enabled.ToString().ToLower();
+                                var.SelectSingleNode("name").InnerText = name;
+                            }
+                            else
+                            {
+                                attribute_enabled.Value = enabled.ToString().ToLower();
+                                var.InnerText = name;
+                            }
                         }
                     }
                     //Escalate up one variable
@@ -367,8 +395,29 @@ namespace Calculator
                         //Check if the current variable is equal to index
                         if (int_curnode == index)
                         {
-                            //Return enabled state and name
-                            return attribute_enabled.Value + "/" + var.InnerText;
+                            //Check if the variables has any extra parameters and then return data
+                            switch (index)
+                            {
+                                case 5:
+                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/-1/-1";
+                                    break;
+                                case 11:
+                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/-1";
+                                    break;
+                                case 12:
+                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/-1/" + var.SelectSingleNode("print").InnerText;
+                                case 17:
+                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/-1/" + var.SelectSingleNode("print").InnerText;
+                                case 18:
+                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/" + var.SelectSingleNode("print").InnerText;
+                                    break;
+                                case 19:
+                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/" + var.SelectSingleNode("print").InnerText;
+                                    break;
+                                default:
+                                    return attribute_enabled.Value + "/" + var.InnerText + "/-1/-1";
+                                    break;
+                            }
                         }
                     }
                     //Escalate up one variable

@@ -231,6 +231,7 @@
             // txt_psa
             // 
             this.txt_psa.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_psa.DetectUrls = false;
             this.txt_psa.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_psa.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_psa.Location = new System.Drawing.Point(3, 3);

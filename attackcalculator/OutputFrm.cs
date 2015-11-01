@@ -43,23 +43,52 @@ namespace attackcalculator
         {
             string str_vardata = Calculator.Settings.Output.readvariable(cb_output.SelectedIndex);
             string[] str_array_data = str_vardata.Split('/');
-            bool bool_enabled = Convert.ToBoolean(str_array_data[0]);
-            string str_name = str_array_data[1];
 
-            //Assign settings
-            cb_enabled.Checked = bool_enabled;
-            txt_outputvariable.Text = str_name;
+            if (cb_output.SelectedIndex == 19 || cb_output.SelectedIndex == 18)
+            {
+                cb_datatype.Enabled = true;
+                cb_print.Enabled = true;
+            }
+            else if (cb_output.SelectedIndex == 17 || cb_output.SelectedIndex == 12)
+            {
+                cb_datatype.Enabled = false;
+                cb_print.Enabled = true;
+                if (cb_output.SelectedIndex == 12 && cb_print.Items.Count == 2)
+                {
+                    cb_print.Items.Add("Wipe Hitbox Statement");
+                }
+                else if (cb_output.SelectedIndex == 17 && cb_print.Items.Count == 3)
+                {
+                    cb_print.Items.Remove("Wipe Hitbox Statement");
+                }
+            }
+            else if (cb_output.SelectedIndex == 11)
+            {
+                cb_datatype.Enabled = true;
+                cb_print.Enabled = false;
+            }
+            else
+            {
+                cb_datatype.Enabled = false;
+                cb_print.Enabled = false;
+            }
+
+            cb_enabled.Checked = Convert.ToBoolean(str_array_data[0]);
+            txt_outputvariable.Text = str_array_data[1];
+            cb_datatype.SelectedIndex = Convert.ToInt16(str_array_data[2]);
+            cb_print.SelectedIndex = Convert.ToInt16(str_array_data[3]);
         }
 
         private void btn_savevariable_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(txt_outputvariable.Text))
             {
-                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, false, txt_outputvariable.Text);
+                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, false, txt_outputvariable.Text, cb_datatype.SelectedIndex, cb_print.SelectedIndex);
             }
             else
             {
-                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, cb_enabled.Checked, txt_outputvariable.Text);
+                Console.WriteLine(cb_print.SelectedIndex);
+                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, cb_enabled.Checked, txt_outputvariable.Text, cb_datatype.SelectedIndex, cb_print.SelectedIndex);
             }
         }
 
