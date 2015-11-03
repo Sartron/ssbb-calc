@@ -33,16 +33,20 @@
         <print>1</print>
       </var>
       <var id="18" enabled="true">
+        <name>rehitrate</name>
+        <print>1</print>
+      </var>
+      <var id="19" enabled="true">
         <name>absorb</name>
         <datatype>0</datatype>
         <print>1</print>
       </var>
-      <var id="19" enabled="true">
+      <var id="20" enabled="true">
         <name>reflect</name>
         <datatype>0</datatype>
         <print>1</print>
       </var>
-      <var id="20" enabled="true">launch</var>
+      <var id="21" enabled="true">launch</var>
     </variables>
     <format>id|dmg|angle°|bkb/wdsk/kbg</format>
   </output>

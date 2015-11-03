@@ -118,9 +118,10 @@ namespace Calculator
                 return 1;
             }
         }
-        public static double kb_normal()
+        public static double kb_normal(int int_chardmg)
         {
-            return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * ((Hitbox.int_damage * (Hitbox.int_damage + Character.int_damage) * 0.05) + (Hitbox.int_damage + Character.int_damage) * 0.1))));
+            //return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * ((Hitbox.int_damage * (Hitbox.int_damage + Character.int_damage) * 0.05) + (Hitbox.int_damage + Character.int_damage) * 0.1))));
+            return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * ((Hitbox.int_damage * (Hitbox.int_damage + int_chardmg) * 0.05) + (Hitbox.int_damage + int_chardmg) * 0.1))));
         }
         public static double kb_wdsk()
         {
@@ -303,11 +304,8 @@ namespace Calculator
                     XmlAttribute attribute_id = var.Attributes["id"];
                     XmlAttribute attribute_enabled = var.Attributes["enabled"];
                     //Run checks to make sure the variables are filled
-                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 20)) //Not null or greater than 20
+                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 21)) //Not null or greater than 21
                     {
-                        ////Debug
-                        //Console.WriteLine("ID: " + attribute_id.Value + "\nEnabled: " + attribute_enabled.Value + "\nName: " + var.InnerText + "\n");
-
                         //Checks to make sure the attributes on var aren't empty/corrupt
                         if ((String.IsNullOrEmpty(attribute_id.Value)) || (Convert.ToInt16(attribute_id.Value) != int_curnode))
                         {
@@ -323,16 +321,15 @@ namespace Calculator
                         //Check if the current variable is equal to index
                         if (int_curnode == index)
                         {
-                            Console.WriteLine("Index: {0}\n-------\n{1}\n{2}\n{3}\n{4}", index, enabled.ToString().ToLower(), name, datatype.ToString(), print.ToString());
                             //Change the variable on index
-                            if (index == 19 || index == 18)
+                            if (index == 20 || index == 19)
                             {
                                 attribute_enabled.Value = enabled.ToString().ToLower();
                                 var.SelectSingleNode("name").InnerText = name;
                                 var.SelectSingleNode("datatype").InnerText = datatype.ToString();
                                 var.SelectSingleNode("print").InnerText = print.ToString();
                             }
-                            else if (index == 17 || index == 12)
+                            else if (index == 18 || index == 17 || index == 12)
                             {
                                 attribute_enabled.Value = enabled.ToString().ToLower();
                                 var.SelectSingleNode("name").InnerText = name;
@@ -375,11 +372,8 @@ namespace Calculator
                     XmlAttribute attribute_id = var.Attributes["id"];
                     XmlAttribute attribute_enabled = var.Attributes["enabled"];
                     //Run checks to make sure the variables are filled
-                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 20)) //Not null or greater than 20
+                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 21)) //Not null or greater than 21
                     {
-                        ////Debug
-                        //Console.WriteLine("ID: " + attribute_id.Value + "\nEnabled: " + attribute_enabled.Value + "\nName: " + var.InnerText + "\n");
-
                         //Checks to make sure the attributes on var aren't empty/corrupt
                         if ((String.IsNullOrEmpty(attribute_id.Value)) || (Convert.ToInt16(attribute_id.Value) != int_curnode))
                         {
@@ -400,23 +394,20 @@ namespace Calculator
                             {
                                 case 5:
                                     return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/-1/-1";
-                                    break;
                                 case 11:
                                     return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/-1";
-                                    break;
                                 case 12:
                                     return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/-1/" + var.SelectSingleNode("print").InnerText;
                                 case 17:
                                     return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/-1/" + var.SelectSingleNode("print").InnerText;
                                 case 18:
-                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/" + var.SelectSingleNode("print").InnerText;
-                                    break;
+                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/-1/" + var.SelectSingleNode("print").InnerText;
                                 case 19:
                                     return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/" + var.SelectSingleNode("print").InnerText;
-                                    break;
+                                case 20:
+                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/" + var.SelectSingleNode("print").InnerText;
                                 default:
                                     return attribute_enabled.Value + "/" + var.InnerText + "/-1/-1";
-                                    break;
                             }
                         }
                     }
@@ -486,24 +477,19 @@ namespace Calculator
                     case 0:
                         //damage
                         return xml_settings.SelectSingleNode("/settings/victim/damage").InnerText;
-                        break;
                     case 1:
                         //character
                         return xml_settings.SelectSingleNode("/settings/victim/character").InnerText;
-                        break;
                     case 2:
                         //charging
                         return xml_settings.SelectSingleNode("/settings/victim/charging").InnerText;
-                        break;
                     case 3:
                         //crouching
                         return xml_settings.SelectSingleNode("/settings/victim/crouching").InnerText;
-                        break;
                 }
                 xml_settings.Save(str_xmlpath);
                 return "error";
             }
         }
     }
-
 }

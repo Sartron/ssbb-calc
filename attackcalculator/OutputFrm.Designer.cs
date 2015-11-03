@@ -68,6 +68,7 @@
             "Shieldstun",
             "Hitlag",
             "Hitlag Advantage",
+            "Rehit Rate",
             "Absorbability",
             "Reflectability",
             "Launch Speed"});

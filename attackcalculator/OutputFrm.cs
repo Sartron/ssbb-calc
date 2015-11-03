@@ -44,12 +44,12 @@ namespace attackcalculator
             string str_vardata = Calculator.Settings.Output.readvariable(cb_output.SelectedIndex);
             string[] str_array_data = str_vardata.Split('/');
 
-            if (cb_output.SelectedIndex == 19 || cb_output.SelectedIndex == 18)
+            if (cb_output.SelectedIndex == 20 || cb_output.SelectedIndex == 19)
             {
                 cb_datatype.Enabled = true;
                 cb_print.Enabled = true;
             }
-            else if (cb_output.SelectedIndex == 17 || cb_output.SelectedIndex == 12)
+            else if (cb_output.SelectedIndex == 18 || cb_output.SelectedIndex == 17 || cb_output.SelectedIndex == 12)
             {
                 cb_datatype.Enabled = false;
                 cb_print.Enabled = true;

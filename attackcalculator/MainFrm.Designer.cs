@@ -54,11 +54,14 @@
             this.txt_psa = new System.Windows.Forms.RichTextBox();
             this.tp_stats = new System.Windows.Forms.TabPage();
             this.txt_generatedstats = new System.Windows.Forms.RichTextBox();
+            this.cms_generated = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cleanUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ms_main.SuspendLayout();
             this.cms_main.SuspendLayout();
             this.tc_tabs.SuspendLayout();
             this.tp_psacode.SuspendLayout();
             this.tp_stats.SuspendLayout();
+            this.cms_generated.SuspendLayout();
             this.SuspendLayout();
             // 
             // ms_main
@@ -259,6 +262,7 @@
             // txt_generatedstats
             // 
             this.txt_generatedstats.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txt_generatedstats.ContextMenuStrip = this.cms_generated;
             this.txt_generatedstats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_generatedstats.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_generatedstats.Location = new System.Drawing.Point(3, 3);
@@ -267,6 +271,20 @@
             this.txt_generatedstats.TabIndex = 4;
             this.txt_generatedstats.Text = "";
             this.txt_generatedstats.WordWrap = false;
+            // 
+            // cms_generated
+            // 
+            this.cms_generated.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cleanUpToolStripMenuItem});
+            this.cms_generated.Name = "cms_generated";
+            this.cms_generated.Size = new System.Drawing.Size(123, 26);
+            // 
+            // cleanUpToolStripMenuItem
+            // 
+            this.cleanUpToolStripMenuItem.Name = "cleanUpToolStripMenuItem";
+            this.cleanUpToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.cleanUpToolStripMenuItem.Text = "Clean Up";
+            this.cleanUpToolStripMenuItem.Click += new System.EventHandler(this.cleanUpToolStripMenuItem_Click);
             // 
             // MainFrm
             // 
@@ -289,6 +307,7 @@
             this.tc_tabs.ResumeLayout(false);
             this.tp_psacode.ResumeLayout(false);
             this.tp_stats.ResumeLayout(false);
+            this.cms_generated.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -320,6 +339,8 @@
         private System.Windows.Forms.RichTextBox txt_generatedstats;
         private System.Windows.Forms.ToolStripMenuItem outputToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem victimToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip cms_generated;
+        private System.Windows.Forms.ToolStripMenuItem cleanUpToolStripMenuItem;
     }
 }
 
