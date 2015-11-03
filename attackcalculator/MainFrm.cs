@@ -48,14 +48,26 @@ namespace attackcalculator
             VictimFrm.Show();
         }
 
-        private void advantageCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void cleanUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //Really only for me since this is the style I put my threads in
+            if (txt_generatedstats.Text.Contains(" []"))
+            {
+                //Clean up left over hitlag advantage
+                txt_generatedstats.Text = txt_generatedstats.Text.Replace(" []", String.Empty);
+            }
+            if (txt_generatedstats.Text.Contains("||"))
+            {
+                //Clean up empty stats
+                txt_generatedstats.Text = txt_generatedstats.Text.Replace("||", "|");
+            }
+            txt_generatedstats.SelectAll();
         }
 
-        private void chargeSmashAttackCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void miscellaneousCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Form MiscCalcFrm = new MiscCalcFrm();
+            MiscCalcFrm.Show();
         }
         #endregion
         #region Text Editor
@@ -128,6 +140,7 @@ namespace attackcalculator
                 //Check is PSA code/lines are being pasted
                 if (Clipboard.GetText(TextDataFormat.Text).Contains('/') && Clipboard.GetText(TextDataFormat.Text).Contains('\\'))
                 {
+                    //Encrypted lines (integers)
                     //Split codes, remove empty array entries
                     String[] codes = Clipboard.GetText(TextDataFormat.Text).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                     //Convert code to text and new format
@@ -136,8 +149,9 @@ namespace attackcalculator
                         txt_psa.AppendText(CodetoEvent(code) + "\n");
                     }
                 }
-                else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision"))
+                else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && (Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision") || Clipboard.GetText(TextDataFormat.Text).Contains("Throw Specifier")))
                 {
+                    //"Unencrypted" lines (plaintext)
                     //Split lines, remove empty array entries
                     string[] str_lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                     //Convert to new format
@@ -188,7 +202,7 @@ namespace attackcalculator
                             txt_psa.AppendText(CodetoEvent(code) + "\n");
                         }
                     }
-                    else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision"))
+                    else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && (Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision") || Clipboard.GetText(TextDataFormat.Text).Contains("Throw Specifier")))
                     {
                         //Split lines, remove empty array entries
                         string[] str_lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
@@ -227,10 +241,11 @@ namespace attackcalculator
         private string CodetoEvent(string clipboardtext)
         {
             string str_event = String.Empty;
-            if (clipboardtext.Contains(':') && clipboardtext.Contains(',') && clipboardtext.Contains("Offensive Collision"))
+            if (clipboardtext.Contains(':') && clipboardtext.Contains(',') && (clipboardtext.Contains("Offensive Collision") || (clipboardtext.Contains("Throw Specifier"))))
             {
                 //Processed, return what was given
                 Boolean bool_special = false;
+                Boolean bool_throw = false;
                 if (clipboardtext.Contains("Special Offensive Collision: ") && (clipboardtext.Contains("Rehit Rate") && clipboardtext.Contains("Special Flags")))
                 {
                     clipboardtext = clipboardtext.Replace("Special Offensive Collision: ", String.Empty);
@@ -239,6 +254,11 @@ namespace attackcalculator
                 else if (clipboardtext.Contains("Offensive Collision: "))
                 {
                     clipboardtext = clipboardtext.Replace("Offensive Collision: ", String.Empty);
+                }
+                else if (clipboardtext.Contains("Throw Specifier:"))
+                {
+                    clipboardtext = clipboardtext.Replace("Throw Specifier:", String.Empty);
+                    bool_throw = true;
                 }
                 if (clipboardtext.Contains('\t'))
                 {
@@ -249,6 +269,11 @@ namespace attackcalculator
                 {
                     //Special Offensive Collision
                     str_event = "Hitbox: " + str_stats[0] + "," + str_stats[2] + "," + str_stats[3] + "," + str_stats[4] + "," + str_stats[5] + "," + str_stats[6] + "," + str_stats[7] + "," + str_stats[8] + "," + str_stats[13] + "," + str_stats[14] + "," + str_stats[15] + "," + str_stats[16] + "," + str_stats[17];
+                }
+                else if(bool_throw)
+                {
+                    //Throw Specifier
+                    str_event = "Throw:" + str_stats[2] + "," + str_stats[3] + ", " + str_stats[6] + "," + str_stats[5] + "," + str_stats[4];
                 }
                 else
                 {
@@ -271,6 +296,10 @@ namespace attackcalculator
                         //Special Offensive Collision
                         str_stats[0] = "Hitbox:";
                         break;
+                    case "060E1100":
+                        //Throw Specifier
+                        str_stats[0] = "Throw:";
+                        break;
                 }
                 //Not functional yet.
                 str_event = String.Empty;
@@ -286,7 +315,7 @@ namespace attackcalculator
         private string EventToStat(string line, int stat)
         {
             //Check if line is a hitbox
-            if (!(line.Contains(':') && line.Contains(',') && line.Contains("Hitbox:")))
+            if (!(line.Contains(':') && line.Contains(',') && (line.Contains("Hitbox:") || line.Contains("Throw:"))))
             {
                 //Line isn't hitbox, exit function
                 return String.Empty;
@@ -313,53 +342,68 @@ namespace attackcalculator
             //Loop output
             for (int int_line = 0; int_line < str_txtpsalines.Length; int_line++)
             {
-                if (!(String.IsNullOrEmpty(str_txtpsalines[int_line])) && ((str_txtpsalines[int_line].Contains(':') && str_txtpsalines[int_line].Contains(',') && str_txtpsalines[int_line].Contains("Hitbox:"))))
+                if (!(String.IsNullOrEmpty(str_txtpsalines[int_line])) && ((str_txtpsalines[int_line].Contains(':') && str_txtpsalines[int_line].Contains(',') && (str_txtpsalines[int_line].Contains("Hitbox:") || str_txtpsalines[int_line].Contains("Throw:")))))
                 {
-                    //Set up Hitbox Variables
-                    Calculator.Hitbox.int_id = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 0));
-                    Calculator.Hitbox.int_damage = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 1));
-                    Calculator.Hitbox.int_shielddamage = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 2));
-                    Calculator.Hitbox.int_angle = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 3));
-                    Calculator.Hitbox.int_bkb = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 4));
-                    Calculator.Hitbox.int_wdsk = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 5));
-                    Calculator.Hitbox.int_kbg = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 6));
-                    Calculator.Hitbox.double_size = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 7));
-                    Calculator.Hitbox.double_hitlagmultiplier = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 8));
-                    Calculator.Hitbox.double_sdimultiplier = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 9));
-                    Calculator.Hitbox.int_flags = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 10));
-                    if (str_txtpsalines[int_line].Contains("Rehit Rate") && str_txtpsalines[int_line].Contains("Special Flags"))
+                    //Check if hitbox or throw
+                    if (str_txtpsalines[int_line].Contains("Hitbox:"))
                     {
-                        Calculator.Hitbox.int_rehitrate = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 11));
-                        Calculator.Hitbox.int_specialflags = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 12));
+                        //Set up hitbox variables if hitbox
+                        Calculator.Hitbox.int_id = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 0));
+                        Calculator.Hitbox.int_damage = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 1));
+                        Calculator.Hitbox.int_shielddamage = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 2));
+                        Calculator.Hitbox.int_angle = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 3));
+                        Calculator.Hitbox.int_bkb = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 4));
+                        Calculator.Hitbox.int_wdsk = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 5));
+                        Calculator.Hitbox.int_kbg = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 6));
+                        Calculator.Hitbox.double_size = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 7));
+                        Calculator.Hitbox.double_hitlagmultiplier = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 8));
+                        Calculator.Hitbox.double_sdimultiplier = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 9));
+                        Calculator.Hitbox.int_flags = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 10));
+                        if (str_txtpsalines[int_line].Contains("Rehit Rate") && str_txtpsalines[int_line].Contains("Special Flags"))
+                        {
+                            Calculator.Hitbox.int_rehitrate = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 11));
+                            Calculator.Hitbox.int_specialflags = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 12));
+                        }
+                        else
+                        {
+                            //Reset
+                            Calculator.Hitbox.int_rehitrate = 0;
+                            Calculator.Hitbox.int_specialflags = 0;
+                        }
+                        //Initialize character variables, settings defined by settings.xml
+                        Calculator.Character.initvictim(Convert.ToInt16(Calculator.Settings.Victim.readsetting(1)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3)));
                     }
-                    else
+                    else if (str_txtpsalines[int_line].Contains("Throw:"))
                     {
-                        //Reset
+                        //Set up throw variables if throw
+                        Calculator.Hitbox.int_id = 0;
+                        Calculator.Hitbox.int_damage = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 0));
+                        Calculator.Hitbox.int_shielddamage = 0;
+                        Calculator.Hitbox.int_angle = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 1));
+                        Calculator.Hitbox.int_bkb = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 2));
+                        Calculator.Hitbox.int_wdsk = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 3));
+                        Calculator.Hitbox.int_kbg = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 4));
+                        Calculator.Hitbox.double_size = 0;
+                        Calculator.Hitbox.double_hitlagmultiplier = 0;
+                        Calculator.Hitbox.double_sdimultiplier = 0;
+                        Calculator.Hitbox.int_flags = 0;
                         Calculator.Hitbox.int_rehitrate = 0;
                         Calculator.Hitbox.int_specialflags = 0;
+                        //Initialize character variables, set weight to 100 (charid 18 = Mario)
+                        Calculator.Character.initvictim(18, Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3)));
                     }
 
-                    //Damage variable bullshit
-                    if (Calculator.Settings.Victim.readsetting(0).Contains('/'))
-                    {
-                        //Multiple damage variables
-                        String[] str_splitdamage = Calculator.Settings.Victim.readsetting(0).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                        Calculator.Character.initvictim(Convert.ToInt16(str_splitdamage[0]), Convert.ToInt16(Calculator.Settings.Victim.readsetting(1)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3)));
-                    }
-                    else
-                    {
-                        Calculator.Character.initvictim(Convert.ToInt16(Calculator.Settings.Victim.readsetting(0)), Convert.ToInt16(Calculator.Settings.Victim.readsetting(1)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3)));
-                    }
-
-                    //Dump Data
+                    //Initalize output format
                     txt_generatedstats.AppendText(Calculator.Settings.Output.readformat() + "\n");
 
+                    //Initialize variables to be used in loop
                     int int_index = 0;
                     string str_vardata, str_name;
                     string[] str_array_data;
                     bool bool_enabled;
                     int int_datatype, int_print;
 
+                    //Loop through every exportable stat as defined in settings.xml
                     while (int_index <= 21)
                     {
                         str_vardata = Calculator.Settings.Output.readvariable(int_index);
@@ -371,6 +415,7 @@ namespace attackcalculator
 
                         //Data exporting
                         //Array matches up with the numbers in settings.xml
+                        //Only exports if the stat is enabled and the stat exists
                         if (bool_enabled == true && txt_generatedstats.Text.Contains(str_name))
                         {
                             switch (int_index)
@@ -514,9 +559,13 @@ namespace attackcalculator
                                                 {
                                                     txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, String.Empty);
                                                 }
-                                                else if (int_print == 2)
+                                                else if (int_print == 2 && str_txtpsalines[int_line].Contains("Throw:") == false)
                                                 {
                                                     txt_generatedstats.Text = ReplaceWholeWord(str_txtpsalines[int_line], str_txtpsalines[int_line], String.Empty);
+                                                }
+                                                else if (int_print == 2 && str_txtpsalines[int_line].Contains("Throw:"))
+                                                {
+                                                    txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, "None");
                                                 }
                                                 break;
                                         }
@@ -639,7 +688,6 @@ namespace attackcalculator
 
                                             foreach (string damage in str_damage)
                                             {
-                                                //int_knockback[int_curindex] = Calculator.Calculations.kb_normal(Convert.ToInt16(damage));
                                                 if (int_curindex == str_damage.Length - 1)
                                                 {
                                                     str_hitstun = str_hitstun + Calculator.Calculations.hitstun(Calculator.Calculations.kb_normal(Convert.ToInt16(damage)));
@@ -765,7 +813,6 @@ namespace attackcalculator
 
                                             foreach (string damage in str_damage)
                                             {
-                                                //int_knockback[int_curindex] = Calculator.Calculations.kb_normal(Convert.ToInt16(damage));
                                                 if (int_curindex == str_damage.Length - 1)
                                                 {
                                                     str_launch = str_launch + Calculator.Calculations.launchspeed(Calculator.Calculations.kb_normal(Convert.ToInt16(damage)));
@@ -793,20 +840,6 @@ namespace attackcalculator
                         int_index++;
                     }
                 }
-            }
-        }
-
-        private void cleanUpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (txt_generatedstats.Text.Contains(" []"))
-            {
-                //Clean up left over hitlag advantage
-                txt_generatedstats.Text = txt_generatedstats.Text.Replace(" []", String.Empty);
-            }
-            if (txt_generatedstats.Text.Contains("||"))
-            {
-                //Clean up empty stats
-                txt_generatedstats.Text = txt_generatedstats.Text.Replace("||", "|");
             }
         }
     }

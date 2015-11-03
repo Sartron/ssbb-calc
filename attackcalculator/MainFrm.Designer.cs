@@ -37,8 +37,6 @@
             this.outputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.victimToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.advantageCalculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chargeSmashAttackCalculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cms_main = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -56,6 +54,7 @@
             this.txt_generatedstats = new System.Windows.Forms.RichTextBox();
             this.cms_generated = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cleanUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miscellaneousCalculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ms_main.SuspendLayout();
             this.cms_main.SuspendLayout();
             this.tc_tabs.SuspendLayout();
@@ -88,7 +87,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -104,39 +103,24 @@
             // outputToolStripMenuItem
             // 
             this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
-            this.outputToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.outputToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.outputToolStripMenuItem.Text = "Output";
             this.outputToolStripMenuItem.Click += new System.EventHandler(this.outputToolStripMenuItem_Click);
             // 
             // victimToolStripMenuItem
             // 
             this.victimToolStripMenuItem.Name = "victimToolStripMenuItem";
-            this.victimToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.victimToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.victimToolStripMenuItem.Text = "Victim";
             this.victimToolStripMenuItem.Click += new System.EventHandler(this.victimToolStripMenuItem_Click);
             // 
             // otherToolStripMenuItem
             // 
             this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.advantageCalculatorToolStripMenuItem,
-            this.chargeSmashAttackCalculatorToolStripMenuItem});
+            this.miscellaneousCalculatorToolStripMenuItem});
             this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
             this.otherToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.otherToolStripMenuItem.Text = "Other";
-            // 
-            // advantageCalculatorToolStripMenuItem
-            // 
-            this.advantageCalculatorToolStripMenuItem.Name = "advantageCalculatorToolStripMenuItem";
-            this.advantageCalculatorToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
-            this.advantageCalculatorToolStripMenuItem.Text = "Advantage Calculator";
-            this.advantageCalculatorToolStripMenuItem.Click += new System.EventHandler(this.advantageCalculatorToolStripMenuItem_Click);
-            // 
-            // chargeSmashAttackCalculatorToolStripMenuItem
-            // 
-            this.chargeSmashAttackCalculatorToolStripMenuItem.Name = "chargeSmashAttackCalculatorToolStripMenuItem";
-            this.chargeSmashAttackCalculatorToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
-            this.chargeSmashAttackCalculatorToolStripMenuItem.Text = "Charge Smash Attack Calculator";
-            this.chargeSmashAttackCalculatorToolStripMenuItem.Click += new System.EventHandler(this.chargeSmashAttackCalculatorToolStripMenuItem_Click);
             // 
             // cms_main
             // 
@@ -277,14 +261,22 @@
             this.cms_generated.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cleanUpToolStripMenuItem});
             this.cms_generated.Name = "cms_generated";
-            this.cms_generated.Size = new System.Drawing.Size(123, 26);
+            this.cms_generated.Size = new System.Drawing.Size(165, 48);
             // 
             // cleanUpToolStripMenuItem
             // 
             this.cleanUpToolStripMenuItem.Name = "cleanUpToolStripMenuItem";
-            this.cleanUpToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.cleanUpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.cleanUpToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.cleanUpToolStripMenuItem.Text = "Clean Up";
             this.cleanUpToolStripMenuItem.Click += new System.EventHandler(this.cleanUpToolStripMenuItem_Click);
+            // 
+            // miscellaneousCalculatorToolStripMenuItem
+            // 
+            this.miscellaneousCalculatorToolStripMenuItem.Name = "miscellaneousCalculatorToolStripMenuItem";
+            this.miscellaneousCalculatorToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.miscellaneousCalculatorToolStripMenuItem.Text = "Miscellaneous Calculator";
+            this.miscellaneousCalculatorToolStripMenuItem.Click += new System.EventHandler(this.miscellaneousCalculatorToolStripMenuItem_Click);
             // 
             // MainFrm
             // 
@@ -320,8 +312,6 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem advantageCalculatorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem chargeSmashAttackCalculatorToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip cms_main;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -341,6 +331,7 @@
         private System.Windows.Forms.ToolStripMenuItem victimToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip cms_generated;
         private System.Windows.Forms.ToolStripMenuItem cleanUpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem miscellaneousCalculatorToolStripMenuItem;
     }
 }
 

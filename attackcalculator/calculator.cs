@@ -30,9 +30,8 @@ namespace Calculator
             return (currentLineNumber == lineNumber) ? line :
                                                        string.Empty;
         }
-        public static void initvictim(int damage, int charid, bool charging, bool crouching)
+        public static void initvictim(int charid, bool charging, bool crouching)
         {
-            int_damage = damage;
             int_character = charid;
             int_weight = Convert.ToInt16(ReadLine(attackcalculator.Properties.Resources.weights, charid + 1));
             bool_charging = charging;
@@ -126,6 +125,15 @@ namespace Calculator
         public static double kb_wdsk()
         {
             return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * (Hitbox.int_wdsk * 10 * 0.05 + 1))));
+        }
+        public static double kb_weightless(int int_chardmg)
+        {
+            //Knockback formula that does not factor in character weight.
+            //I wrote it in case I wanted to create true minimum hitstun advantages across the entire cast, but this is extremely inaccurate.
+            //It might be better to just use Bowsers's weight as a baseline since he has the highest weight in the game, so hitstun can only be higher from his weight.
+            //Hitstun advantages overall are kind of pointless, however as they fluctuate extremely quickly.
+            //The program isn't even coded to use this formula yet, although it is present in the settings.xml as <weight></weight>.
+            return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + (2 * 1.4 * 1 * ((Hitbox.int_damage * (Hitbox.int_damage + int_chardmg) * 0.05) + (Hitbox.int_damage + int_chardmg) * 0.1))));
         }
         public static double launchspeed(double knockback)
         {
