@@ -33,8 +33,8 @@ namespace attackcalculator
             //Set up values from settings.xml
             txt_damage.Text = Calculator.Settings.Victim.readsetting(0);
             cb_characters.SelectedIndex = Convert.ToInt16(Calculator.Settings.Victim.readsetting(1));
-            cb_crouchcancel.Checked = Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2));
-            cb_charging.Checked = Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3));
+            cb_charging.Checked = Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2));
+            cb_crouchcancel.Checked = Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3));
         }
 
         private void btn_confirm_Click(object sender, EventArgs e)

@@ -452,7 +452,6 @@ namespace attackcalculator
 
                                             foreach (string damage in str_damage)
                                             {
-                                                //int_knockback[int_curindex] = Calculator.Calculations.kb_normal(Convert.ToInt16(damage));
                                                 if (int_curindex == str_damage.Length - 1)
                                                 {
                                                     str_kbunits = str_kbunits + Calculator.Calculations.kb_normal(Convert.ToInt16(damage));

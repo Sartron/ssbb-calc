@@ -119,12 +119,11 @@ namespace Calculator
         }
         public static double kb_normal(int int_chardmg)
         {
-            //return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * ((Hitbox.int_damage * (Hitbox.int_damage + Character.int_damage) * 0.05) + (Hitbox.int_damage + Character.int_damage) * 0.1))));
-            return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * ((Hitbox.int_damage * (Hitbox.int_damage + int_chardmg) * 0.05) + (Hitbox.int_damage + int_chardmg) * 0.1))));
+            return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / Convert.ToDouble(Character.int_weight + 100)) * 1.4 * 1 * ((Hitbox.int_damage * (Hitbox.int_damage + int_chardmg) * 0.05) + (Hitbox.int_damage + int_chardmg) * 0.1))));
         }
         public static double kb_wdsk()
         {
-            return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / (Character.int_weight + 100)) * 1.4 * 1 * (Hitbox.int_wdsk * 10 * 0.05 + 1))));
+            return dec_charging() * dec_crouching() * (Hitbox.int_bkb + 0.01 * Hitbox.int_kbg * (18 + ((200 / Convert.ToDouble(Character.int_weight + 100)) * 1.4 * 1 * (Hitbox.int_wdsk * 10 * 0.05 + 1))));
         }
         public static double kb_weightless(int int_chardmg)
         {
