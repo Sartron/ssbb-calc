@@ -416,7 +416,7 @@ namespace attackcalculator
                         //Data exporting
                         //Array matches up with the numbers in settings.xml
                         //Only exports if the stat is enabled and the stat exists
-                        if (bool_enabled == true && txt_generatedstats.Text.Contains(str_name))
+                        if (bool_enabled && txt_generatedstats.Text.Contains(str_name))
                         {
                             switch (int_index)
                             {
@@ -508,7 +508,7 @@ namespace attackcalculator
                                 case 12:
                                     //Target
                                     //Check if special hitbox flags allow players to be hit
-                                    if (Calculator.Hitbox.int_specialflags != 0 && Calculator.Hitbox.bool_hitplayer(Calculator.Hitbox.int_specialflags) == false)
+                                    if (Calculator.Hitbox.int_specialflags != 0 && !Calculator.Hitbox.bool_hitplayer(Calculator.Hitbox.int_specialflags))
                                     {
                                         //Can't be hit
                                         if (int_print == 0)
@@ -558,7 +558,7 @@ namespace attackcalculator
                                                 {
                                                     txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, String.Empty);
                                                 }
-                                                else if (int_print == 2 && str_txtpsalines[int_line].Contains("Throw:") == false)
+                                                else if (int_print == 2 && !str_txtpsalines[int_line].Contains("Throw:"))
                                                 {
                                                     txt_generatedstats.Text = ReplaceWholeWord(str_txtpsalines[int_line], str_txtpsalines[int_line], String.Empty);
                                                 }
@@ -715,6 +715,12 @@ namespace attackcalculator
                                     break;
                                 case 16:
                                     //Hitlag
+                                    //Check if hitlag is disabled
+                                    if (Calculator.Hitbox.int_specialflags != 0 && Calculator.Hitbox.bool_hitlagdisabled(Calculator.Hitbox.int_specialflags))
+                                    {
+                                        txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, "0");
+                                        break;
+                                    }
                                     if (Calculator.Hitbox.int_element(Calculator.Hitbox.int_flags) == 3)
                                     {
                                         txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, Calculator.Calculations.hitlag_attacker() + "/" + Calculator.Calculations.hitlag_victim());
@@ -765,6 +771,38 @@ namespace attackcalculator
                                     }
                                     break;
                                 case 19:
+                                    //Flinchless
+                                    if (int_print == 0)
+                                    {
+                                        if (int_datatype == 0)
+                                        {
+                                            txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, Calculator.Hitbox.bool_flinch(Calculator.Hitbox.int_specialflags).ToString());
+                                        }
+                                        else
+                                        {
+                                            txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, Convert.ToInt16(Calculator.Hitbox.bool_flinch(Calculator.Hitbox.int_specialflags)).ToString());
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (Calculator.Hitbox.bool_flinch(Calculator.Hitbox.int_specialflags))
+                                        {
+                                            if (int_datatype == 0)
+                                            {
+                                                txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, Calculator.Hitbox.bool_flinch(Calculator.Hitbox.int_specialflags).ToString());
+                                            }
+                                            else
+                                            {
+                                                txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, Convert.ToInt16(Calculator.Hitbox.bool_flinch(Calculator.Hitbox.int_specialflags)).ToString());
+                                            }
+                                        }
+                                        else
+                                        {
+                                            txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, String.Empty);
+                                        }
+                                    }
+                                    break;
+                                case 20:
                                     //Absorbability
                                     if (int_print == 0)
                                     {
@@ -779,10 +817,24 @@ namespace attackcalculator
                                     }
                                     else
                                     {
-                                        txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, String.Empty);
+                                        if (Calculator.Hitbox.bool_absorb(Calculator.Hitbox.int_specialflags))
+                                        {
+                                            if (int_datatype == 0)
+                                            {
+                                                txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, Calculator.Hitbox.bool_absorb(Calculator.Hitbox.int_specialflags).ToString());
+                                            }
+                                            else
+                                            {
+                                                txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, Convert.ToInt16(Calculator.Hitbox.bool_absorb(Calculator.Hitbox.int_specialflags)).ToString());
+                                            }
+                                        }
+                                        else
+                                        {
+                                            txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, String.Empty);
+                                        }
                                     }
                                     break;
-                                case 20:
+                                case 21:
                                     //Reflectability
                                     if (int_print == 0)
                                     {
@@ -797,10 +849,24 @@ namespace attackcalculator
                                     }
                                     else
                                     {
-                                        txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, String.Empty);
+                                        if (Calculator.Hitbox.bool_reflect(Calculator.Hitbox.int_specialflags))
+                                        {
+                                            if (int_datatype == 0)
+                                            {
+                                                txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, Calculator.Hitbox.bool_reflect(Calculator.Hitbox.int_specialflags).ToString());
+                                            }
+                                            else
+                                            {
+                                                txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, Convert.ToInt16(Calculator.Hitbox.bool_reflect(Calculator.Hitbox.int_specialflags)).ToString());
+                                            }
+                                        }
+                                        else
+                                        {
+                                            txt_generatedstats.Text = ReplaceWholeWord(txt_generatedstats.Text, str_name, String.Empty);
+                                        }
                                     }
                                     break;
-                                case 21:
+                                case 22:
                                     //Launch Speed
                                     if (Calculator.Hitbox.int_wdsk == 0)
                                     {

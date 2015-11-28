@@ -66,6 +66,16 @@ namespace Calculator
             //Convert bits 28-32 from binary to integer
             return Conversions.HexToInt(Conversions.BinToHex(Conversions.HexToBin(Conversions.IntToHex(flags)).Substring(27, 5)));
         }
+        public static bool bool_flinch(int specialflags)
+        {
+            //Convert bit 1 from binary to boolean/integer
+            return Convert.ToBoolean(Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(specialflags)).Substring(0, 1)));
+        }
+        public static bool bool_hitlagdisabled(int specialflags)
+        {
+            //Convert bit 3 from binary to boolean/integer
+            return Convert.ToBoolean(Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(specialflags)).Substring(2, 1)));
+        }
         public static bool bool_absorb(int specialflags)
         {
             //Convert bit 8 from binary to boolean/integer
@@ -311,7 +321,7 @@ namespace Calculator
                     XmlAttribute attribute_id = var.Attributes["id"];
                     XmlAttribute attribute_enabled = var.Attributes["enabled"];
                     //Run checks to make sure the variables are filled
-                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 21)) //Not null or greater than 21
+                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 22)) //Not null or greater than 22
                     {
                         //Checks to make sure the attributes on var aren't empty/corrupt
                         if ((String.IsNullOrEmpty(attribute_id.Value)) || (Convert.ToInt16(attribute_id.Value) != int_curnode))
@@ -329,7 +339,7 @@ namespace Calculator
                         if (int_curnode == index)
                         {
                             //Change the variable on index
-                            if (index == 20 || index == 19)
+                            if (index == 21 || index == 20 || index == 19)
                             {
                                 attribute_enabled.Value = enabled.ToString().ToLower();
                                 var.SelectSingleNode("name").InnerText = name;
@@ -379,7 +389,7 @@ namespace Calculator
                     XmlAttribute attribute_id = var.Attributes["id"];
                     XmlAttribute attribute_enabled = var.Attributes["enabled"];
                     //Run checks to make sure the variables are filled
-                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 21)) //Not null or greater than 21
+                    if ((attribute_id != null) && !(Convert.ToInt16(attribute_id.Value) > 22)) //Not null or greater than 22
                     {
                         //Checks to make sure the attributes on var aren't empty/corrupt
                         if ((String.IsNullOrEmpty(attribute_id.Value)) || (Convert.ToInt16(attribute_id.Value) != int_curnode))
@@ -412,6 +422,8 @@ namespace Calculator
                                 case 19:
                                     return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/" + var.SelectSingleNode("print").InnerText;
                                 case 20:
+                                    return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/" + var.SelectSingleNode("print").InnerText;
+                                case 21:
                                     return attribute_enabled.Value + "/" + var.SelectSingleNode("name").InnerText + "/" + var.SelectSingleNode("datatype").InnerText + "/" + var.SelectSingleNode("print").InnerText;
                                 default:
                                     return attribute_enabled.Value + "/" + var.InnerText + "/-1/-1";

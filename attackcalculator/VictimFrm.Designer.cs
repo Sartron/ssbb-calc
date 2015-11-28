@@ -95,6 +95,7 @@
             this.txt_damage.TabIndex = 7;
             this.txt_damage.Text = "0";
             this.txt_damage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txt_damage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_damage_KeyPress);
             // 
             // lbl_damage
             // 

@@ -27,6 +27,43 @@ namespace attackcalculator
             }
         }
         #endregion
+        #region Buttons
+        private void btn_savevariable_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(txt_outputvariable.Text))
+            {
+                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, false, txt_outputvariable.Text, cb_datatype.SelectedIndex, cb_print.SelectedIndex);
+            }
+            else
+            {
+                Console.WriteLine(cb_print.SelectedIndex);
+                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, cb_enabled.Checked, txt_outputvariable.Text, cb_datatype.SelectedIndex, cb_print.SelectedIndex);
+            }
+        }
+
+        private void btn_saveoutputformat_Click(object sender, EventArgs e)
+        {
+            Calculator.Settings.Output.writeformat(txt_outputformat.Text);
+        }
+        #endregion
+        #region Textboxes
+        private void txt_outputvariable_TextChanged(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(txt_outputvariable.Text))
+            {
+                cb_enabled.Checked = false;
+            }
+        }
+
+        private void txt_outputvariable_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        #endregion
+        
         private void cb_enabled_CheckedChanged(object sender, EventArgs e)
         {
             if (cb_enabled.Checked)
@@ -44,7 +81,7 @@ namespace attackcalculator
             string str_vardata = Calculator.Settings.Output.readvariable(cb_output.SelectedIndex);
             string[] str_array_data = str_vardata.Split('/');
 
-            if (cb_output.SelectedIndex == 20 || cb_output.SelectedIndex == 19)
+            if (cb_output.SelectedIndex == 21 || cb_output.SelectedIndex == 20 || cb_output.SelectedIndex == 19)
             {
                 cb_datatype.Enabled = true;
                 cb_print.Enabled = true;
@@ -77,32 +114,6 @@ namespace attackcalculator
             txt_outputvariable.Text = str_array_data[1];
             cb_datatype.SelectedIndex = Convert.ToInt16(str_array_data[2]);
             cb_print.SelectedIndex = Convert.ToInt16(str_array_data[3]);
-        }
-
-        private void btn_savevariable_Click(object sender, EventArgs e)
-        {
-            if (String.IsNullOrEmpty(txt_outputvariable.Text))
-            {
-                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, false, txt_outputvariable.Text, cb_datatype.SelectedIndex, cb_print.SelectedIndex);
-            }
-            else
-            {
-                Console.WriteLine(cb_print.SelectedIndex);
-                Calculator.Settings.Output.writevariable(cb_output.SelectedIndex, cb_enabled.Checked, txt_outputvariable.Text, cb_datatype.SelectedIndex, cb_print.SelectedIndex);
-            }
-        }
-
-        private void btn_saveoutputformat_Click(object sender, EventArgs e)
-        {
-            Calculator.Settings.Output.writeformat(txt_outputformat.Text);
-        }
-
-        private void txt_outputvariable_TextChanged(object sender, EventArgs e)
-        {
-            if (String.IsNullOrEmpty(txt_outputvariable.Text))
-            {
-                cb_enabled.Checked = false;
-            }
         }
     }
 }

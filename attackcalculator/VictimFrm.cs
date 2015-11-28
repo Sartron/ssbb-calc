@@ -28,7 +28,7 @@ namespace attackcalculator
             {
                 cb_characters.Items.Add(strReader_characters.ReadLine() + " - " + strReader_weights.ReadLine());
             }
-            cb_characters.Items.Add("Custom");
+            //cb_characters.Items.Add("Custom");
 
             //Set up values from settings.xml
             txt_damage.Text = Calculator.Settings.Victim.readsetting(0);
@@ -44,6 +44,14 @@ namespace attackcalculator
             Calculator.Settings.Victim.writesetting(2, cb_charging.Checked.ToString());
             Calculator.Settings.Victim.writesetting(3, cb_crouchcancel.Checked.ToString());
             Close();
+        }
+
+        private void txt_damage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '/'))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

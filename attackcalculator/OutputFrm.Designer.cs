@@ -69,6 +69,7 @@
             "Hitlag",
             "Hitlag Advantage",
             "Rehit Rate",
+            "Flinchless",
             "Absorbability",
             "Reflectability",
             "Launch Speed"});
@@ -105,6 +106,7 @@
             this.txt_outputvariable.TabIndex = 3;
             this.txt_outputvariable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txt_outputvariable.TextChanged += new System.EventHandler(this.txt_outputvariable_TextChanged);
+            this.txt_outputvariable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_outputvariable_KeyPress);
             // 
             // btn_savevariable
             // 
