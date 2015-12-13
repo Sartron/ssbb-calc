@@ -404,7 +404,7 @@ namespace attackcalculator
                     int int_datatype, int_print;
 
                     //Loop through every exportable stat as defined in settings.xml
-                    while (int_index <= 21)
+                    while (int_index <= 22)
                     {
                         str_vardata = Calculator.Settings.Output.readvariable(int_index);
                         str_array_data = str_vardata.Split('/');
