@@ -11,10 +11,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
+using System.Diagnostics; //Debug
+
 namespace attackcalculator
 {
     public partial class MainFrm : Form
     {
+        List<Collision> psaEvents = new List<Collision>();
+
         #region Startup
         public MainFrm()
         {
@@ -27,6 +31,8 @@ namespace attackcalculator
             {
                 Calculator.Settings.createxml();
             }
+
+
         }
         #endregion
         #region Menus
@@ -68,173 +74,6 @@ namespace attackcalculator
         {
             Form MiscCalcFrm = new MiscCalcFrm();
             MiscCalcFrm.Show();
-        }
-        #endregion
-        #region Text Editor
-        private void txt_psa_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                cms_main.Show(new Point(MousePosition.X, MousePosition.Y));
-                //Can Copy or Cut
-                if (string.IsNullOrEmpty(txt_psa.SelectedText))
-                {
-                    cutToolStripMenuItem.Enabled = false;
-                    copyToolStripMenuItem.Enabled = false;
-                }
-                else
-                {
-                    cutToolStripMenuItem.Enabled = true;
-                    copyToolStripMenuItem.Enabled = true;
-                }
-                //Can Undo
-                if (txt_psa.CanUndo)
-                {
-                    undoToolStripMenuItem.Enabled = true;
-                }
-                else
-                {
-                    undoToolStripMenuItem.Enabled = false;
-                }
-                //Can Paste
-                if (Clipboard.ContainsText(TextDataFormat.Text))
-                {
-                    pasteToolStripMenuItem.Enabled = true;
-                }
-                else
-                {
-                    pasteToolStripMenuItem.Enabled = false;
-                }
-                //Can Generate Data
-                if (String.IsNullOrEmpty(txt_psa.Text.Trim()))
-                {
-                    generateDataToolStripMenuItem.Enabled = false;
-                }
-                else
-                {
-                    generateDataToolStripMenuItem.Enabled = true;
-                }
-            }
-        }
-
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            txt_psa.Undo();
-        }
-
-        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            txt_psa.Cut();
-        }
-
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            txt_psa.Copy();
-        }
-
-        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Clipboard.ContainsText(TextDataFormat.Text))
-            {
-                //Contains text
-                //Check is PSA code/lines are being pasted
-                if (Clipboard.GetText(TextDataFormat.Text).Contains('/') && Clipboard.GetText(TextDataFormat.Text).Contains('\\'))
-                {
-                    //Encrypted lines (integers)
-                    //Split codes, remove empty array entries
-                    String[] codes = Clipboard.GetText(TextDataFormat.Text).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    //Convert code to text and new format
-                    foreach (string code in codes)
-                    {
-                        txt_psa.AppendText(CodetoEvent(code) + "\n");
-                    }
-                }
-                else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && (Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision") || Clipboard.GetText(TextDataFormat.Text).Contains("Throw Specifier")))
-                {
-                    //"Unencrypted" lines (plaintext)
-                    //Split lines, remove empty array entries
-                    string[] str_lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                    //Convert to new format
-                    if (txt_psa.SelectedText.Length == 0)
-                    {
-                        foreach (string str_line in str_lines)
-                        {
-                            txt_psa.AppendText(CodetoEvent(str_line) + "\n");
-                        }
-                    }
-                    else
-                    {
-                        foreach (string str_line in str_lines)
-                        {
-                            txt_psa.SelectedText = CodetoEvent(str_line) + "\n";
-                        }
-                    }
-                }
-                else
-                {
-                    //Just paste whatever was there to begin with
-                    txt_psa.Paste();
-                }
-            }
-        }
-
-        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            txt_psa.SelectAll();
-        }
-
-        private void txt_psa_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (Control.ModifierKeys == Keys.Control && e.KeyCode == Keys.V)
-            {
-                //Paste
-                if (Clipboard.ContainsText(TextDataFormat.Text))
-                {
-                    //Contains text
-                    if (Clipboard.GetText(TextDataFormat.Text).Contains('/') && Clipboard.GetText(TextDataFormat.Text).Contains('\\'))
-                    {
-                        //Split codes, remove empty array entries
-                        String[] codes = Clipboard.GetText(TextDataFormat.Text).Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                        //Convert code to text and new format
-                        foreach (String code in codes)
-                        {
-                            e.Handled = true;
-                            txt_psa.AppendText(CodetoEvent(code) + "\n");
-                        }
-                    }
-                    else if (Clipboard.GetText(TextDataFormat.Text).Contains(':') && Clipboard.GetText(TextDataFormat.Text).Contains(',') && (Clipboard.GetText(TextDataFormat.Text).Contains("Offensive Collision") || Clipboard.GetText(TextDataFormat.Text).Contains("Throw Specifier")))
-                    {
-                        //Split lines, remove empty array entries
-                        string[] str_lines = Clipboard.GetText(TextDataFormat.Text).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                        //Convert to new format
-                        if (txt_psa.SelectedText.Length == 0)
-                        {
-                            foreach (string str_line in str_lines)
-                            {
-                                e.Handled = true;
-                                txt_psa.AppendText(CodetoEvent(str_line) + "\n");
-                            }
-                        }
-                        else
-                        {
-                            foreach (string str_line in str_lines)
-                            {
-                                e.Handled = true;
-                                txt_psa.SelectedText = CodetoEvent(str_line) + "\n";
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //Just paste whatever was there to begin with
-                        e.Handled = false;
-                    }
-                }
-                else
-                {
-                    e.Handled = true;
-                }
-            }
         }
         #endregion
         #region Functions
@@ -334,7 +173,171 @@ namespace attackcalculator
             return newstring;
         }
         #endregion
+        #region PSA Code Menu
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (int i in lB_psa.SelectedIndices)
+            {
+                Collision curCollision = psaEvents[i];
+                sb.Append(curCollision.toBrawlBox() + '/');
+            }
+            Clipboard.SetData(DataFormats.Text, sb.ToString());
+        }
 
+        private void btnCut_Click(object sender, EventArgs e)
+        {
+
+        }
+        
+        private void btnPaste_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsText(TextDataFormat.Text))
+            {
+                int[] int_matches = new int[8];
+                string str_clipboard = Clipboard.GetText(TextDataFormat.Text);
+
+                Regex regex_brawlBox_offensive = new Regex(@"06000D00\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|", RegexOptions.None);
+                Regex regex_brawlBox_specialOffensive = new Regex(@"06150F00\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\\d+\|\d+\\\d+\|", RegexOptions.None);
+                Regex regex_brawlBox_throw = new Regex(@"060E1100", RegexOptions.None);
+
+                Regex regex_PSA_offensive = new Regex(@"06000D00\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|", RegexOptions.None);
+                Regex regex_PSA_specialOffensive = new Regex(@"06150F00\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\\w+\|\w+\\\w+\|", RegexOptions.None);
+                Regex regex_PSA_throw = new Regex(@"060E1100", RegexOptions.None);
+
+                Regex regex_plainText_offensive = new Regex(@"(?!.*Special)Offensive Collision: Id=\d+, Bone=\d+, Damage=\d+, ShieldDamage=\d+, Direction=\d+, BaseKnockback=\d+, WeightKnockback=\d+, KnockbackGrowth=\d+, Size=(\d+|\d+.\d+), Z Offset=(\d+|\d+.\d+), Y Offset=(\d+|\d+.\d+), X Offset=(\d+|\d+.\d+), TripRate=\d+%, HitlagMultiplier=x\d+, SDIMultiplier=x\d+, Flags=\d+", RegexOptions.None);
+                Regex regex_plainText_specialOffensive = new Regex(@"Special Offensive Collision: Id=\d+, Bone=\d+, Damage=\d+, ShieldDamage=\d+, Direction=\d+, BaseKnockback=\d+, WeightKnockback=\d+, KnockbackGrowth=\d+, Size=(\d+|\d+.\d+), Z Offset=(\d+|\d+.\d+), Y Offset=(\d+|\d+.\d+), X Offset=(\d+|\d+.\d+), TripRate=\d+%, HitlagMultiplier=x\d+, SDIMultiplier=x\d+, Flags=\d+, RehitRate=\d+, SpecialFlags=\d+", RegexOptions.None);
+                Regex regex_plainText_throw = new Regex(@"Throw Specifier:ID=\d+, Bone\?=\d+, Damage=\d+, Direction=\d+, KnockbackGrowth=\d+, WeightKnockback=\d+,BaseKnockback=\d+, Element=\d+, UnknownA=\d+, UnknownB=\d+, UnknownC=\d+, UnknownD=\d+, SFX=\d+, Direction\?=\d+, UnknownE=(true|false), UnknownF=(true|false), UnknownG=\d+", RegexOptions.None);
+
+                Match patternSearch;
+
+                //Serialized
+                patternSearch = regex_brawlBox_offensive.Match(str_clipboard);
+                while (patternSearch.Success)
+                {
+                    int_matches[0]++;
+
+                    OffensiveCollision newEvent = CollisionParser.deserializeOffensiveCollision(patternSearch.ToString());
+                    psaEvents.Add(newEvent);
+                    lB_psa.Items.Add(newEvent);
+
+                    patternSearch = patternSearch.NextMatch();
+                }
+
+                patternSearch = regex_PSA_offensive.Match(str_clipboard);
+                while (patternSearch.Success) { int_matches[1]++; patternSearch = patternSearch.NextMatch(); }
+
+                patternSearch = regex_brawlBox_specialOffensive.Match(str_clipboard);
+                while (patternSearch.Success)
+                {
+                    int_matches[3]++;
+
+                    SpecialOffensiveCollision newEvent = CollisionParser.deserializeSpecialOffensiveCollision(patternSearch.ToString());
+                    psaEvents.Add(newEvent);
+                    lB_psa.Items.Add(newEvent);
+
+                    patternSearch = patternSearch.NextMatch();
+                }
+
+                patternSearch = regex_PSA_specialOffensive.Match(str_clipboard);
+                while (patternSearch.Success) { int_matches[4]++; patternSearch = patternSearch.NextMatch(); }
+
+                //Deserialized
+                patternSearch = regex_plainText_offensive.Match(str_clipboard);
+                while (patternSearch.Success)
+                {
+                    int_matches[5]++;
+
+                    OffensiveCollision newEvent = CollisionParser.plainToOffensiveCollision(patternSearch.ToString());
+                    psaEvents.Add(newEvent);
+                    lB_psa.Items.Add(newEvent);
+
+                    patternSearch = patternSearch.NextMatch();
+                }
+
+                patternSearch = regex_plainText_specialOffensive.Match(str_clipboard);
+                while (patternSearch.Success)
+                {
+                    int_matches[6]++;
+
+                    OffensiveCollision newEvent = CollisionParser.plainToSpecialOffensiveCollision(patternSearch.ToString());
+                    psaEvents.Add(newEvent);
+                    lB_psa.Items.Add(newEvent);
+
+                    patternSearch = patternSearch.NextMatch();
+                }
+
+                patternSearch = regex_plainText_throw.Match(str_clipboard);
+                while (patternSearch.Success)
+                {
+                    int_matches[7]++;
+
+                    ThrowSpecifier newEvent = CollisionParser.plainToThrowSpecifier(patternSearch.ToString());
+                    psaEvents.Add(newEvent);
+                    lB_psa.Items.Add(newEvent);
+
+                    patternSearch = patternSearch.NextMatch();
+                }
+
+                //int_matches[0] == Number of serialized BrawlBox lines (OffensiveCollision)
+                //int_matches[1] == Number of serialized BrawlBox and PSA lines (OffensiveCollision)
+                //int_matches[2] == Number of serialized PSA lines (OffensiveCollision)
+                //int_matches[3] == Number of serialized BrawlBox lines (SpecialOffensiveCollision)
+                //int_matches[4] == Number of serialized PSA lines (SpecialOffensiveCollision)
+                //int_matches[5] == Number of deserialized lines (OffensiveCollision)
+                //int_matches[6] == Number of deserialized lines (SpecialOffensiveCollision)
+                //int_matches[7] == Number of deserialized lines (ThrowSpecifier)
+
+                int_matches[2] = int_matches[1] - int_matches[0]; //Number of PSA lines
+
+                /*
+                Debug.WriteLine(String.Format("int_matches[0] == {0}\nint_matches[1] == {1}\nint_matches[2] == {2}\nint_matches[3] == {3}\nint_matches[4] == {4}\nint_matches[5] == {5}\nint_matches[6] == {6}", int_matches[0]
+                    , int_matches[1], int_matches[2], int_matches[3], int_matches[4], int_matches[5], int_matches[6]));
+                    */
+            }
+        }
+
+        private void btnCopyText_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (object row in lB_psa.SelectedItems)
+            {
+                sb.Append(row.ToString());
+                sb.AppendLine();
+            }
+            sb.Remove(sb.Length - 1, 1);
+            Clipboard.SetData(DataFormats.Text, sb.ToString());
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            
+
+            Collision newEvent = new Collision(0, 0, 0, 0, 0, 0, 0);
+            psaEvents.Add(newEvent);
+            lB_psa.Items.Add(newEvent);
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+
+        }
+        
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            for (int i = lB_psa.SelectedIndices.Count - 1; i >= 0; i--)
+            {
+                psaEvents.RemoveAt(lB_psa.SelectedIndices[i]);
+                lB_psa.Items.RemoveAt(lB_psa.SelectedIndices[i]);
+            }
+        }
+
+        private void btnConvert_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+        /*
         private void generateDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Split lines
@@ -342,57 +345,42 @@ namespace attackcalculator
             //Loop output
             for (int int_line = 0; int_line < str_txtpsalines.Length; int_line++)
             {
+
                 if (!(String.IsNullOrEmpty(str_txtpsalines[int_line])) && ((str_txtpsalines[int_line].Contains(':') && str_txtpsalines[int_line].Contains(',') && (str_txtpsalines[int_line].Contains("Hitbox:") || str_txtpsalines[int_line].Contains("Throw:")))))
                 {
+                    Calculator.Hitbox hitbox;
+
                     //Check if hitbox or throw
                     if (str_txtpsalines[int_line].Contains("Hitbox:"))
                     {
                         //Set up hitbox variables if hitbox
-                        Calculator.Hitbox.int_id = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 0));
-                        Calculator.Hitbox.int_damage = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 1));
-                        Calculator.Hitbox.int_shielddamage = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 2));
-                        Calculator.Hitbox.int_angle = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 3));
-                        Calculator.Hitbox.int_bkb = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 4));
-                        Calculator.Hitbox.int_wdsk = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 5));
-                        Calculator.Hitbox.int_kbg = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 6));
-                        Calculator.Hitbox.double_size = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 7));
-                        Calculator.Hitbox.double_hitlagmultiplier = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 8));
-                        Calculator.Hitbox.double_sdimultiplier = Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 9));
-                        Calculator.Hitbox.int_flags = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 10));
-                        if (str_txtpsalines[int_line].Contains("Rehit Rate") && str_txtpsalines[int_line].Contains("Special Flags"))
+                        if (str_txtpsalines[int_line].Contains("Rehit Rate") && str_txtpsalines[int_line].Contains("Special Flags")) //Special Hitbox
                         {
-                            Calculator.Hitbox.int_rehitrate = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 11));
-                            Calculator.Hitbox.int_specialflags = Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 12));
+                            hitbox = new Calculator.Hitbox(Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 0)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 1)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 2)),
+                                Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 3)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 4)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 5)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 6)),
+                                Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 10)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 11)), Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 12)), Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 7)),
+                                Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 8)), Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 9)));
                         }
                         else
                         {
-                            //Reset
-                            Calculator.Hitbox.int_rehitrate = 0;
-                            Calculator.Hitbox.int_specialflags = 0;
+                            hitbox = new Calculator.Hitbox(Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 0)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 1)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 2)),
+                                Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 3)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 4)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 5)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 6)),
+                                Convert.ToInt32(EventToStat(str_txtpsalines[int_line], 10)), 0, 0, Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 7)), Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 8)), Convert.ToDouble(EventToStat(str_txtpsalines[int_line], 9)));
                         }
+
                         //Initialize character variables, settings defined by settings.xml
                         Calculator.Character.initvictim(Convert.ToInt16(Calculator.Settings.Victim.readsetting(1)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3)));
                     }
                     else if (str_txtpsalines[int_line].Contains("Throw:"))
                     {
                         //Set up throw variables if throw
-                        Calculator.Hitbox.int_id = 0;
-                        Calculator.Hitbox.int_damage = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 0));
-                        Calculator.Hitbox.int_shielddamage = 0;
-                        Calculator.Hitbox.int_angle = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 1));
-                        Calculator.Hitbox.int_bkb = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 2));
-                        Calculator.Hitbox.int_wdsk = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 3));
-                        Calculator.Hitbox.int_kbg = Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 4));
-                        Calculator.Hitbox.double_size = 0;
-                        Calculator.Hitbox.double_hitlagmultiplier = 0;
-                        Calculator.Hitbox.double_sdimultiplier = 0;
-                        Calculator.Hitbox.int_flags = 0;
-                        Calculator.Hitbox.int_rehitrate = 0;
-                        Calculator.Hitbox.int_specialflags = 0;
+                        hitbox = new Calculator.Hitbox(0, Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 0)), 0, Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 1)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 2)), Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 3)),
+                            Convert.ToInt16(EventToStat(str_txtpsalines[int_line], 4)), 0, 0, 0, 0, 0, 0);
+
                         //Initialize character variables, set weight to 100 (charid 18 = Mario)
                         Calculator.Character.initvictim(18, Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2)), Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3)));
                     }
-
+                    
                     //Initalize output format
                     txt_generatedstats.AppendText(Calculator.Settings.Output.readformat() + "\n");
 
@@ -907,5 +895,6 @@ namespace attackcalculator
                 }
             }
         }
+        */
     }
 }

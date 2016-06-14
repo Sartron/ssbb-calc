@@ -40,60 +40,31 @@ namespace Calculator
     }
     public class Hitbox
     {
-        public static int int_id, int_damage, int_shielddamage, int_angle, int_bkb, int_wdsk, int_kbg, int_flags, int_rehitrate, int_specialflags;
-        public static double double_size, double_hitlagmultiplier, double_sdimultiplier;
-        public static string int_aerialgrounded(int flags)
+        public int int_id, int_damage, int_shielddamage, int_angle, int_bkb, int_wdsk, int_kbg, int_flags, int_rehitrate, int_specialflags;
+        public double double_size, double_hitlagmultiplier, double_sdimultiplier;
+
+        public Hitbox(int id, int damage, int shielddamage, int angle, int bkb, int wdsk, int kbg, int flags, int rehitrate, int specialflags, double size, double hitlagmultiplier, double sdimultiplier)
         {
-            //Bit 15 = Aerial
-            //Bit 16 = Grounded
-            int int_aerialbit = Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(flags)).Substring(14, 1));
-            int int_groundedbit = Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(flags)).Substring(15, 1));
-            if (!(int_aerialbit == 1 && int_groundedbit == 1))
-            {
-                //Return both bits if they aren't both 0
-                return String.Empty + int_aerialbit + int_groundedbit;
-            }
-            //Exit function, return nothing as both bits are 1
-            return "11";
+            int_id = id;
+            int_damage = damage;
+            int_shielddamage = shielddamage;
+            int_angle = angle;
+            int_bkb = bkb;
+            int_wdsk = wdsk;
+            int_kbg = kbg;
+            int_flags = flags;
+            int_rehitrate = rehitrate;
+            int_specialflags = specialflags;
+            double_size = size;
+            double_hitlagmultiplier = hitlagmultiplier;
+            double_sdimultiplier = sdimultiplier;
         }
-        public static bool bool_clank(int flags)
-        {
-            //Convert bit 5 from binary to boolean/integer
-            return Convert.ToBoolean(Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(flags)).Substring(4, 1)));
-        }
-        public static int int_element(int flags)
-        {
-            //Convert bits 28-32 from binary to integer
-            return Conversions.HexToInt(Conversions.BinToHex(Conversions.HexToBin(Conversions.IntToHex(flags)).Substring(27, 5)));
-        }
-        public static bool bool_flinch(int specialflags)
-        {
-            //Convert bit 1 from binary to boolean/integer
-            return Convert.ToBoolean(Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(specialflags)).Substring(0, 1)));
-        }
-        public static bool bool_hitlagdisabled(int specialflags)
-        {
-            //Convert bit 3 from binary to boolean/integer
-            return Convert.ToBoolean(Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(specialflags)).Substring(2, 1)));
-        }
-        public static bool bool_absorb(int specialflags)
-        {
-            //Convert bit 8 from binary to boolean/integer
-            return Convert.ToBoolean(Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(specialflags)).Substring(7, 1)));
-        }
-        public static bool bool_reflect(int specialflags)
-        {
-            //Convert bit 9 from binary to boolean/integer
-            return Convert.ToBoolean(Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(specialflags)).Substring(8, 1)));
-        }
-        public static bool bool_hitplayer(int specialflags)
-        {
-            //Convert bit 26 from binary to boolean/integer
-            return Convert.ToBoolean(Convert.ToInt16(Conversions.HexToBin(Conversions.IntToHex(specialflags)).Substring(25, 1)));
-        }
+
     }
+    /*
     public static class Calculations
     {
+        #region Calculations
         private static double dec_charging()
         {
             if (Character.bool_charging)
@@ -107,25 +78,11 @@ namespace Calculator
         }
         private static double dec_crouching()
         {
-            if (Character.bool_crouching)
-            {
-                return 0.66;
-            }
-            else
-            {
-                return 1;
-            }
+            return Character.bool_crouching ? 0.66 : 1;
         }
         private static double dec_electric()
         {
-            if (Hitbox.int_element(Hitbox.int_flags) == 3)
-            {
-                return 1.5;
-            }
-            else
-            {
-                return 1;
-            }
+            return Hitbox.int_element(int_flags) == 3 ? 1.5 : 1;
         }
         public static double kb_normal(int int_chardmg)
         {
@@ -162,14 +119,17 @@ namespace Calculator
         public static int hitlag_victim()
         {
             //Floor((Floor(Damage * 0.3333334 + 3) * Electric) * Hitlag Multiplier)
-            return Convert.ToInt16(Math.Floor((Math.Floor(Hitbox.int_damage * 0.3333334 + 3) * dec_electric()) * Hitbox.double_hitlagmultiplier));
+            return Convert.ToInt16(Math.Floor((Math.Floor(int_damage * 0.3333334 + 3) * dec_electric()) * Hitbox.double_hitlagmultiplier));
         }
         public static int hitlag_attacker()
         {
             //Floor(Damage * 0.3333334 + 3) * Hitlag Multiplier
-            return Convert.ToInt16(Math.Floor(Hitbox.int_damage * 0.3333334 + 3) * Hitbox.double_hitlagmultiplier);
+            return Convert.ToInt16(Math.Floor(int_damage * 0.3333334 + 3) * double_hitlagmultiplier);
         }
+        #endregion
+
     }
+    */
     public static class Conversions
     {
         public static string IntToHex(int number)
