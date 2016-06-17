@@ -43,6 +43,8 @@
             this.lbl_datatype = new System.Windows.Forms.Label();
             this.cb_print = new System.Windows.Forms.ComboBox();
             this.lbl_print = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.cB_copy = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cb_output
@@ -73,7 +75,7 @@
             "Absorbability",
             "Reflectability",
             "Launch Speed"});
-            this.cb_output.Location = new System.Drawing.Point(15, 25);
+            this.cb_output.Location = new System.Drawing.Point(15, 53);
             this.cb_output.Name = "cb_output";
             this.cb_output.Size = new System.Drawing.Size(327, 21);
             this.cb_output.TabIndex = 0;
@@ -82,7 +84,7 @@
             // lbl_output
             // 
             this.lbl_output.AutoSize = true;
-            this.lbl_output.Location = new System.Drawing.Point(12, 9);
+            this.lbl_output.Location = new System.Drawing.Point(12, 37);
             this.lbl_output.Name = "lbl_output";
             this.lbl_output.Size = new System.Drawing.Size(39, 13);
             this.lbl_output.TabIndex = 1;
@@ -91,7 +93,7 @@
             // lbl_outputvariable
             // 
             this.lbl_outputvariable.AutoSize = true;
-            this.lbl_outputvariable.Location = new System.Drawing.Point(12, 49);
+            this.lbl_outputvariable.Location = new System.Drawing.Point(12, 77);
             this.lbl_outputvariable.Name = "lbl_outputvariable";
             this.lbl_outputvariable.Size = new System.Drawing.Size(45, 13);
             this.lbl_outputvariable.TabIndex = 2;
@@ -100,7 +102,7 @@
             // txt_outputvariable
             // 
             this.txt_outputvariable.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_outputvariable.Location = new System.Drawing.Point(15, 65);
+            this.txt_outputvariable.Location = new System.Drawing.Point(15, 93);
             this.txt_outputvariable.Name = "txt_outputvariable";
             this.txt_outputvariable.Size = new System.Drawing.Size(327, 19);
             this.txt_outputvariable.TabIndex = 3;
@@ -110,7 +112,7 @@
             // 
             // btn_savevariable
             // 
-            this.btn_savevariable.Location = new System.Drawing.Point(15, 130);
+            this.btn_savevariable.Location = new System.Drawing.Point(15, 158);
             this.btn_savevariable.Name = "btn_savevariable";
             this.btn_savevariable.Size = new System.Drawing.Size(327, 23);
             this.btn_savevariable.TabIndex = 4;
@@ -121,7 +123,7 @@
             // cb_enabled
             // 
             this.cb_enabled.AutoSize = true;
-            this.cb_enabled.Location = new System.Drawing.Point(348, 29);
+            this.cb_enabled.Location = new System.Drawing.Point(348, 57);
             this.cb_enabled.Name = "cb_enabled";
             this.cb_enabled.Size = new System.Drawing.Size(15, 14);
             this.cb_enabled.TabIndex = 5;
@@ -131,7 +133,7 @@
             // txt_outputformat
             // 
             this.txt_outputformat.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_outputformat.Location = new System.Drawing.Point(15, 178);
+            this.txt_outputformat.Location = new System.Drawing.Point(15, 206);
             this.txt_outputformat.Name = "txt_outputformat";
             this.txt_outputformat.Size = new System.Drawing.Size(327, 19);
             this.txt_outputformat.TabIndex = 6;
@@ -140,7 +142,7 @@
             // lbl_outputformat
             // 
             this.lbl_outputformat.AutoSize = true;
-            this.lbl_outputformat.Location = new System.Drawing.Point(12, 162);
+            this.lbl_outputformat.Location = new System.Drawing.Point(12, 190);
             this.lbl_outputformat.Name = "lbl_outputformat";
             this.lbl_outputformat.Size = new System.Drawing.Size(74, 13);
             this.lbl_outputformat.TabIndex = 7;
@@ -149,14 +151,14 @@
             // panel_separator
             // 
             this.panel_separator.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.panel_separator.Location = new System.Drawing.Point(15, 158);
+            this.panel_separator.Location = new System.Drawing.Point(15, 186);
             this.panel_separator.Name = "panel_separator";
             this.panel_separator.Size = new System.Drawing.Size(328, 1);
             this.panel_separator.TabIndex = 8;
             // 
             // btn_saveoutputformat
             // 
-            this.btn_saveoutputformat.Location = new System.Drawing.Point(15, 204);
+            this.btn_saveoutputformat.Location = new System.Drawing.Point(15, 232);
             this.btn_saveoutputformat.Name = "btn_saveoutputformat";
             this.btn_saveoutputformat.Size = new System.Drawing.Size(327, 23);
             this.btn_saveoutputformat.TabIndex = 9;
@@ -171,7 +173,7 @@
             this.cb_datatype.Items.AddRange(new object[] {
             "Boolean",
             "Integer"});
-            this.cb_datatype.Location = new System.Drawing.Point(15, 103);
+            this.cb_datatype.Location = new System.Drawing.Point(15, 131);
             this.cb_datatype.Name = "cb_datatype";
             this.cb_datatype.Size = new System.Drawing.Size(160, 21);
             this.cb_datatype.TabIndex = 10;
@@ -179,7 +181,7 @@
             // lbl_datatype
             // 
             this.lbl_datatype.AutoSize = true;
-            this.lbl_datatype.Location = new System.Drawing.Point(12, 87);
+            this.lbl_datatype.Location = new System.Drawing.Point(12, 115);
             this.lbl_datatype.Name = "lbl_datatype";
             this.lbl_datatype.Size = new System.Drawing.Size(57, 13);
             this.lbl_datatype.TabIndex = 11;
@@ -192,7 +194,7 @@
             this.cb_print.Items.AddRange(new object[] {
             "Print",
             "Empty"});
-            this.cb_print.Location = new System.Drawing.Point(181, 103);
+            this.cb_print.Location = new System.Drawing.Point(181, 131);
             this.cb_print.Name = "cb_print";
             this.cb_print.Size = new System.Drawing.Size(161, 21);
             this.cb_print.TabIndex = 12;
@@ -200,17 +202,38 @@
             // lbl_print
             // 
             this.lbl_print.AutoSize = true;
-            this.lbl_print.Location = new System.Drawing.Point(178, 87);
+            this.lbl_print.Location = new System.Drawing.Point(178, 115);
             this.lbl_print.Name = "lbl_print";
             this.lbl_print.Size = new System.Drawing.Size(85, 13);
             this.lbl_print.TabIndex = 13;
             this.lbl_print.Text = "If Empty or False";
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panel1.Location = new System.Drawing.Point(15, 33);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(328, 1);
+            this.panel1.TabIndex = 14;
+            // 
+            // cB_copy
+            // 
+            this.cB_copy.AutoSize = true;
+            this.cB_copy.Location = new System.Drawing.Point(15, 12);
+            this.cB_copy.Name = "cB_copy";
+            this.cB_copy.Size = new System.Drawing.Size(139, 17);
+            this.cB_copy.TabIndex = 15;
+            this.cB_copy.Text = "\'Copy\' format set to PSA";
+            this.cB_copy.UseVisualStyleBackColor = true;
+            this.cB_copy.CheckedChanged += new System.EventHandler(this.cB_copy_CheckedChanged);
+            // 
             // OutputFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(371, 239);
+            this.ClientSize = new System.Drawing.Size(371, 264);
+            this.Controls.Add(this.cB_copy);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.lbl_print);
             this.Controls.Add(this.cb_print);
             this.Controls.Add(this.lbl_datatype);
@@ -252,5 +275,7 @@
         private System.Windows.Forms.Label lbl_datatype;
         private System.Windows.Forms.ComboBox cb_print;
         private System.Windows.Forms.Label lbl_print;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox cB_copy;
     }
 }

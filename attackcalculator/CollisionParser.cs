@@ -51,27 +51,19 @@ namespace attackcalculator
 
         public static OffensiveCollision deserializeOffensiveCollision(string line)
         {
-            //VALUE//case 0: p[i] = GetValue(eventData.eventEvent, i, eventData.parameters[i]._data); break;
-            //SCALAR//case 1: p[i] = Helpers.UnScalar(eventData.parameters[i]._data).ToString(); break;
-            //BOOLEAN//case 3: p[i] = (eventData.parameters[i]._data != 0 ? "true" : "false"); break;
+            string[] str_attributes = line.Split('|');
 
-            //"\\name(): Id=\\unhex(\\half2(\\value(0))), Bone=\\bone(\\half1(\\value(0))), Damage=\\unhex(\\value(1)), ShieldDamage=\\unhex(\\half1(\\value(4))), Direction=\\unhex(\\value(2)), BaseKnockback=\\unhex(\\half2(\\value(4))), WeightKnockback=\\unhex(\\half1(\\value(3))), KnockbackGrowth=\\unhex(\\half2(\\value(3))), Size=\\value(5), Z Offset=\\value(6), Y Offset=\\value(7), X Offset=\\value(8), TripRate=\\value(9)%, HitlagMultiplier=x\\value(10), SDIMultiplier=x\\value(11), Flags=\\hex8(\\unhex(\\value(12)))",
+            if (str_attributes[0].Length != 8)
+                return null;
 
-            //06000D00|0\0|0\3|0\80|0\1310820|0\0|1\258000|1\0|1\624000|1\672000|1\0|1\60000|1\60000|0\956498432|/
             int id = 0, bone = 0, damage = 0, shieldDamage = 0, angle = 0, baseKnockback = 0, weightKnockback = 0, knockbackGrowth = 0, flags = 0;
             float size = 0.0f, zOffset = 0.0f, yOffset = 0.0f, xOffset = 0.0f, tripRate = 0.0f, hitlagMultiplier = 0.0f, sdiMultiplier = 0.0f;
 
             //0-4, 12 = Value
             //5-11 = Scalar 
 
-            string[] str_attributes = line.Split('|');
-
-            if (str_attributes[0].Length != 8)
-                return null;
-
-            int int_attributeCount = byte.Parse(str_attributes[0].Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
-
             //i < 13 (OffensiveCollision) || i < 15 (SpecialOffensiveCollision) || i < 17 (ThrowSpecifier)
+            int int_attributeCount = byte.Parse(str_attributes[0].Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
             for (int i = 0; i < int_attributeCount; i++)
             {
                 string[] str_attribute = str_attributes[i + 1].Split('\\');
@@ -80,8 +72,8 @@ namespace attackcalculator
                 switch (i)
                 {
                     case 0:
-                        bone = int_value >> 16;
-                        id = int_value & 0xFFFF;
+                        bone = (short)((int_value >> 16) & 0xFFFF);
+                        id = (short)((int_value) & 0xFFFF);
                         break;
                     case 1:
                         damage = int_value;
@@ -90,12 +82,12 @@ namespace attackcalculator
                         angle = int_value;
                         break;
                     case 3:
-                        weightKnockback = int_value >> 16;
-                        knockbackGrowth = int_value & 0xFFFF;
+                        weightKnockback = (short)((int_value >> 16) & 0xFFFF);
+                        knockbackGrowth = (short)((int_value) & 0xFFFF);
                         break;
                     case 4:
-                        shieldDamage = int_value >> 16;
-                        baseKnockback = int_value & 0xFFFF;
+                        shieldDamage = (short)((int_value >> 16) & 0xFFFF);
+                        baseKnockback = (short)((int_value) & 0xFFFF);
                         break;
                     case 5:
                         size = UnScalar(int_value);
@@ -137,6 +129,9 @@ namespace attackcalculator
             int id = 0, bone = 0, damage = 0, shieldDamage = 0, angle = 0, baseKnockback = 0, weightKnockback = 0, knockbackGrowth = 0, flags = 0, rehitRate = 0, specialFlags = 0;
             float size = 0.0f, zOffset = 0.0f, yOffset = 0.0f, xOffset = 0.0f, tripRate = 0.0f, hitlagMultiplier = 0.0f, sdiMultiplier = 0.0f;
 
+            //0-4, 12-14 = Value
+            //5-11 = Scalar 
+
             int int_attributeCount = byte.Parse(str_attributes[0].Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
             for (int i = 0; i < int_attributeCount; i++)
             {
@@ -146,8 +141,8 @@ namespace attackcalculator
                 switch (i)
                 {
                     case 0:
-                        bone = Convert.ToInt16((uint.Parse(int_value.ToString()) >> 16).ToString());
-                        id = Convert.ToInt16((uint.Parse(int_value.ToString()) & 0xFFFF).ToString());
+                        bone = (short)((int_value >> 16) & 0xFFFF);
+                        id = (short)((int_value) & 0xFFFF);
                         break;
                     case 1:
                         damage = int_value;
@@ -156,12 +151,12 @@ namespace attackcalculator
                         angle = int_value;
                         break;
                     case 3:
-                        weightKnockback = Convert.ToInt16((uint.Parse(int_value.ToString()) >> 16).ToString());
-                        knockbackGrowth = Convert.ToInt16((uint.Parse(int_value.ToString()) & 0xFFFF).ToString());
+                        weightKnockback = (short)((int_value >> 16) & 0xFFFF);
+                        knockbackGrowth = (short)((int_value) & 0xFFFF);
                         break;
                     case 4:
-                        shieldDamage = Convert.ToInt16((uint.Parse(int_value.ToString()) >> 16).ToString());
-                        baseKnockback = Convert.ToInt16((uint.Parse(int_value.ToString()) & 0xFFFF).ToString());
+                        shieldDamage = (short)((int_value >> 16) & 0xFFFF);
+                        baseKnockback = (short)((int_value) & 0xFFFF);
                         break;
                     case 5:
                         size = UnScalar(int_value);
@@ -186,6 +181,12 @@ namespace attackcalculator
                         break;
                     case 12:
                         flags = int_value;
+                        break;
+                    case 13:
+                        rehitRate = int_value;
+                        break;
+                    case 14:
+                        specialFlags = int_value;
                         break;
                 }
             }

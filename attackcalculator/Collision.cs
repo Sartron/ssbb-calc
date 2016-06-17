@@ -112,14 +112,12 @@ namespace attackcalculator
             string serializedCode = eventID + "|";
             int int_attributeCount = byte.Parse(eventID.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
 
-            //Opposite of >> 16 is << 32
-            //Opposite of & 0xFFFF is ???
             for (int i = 0; i < int_attributeCount; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        serializedCode += "0\\" + (int_bone << 32);
+                        serializedCode += "0\\" + (((int_bone & 0xFFFF) << 16) + (int_id & 0xFFFF));
                         break;
                     case 1:
                         serializedCode += "0\\" + int_damage;
@@ -128,10 +126,10 @@ namespace attackcalculator
                         serializedCode += "0\\" + int_angle;
                         break;
                     case 3:
-                        serializedCode += "0\\" + (int_wdsk << 32);
+                        serializedCode += "0\\" + (((int_wdsk & 0xFFFF) << 16) + (int_kbg & 0xFFFF));
                         break;
                     case 4:
-                        serializedCode += "0\\" + (int_shieldDamage << 32);
+                        serializedCode += "0\\" + (((int_shieldDamage & 0xFFFF) << 16) + (int_bkb & 0xFFFF));
                         break;
                     case 5:
                         serializedCode += "1\\" + CollisionParser.Scalar(float_size);

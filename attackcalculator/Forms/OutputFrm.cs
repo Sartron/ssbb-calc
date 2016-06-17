@@ -114,6 +114,13 @@ namespace attackcalculator
             txt_outputvariable.Text = str_array_data[1];
             cb_datatype.SelectedIndex = Convert.ToInt16(str_array_data[2]);
             cb_print.SelectedIndex = Convert.ToInt16(str_array_data[3]);
+
+            cB_copy.Checked = Calculator.Settings.Output.readcopyformat();
+        }
+
+        private void cB_copy_CheckedChanged(object sender, EventArgs e)
+        {
+            Calculator.Settings.Output.writecopyformat(cB_copy.Checked);
         }
     }
 }

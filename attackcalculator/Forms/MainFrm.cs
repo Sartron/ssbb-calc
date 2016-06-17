@@ -31,8 +31,6 @@ namespace attackcalculator
             {
                 Calculator.Settings.createxml();
             }
-
-
         }
         #endregion
         #region Menus
@@ -197,13 +195,14 @@ namespace attackcalculator
                 int[] int_matches = new int[8];
                 string str_clipboard = Clipboard.GetText(TextDataFormat.Text);
 
-                Regex regex_brawlBox_offensive = new Regex(@"06000D00\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|", RegexOptions.None);
-                Regex regex_brawlBox_specialOffensive = new Regex(@"06150F00\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\+\d+\|+\d+\\\d+\|\d+\\\d+\|", RegexOptions.None);
-                Regex regex_brawlBox_throw = new Regex(@"060E1100", RegexOptions.None);
+                Regex regex_brawlBox_offensive = new Regex(@"06000D00\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|0\\\d+\|", RegexOptions.None);
+                Regex regex_brawlBox_specialOffensive = new Regex(@"06150F00\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|0\\\d+\|0\\\d+\|0\\\d+\|", RegexOptions.None);
+                Regex regex_brawlBox_throw = new Regex(@"060E1100\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|0\\\d+\|0\\\d+\|0\\\d+\|3\\(0|1)\|3\\(0|1)\|0\\\d+\|", RegexOptions.None);
 
-                Regex regex_PSA_offensive = new Regex(@"06000D00\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|", RegexOptions.None);
-                Regex regex_PSA_specialOffensive = new Regex(@"06150F00\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\+\w+\|+\w+\\\w+\|\w+\\\w+\|", RegexOptions.None);
-                Regex regex_PSA_throw = new Regex(@"060E1100", RegexOptions.None);
+                Regex regex_PSA_offensive = new Regex(@"06000D00\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|0\\\w+\|", RegexOptions.None);
+                Regex regex_PSA_specialOffensive = new Regex(@"06150F00\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|0\\\w+\|0\\\w+\|0\\\w+\|", RegexOptions.None);
+                Regex regex_PSA_throw = new Regex(@"060E1100\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|0\\\w+\|0\\\w+\|0\\\w+\|3\\(0|1)\|3\\(0|1)\|0\\\w+\|", RegexOptions.None);
+
 
                 Regex regex_plainText_offensive = new Regex(@"(?!.*Special)Offensive Collision: Id=\d+, Bone=\d+, Damage=\d+, ShieldDamage=\d+, Direction=\d+, BaseKnockback=\d+, WeightKnockback=\d+, KnockbackGrowth=\d+, Size=(\d+|\d+.\d+), Z Offset=(\d+|\d+.\d+), Y Offset=(\d+|\d+.\d+), X Offset=(\d+|\d+.\d+), TripRate=\d+%, HitlagMultiplier=x\d+, SDIMultiplier=x\d+, Flags=\d+", RegexOptions.None);
                 Regex regex_plainText_specialOffensive = new Regex(@"Special Offensive Collision: Id=\d+, Bone=\d+, Damage=\d+, ShieldDamage=\d+, Direction=\d+, BaseKnockback=\d+, WeightKnockback=\d+, KnockbackGrowth=\d+, Size=(\d+|\d+.\d+), Z Offset=(\d+|\d+.\d+), Y Offset=(\d+|\d+.\d+), X Offset=(\d+|\d+.\d+), TripRate=\d+%, HitlagMultiplier=x\d+, SDIMultiplier=x\d+, Flags=\d+, RehitRate=\d+, SpecialFlags=\d+", RegexOptions.None);
@@ -311,8 +310,6 @@ namespace attackcalculator
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            
-
             Collision newEvent = new Collision(0, 0, 0, 0, 0, 0, 0);
             psaEvents.Add(newEvent);
             lB_psa.Items.Add(newEvent);
@@ -320,7 +317,8 @@ namespace attackcalculator
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-
+            Form editFrm = new EditFrm();
+            editFrm.Show();
         }
         
         private void btnDelete_Click(object sender, EventArgs e)
@@ -335,6 +333,43 @@ namespace attackcalculator
         private void btnConvert_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lB_psa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lB_psa.SelectedIndices.Count == 0)
+            {
+                btnCopy.Enabled = false;
+                btnCut.Enabled = false;
+                btnCopyText.Enabled = false;
+                btnDelete.Enabled = false;
+                btnConvert.Enabled = false;
+            }
+            else
+            {
+                btnCopy.Enabled = true;
+                btnCut.Enabled = true;
+                btnCopyText.Enabled = true;
+                btnDelete.Enabled = true;
+                btnConvert.Enabled = true;
+            }
+
+            if (lB_psa.SelectedIndices.Count == 1)
+            {
+                //btnEdit.Enabled = true;
+            }
+            else
+            {
+                //btnEdit.Enabled = false;
+            }
+        }
+
+        private void lB_psa_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                lB_psa.SelectedIndex = -1;
+            }
         }
         #endregion
         /*

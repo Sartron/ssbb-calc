@@ -409,6 +409,19 @@ namespace Calculator
                 xml_settings.Load(str_xmlpath);
                 return xml_settings.SelectSingleNode("/settings/output/format").InnerText;
             }
+            public static void writecopyformat(bool value)
+            {
+                XmlDocument xml_settings = new XmlDocument();
+                xml_settings.Load(str_xmlpath);
+                xml_settings.SelectSingleNode("/settings/output/copyformat").InnerText = value.ToString();
+                xml_settings.Save(str_xmlpath);
+            }
+            public static bool readcopyformat()
+            {
+                XmlDocument xml_settings = new XmlDocument();
+                xml_settings.Load(str_xmlpath);
+                return Convert.ToBoolean(xml_settings.SelectSingleNode("/settings/output/copyformat").InnerText);
+            }
         }
         public static class Victim
         {

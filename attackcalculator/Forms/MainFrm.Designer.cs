@@ -42,15 +42,15 @@
             this.tp_psacode = new System.Windows.Forms.TabPage();
             this.lB_psa = new System.Windows.Forms.ListBox();
             this.ts_psacode = new System.Windows.Forms.ToolStrip();
-            this.btnCopy = new System.Windows.Forms.ToolStripLabel();
-            this.btnCut = new System.Windows.Forms.ToolStripLabel();
-            this.btnPaste = new System.Windows.Forms.ToolStripLabel();
-            this.btnCopyText = new System.Windows.Forms.ToolStripLabel();
+            this.btnCopy = new System.Windows.Forms.ToolStripButton();
+            this.btnCut = new System.Windows.Forms.ToolStripButton();
+            this.btnPaste = new System.Windows.Forms.ToolStripButton();
+            this.btnCopyText = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnAdd = new System.Windows.Forms.ToolStripLabel();
-            this.btnEdit = new System.Windows.Forms.ToolStripLabel();
-            this.btnDelete = new System.Windows.Forms.ToolStripLabel();
-            this.btnConvert = new System.Windows.Forms.ToolStripLabel();
+            this.btnAdd = new System.Windows.Forms.ToolStripButton();
+            this.btnEdit = new System.Windows.Forms.ToolStripButton();
+            this.btnDelete = new System.Windows.Forms.ToolStripButton();
+            this.btnConvert = new System.Windows.Forms.ToolStripButton();
             this.tp_stats = new System.Windows.Forms.TabPage();
             this.txt_generatedstats = new System.Windows.Forms.RichTextBox();
             this.cms_generated = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -163,6 +163,8 @@
             this.lB_psa.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lB_psa.Size = new System.Drawing.Size(772, 162);
             this.lB_psa.TabIndex = 1;
+            this.lB_psa.SelectedIndexChanged += new System.EventHandler(this.lB_psa_SelectedIndexChanged);
+            this.lB_psa.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lB_psa_MouseUp);
             // 
             // ts_psacode
             // 
@@ -185,30 +187,36 @@
             // 
             // btnCopy
             // 
+            this.btnCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnCopy.Enabled = false;
             this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(35, 22);
+            this.btnCopy.Size = new System.Drawing.Size(39, 22);
             this.btnCopy.Text = "Copy";
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // btnCut
             // 
+            this.btnCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnCut.Enabled = false;
             this.btnCut.Name = "btnCut";
-            this.btnCut.Size = new System.Drawing.Size(26, 22);
+            this.btnCut.Size = new System.Drawing.Size(30, 22);
             this.btnCut.Text = "Cut";
             this.btnCut.Click += new System.EventHandler(this.btnCut_Click);
             // 
             // btnPaste
             // 
+            this.btnPaste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnPaste.Name = "btnPaste";
-            this.btnPaste.Size = new System.Drawing.Size(35, 22);
+            this.btnPaste.Size = new System.Drawing.Size(39, 22);
             this.btnPaste.Text = "Paste";
             this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
             // 
             // btnCopyText
             // 
+            this.btnCopyText.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnCopyText.Enabled = false;
             this.btnCopyText.Name = "btnCopyText";
-            this.btnCopyText.Size = new System.Drawing.Size(59, 22);
+            this.btnCopyText.Size = new System.Drawing.Size(63, 22);
             this.btnCopyText.Text = "Copy Text";
             this.btnCopyText.Click += new System.EventHandler(this.btnCopyText_Click);
             // 
@@ -219,30 +227,36 @@
             // 
             // btnAdd
             // 
+            this.btnAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(29, 22);
+            this.btnAdd.Size = new System.Drawing.Size(33, 22);
             this.btnAdd.Text = "Add";
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnEdit
             // 
+            this.btnEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnEdit.Enabled = false;
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(27, 22);
+            this.btnEdit.Size = new System.Drawing.Size(31, 22);
             this.btnEdit.Text = "Edit";
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnDelete
             // 
+            this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnDelete.Enabled = false;
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(40, 22);
+            this.btnDelete.Size = new System.Drawing.Size(44, 22);
             this.btnDelete.Text = "Delete";
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnConvert
             // 
+            this.btnConvert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnConvert.Enabled = false;
             this.btnConvert.Name = "btnConvert";
-            this.btnConvert.Size = new System.Drawing.Size(81, 22);
+            this.btnConvert.Size = new System.Drawing.Size(85, 22);
             this.btnConvert.Text = "Generate Data";
             this.btnConvert.Click += new System.EventHandler(this.btnConvert_Click);
             // 
@@ -334,15 +348,15 @@
         private System.Windows.Forms.ToolStripMenuItem miscellaneousCalculatorToolStripMenuItem;
         private System.Windows.Forms.ListBox lB_psa;
         private System.Windows.Forms.ToolStrip ts_psacode;
-        private System.Windows.Forms.ToolStripLabel btnCopy;
-        private System.Windows.Forms.ToolStripLabel btnCut;
-        private System.Windows.Forms.ToolStripLabel btnPaste;
-        private System.Windows.Forms.ToolStripLabel btnCopyText;
+        private System.Windows.Forms.ToolStripButton btnCopy;
+        private System.Windows.Forms.ToolStripButton btnCut;
+        private System.Windows.Forms.ToolStripButton btnPaste;
+        private System.Windows.Forms.ToolStripButton btnCopyText;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripLabel btnEdit;
-        private System.Windows.Forms.ToolStripLabel btnConvert;
-        private System.Windows.Forms.ToolStripLabel btnAdd;
-        private System.Windows.Forms.ToolStripLabel btnDelete;
+        private System.Windows.Forms.ToolStripButton btnEdit;
+        private System.Windows.Forms.ToolStripButton btnConvert;
+        private System.Windows.Forms.ToolStripButton btnAdd;
+        private System.Windows.Forms.ToolStripButton btnDelete;
     }
 }
 

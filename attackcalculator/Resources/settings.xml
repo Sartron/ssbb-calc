@@ -54,6 +54,7 @@
       <var id="22" enabled="true">launch</var>
     </variables>
     <format>id|dmg|angle°|bkb/wdsk/kbg</format>
+    <copyformat>false</copyformat>
   </output>
   <victim>
     <damage>0/100</damage> <!-- Should only be separated by '/' -->
