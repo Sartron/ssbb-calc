@@ -27,10 +27,11 @@ namespace attackcalculator
 
         private void MainFrm_Load(object sender, EventArgs e)
         {
-            if (!(Calculator.Settings.bool_xmlexists()))
+            if (!Settings.Exists)
             {
-                Calculator.Settings.createxml();
+                Settings.Create();
             }
+            Settings.Load();
         }
         #endregion
         #region Menus
@@ -50,22 +51,6 @@ namespace attackcalculator
         {
             Form VictimFrm = new VictimFrm();
             VictimFrm.Show();
-        }
-
-        private void cleanUpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Really only for me since this is the style I put my threads in
-            if (txt_generatedstats.Text.Contains(" []"))
-            {
-                //Clean up left over hitlag advantage
-                txt_generatedstats.Text = txt_generatedstats.Text.Replace(" []", String.Empty);
-            }
-            if (txt_generatedstats.Text.Contains("||"))
-            {
-                //Clean up empty stats
-                txt_generatedstats.Text = txt_generatedstats.Text.Replace("||", "|");
-            }
-            txt_generatedstats.SelectAll();
         }
 
         private void miscellaneousCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -178,7 +163,8 @@ namespace attackcalculator
             foreach (int i in lB_psa.SelectedIndices)
             {
                 Collision curCollision = psaEvents[i];
-                sb.Append(curCollision.toBrawlBox() + '/');
+                //sb.Append(curCollision.ToBrawlBox() + '/');
+                sb.Append(curCollision.ToPSA() + '/');
             }
             Clipboard.SetData(DataFormats.Text, sb.ToString());
         }
@@ -192,7 +178,7 @@ namespace attackcalculator
         {
             if (Clipboard.ContainsText(TextDataFormat.Text))
             {
-                int[] int_matches = new int[8];
+                string[] str_matches = new string[3];
                 string str_clipboard = Clipboard.GetText(TextDataFormat.Text);
 
                 Regex regex_brawlBox_offensive = new Regex(@"06000D00\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|0\\\d+\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|1\\(\d+|\-\d+)\|0\\\d+\|", RegexOptions.None);
@@ -203,50 +189,146 @@ namespace attackcalculator
                 Regex regex_PSA_specialOffensive = new Regex(@"06150F00\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|0\\\w+\|0\\\w+\|0\\\w+\|", RegexOptions.None);
                 Regex regex_PSA_throw = new Regex(@"060E1100\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|0\\\w+\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|1\\(\w+|\-\w+)\|0\\\w+\|0\\\w+\|0\\\w+\|3\\(0|1)\|3\\(0|1)\|0\\\w+\|", RegexOptions.None);
 
-
                 Regex regex_plainText_offensive = new Regex(@"(?!.*Special)Offensive Collision: Id=\d+, Bone=\d+, Damage=\d+, ShieldDamage=\d+, Direction=\d+, BaseKnockback=\d+, WeightKnockback=\d+, KnockbackGrowth=\d+, Size=(\d+|\d+.\d+), Z Offset=(\d+|\d+.\d+), Y Offset=(\d+|\d+.\d+), X Offset=(\d+|\d+.\d+), TripRate=\d+%, HitlagMultiplier=x\d+, SDIMultiplier=x\d+, Flags=\d+", RegexOptions.None);
                 Regex regex_plainText_specialOffensive = new Regex(@"Special Offensive Collision: Id=\d+, Bone=\d+, Damage=\d+, ShieldDamage=\d+, Direction=\d+, BaseKnockback=\d+, WeightKnockback=\d+, KnockbackGrowth=\d+, Size=(\d+|\d+.\d+), Z Offset=(\d+|\d+.\d+), Y Offset=(\d+|\d+.\d+), X Offset=(\d+|\d+.\d+), TripRate=\d+%, HitlagMultiplier=x\d+, SDIMultiplier=x\d+, Flags=\d+, RehitRate=\d+, SpecialFlags=\d+", RegexOptions.None);
                 Regex regex_plainText_throw = new Regex(@"Throw Specifier:ID=\d+, Bone\?=\d+, Damage=\d+, Direction=\d+, KnockbackGrowth=\d+, WeightKnockback=\d+,BaseKnockback=\d+, Element=\d+, UnknownA=\d+, UnknownB=\d+, UnknownC=\d+, UnknownD=\d+, SFX=\d+, Direction\?=\d+, UnknownE=(true|false), UnknownF=(true|false), UnknownG=\d+", RegexOptions.None);
 
                 Match patternSearch;
 
-                //Serialized
+                #region Serialized
+                #region BrawlBox
                 patternSearch = regex_brawlBox_offensive.Match(str_clipboard);
                 while (patternSearch.Success)
                 {
-                    int_matches[0]++;
+                    str_matches[0] += String.Format("{0}-{1}|", patternSearch.Index, patternSearch.Index + patternSearch.Length);
 
-                    OffensiveCollision newEvent = CollisionParser.deserializeOffensiveCollision(patternSearch.ToString());
+                    OffensiveCollision newEvent = CollisionParser.BrawlBox.deserializeOffensiveCollision(patternSearch.ToString());
                     psaEvents.Add(newEvent);
                     lB_psa.Items.Add(newEvent);
 
                     patternSearch = patternSearch.NextMatch();
                 }
 
-                patternSearch = regex_PSA_offensive.Match(str_clipboard);
-                while (patternSearch.Success) { int_matches[1]++; patternSearch = patternSearch.NextMatch(); }
-
                 patternSearch = regex_brawlBox_specialOffensive.Match(str_clipboard);
                 while (patternSearch.Success)
                 {
-                    int_matches[3]++;
+                    str_matches[1] += String.Format("{0}-{1}|", patternSearch.Index, patternSearch.Index + patternSearch.Length);
 
-                    SpecialOffensiveCollision newEvent = CollisionParser.deserializeSpecialOffensiveCollision(patternSearch.ToString());
+                    SpecialOffensiveCollision newEvent = CollisionParser.BrawlBox.deserializeSpecialOffensiveCollision(patternSearch.ToString());
                     psaEvents.Add(newEvent);
                     lB_psa.Items.Add(newEvent);
+
+                    patternSearch = patternSearch.NextMatch();
+                }
+
+                patternSearch = regex_brawlBox_throw.Match(str_clipboard);
+                while (patternSearch.Success)
+                {
+                    str_matches[2] += String.Format("{0}-{1}|", patternSearch.Index, patternSearch.Index + patternSearch.Length);
+
+                    ThrowSpecifier newEvent = CollisionParser.BrawlBox.deserializeThrowSpecifier(patternSearch.ToString());
+                    psaEvents.Add(newEvent);
+                    lB_psa.Items.Add(newEvent);
+
+                    patternSearch = patternSearch.NextMatch();
+                }
+                #endregion
+                #region PSA
+                patternSearch = regex_PSA_offensive.Match(str_clipboard);
+                while (patternSearch.Success)
+                {
+                    bool isMatched = false;
+                    string str_curMatch = String.Format("{0}-{1}", patternSearch.Index, patternSearch.Index + patternSearch.Length);
+
+                    if (!String.IsNullOrEmpty(str_matches[0]))
+                    {
+                        for (int i = 0; i < str_matches[0].Split('|').Length; i++)
+                        {
+                            string str_curSplit = str_matches[0].Split('|')[i];
+
+                            if (String.IsNullOrWhiteSpace(str_curSplit))
+                                continue;
+
+                            if (str_curMatch.Equals(str_curSplit))
+                                isMatched = true;
+                        }
+                    }
+
+                    if (!isMatched)
+                    {
+                        OffensiveCollision newEvent = CollisionParser.PSA.deserializeOffensiveCollision(patternSearch.ToString());
+                        psaEvents.Add(newEvent);
+                        lB_psa.Items.Add(newEvent);
+                    }
 
                     patternSearch = patternSearch.NextMatch();
                 }
 
                 patternSearch = regex_PSA_specialOffensive.Match(str_clipboard);
-                while (patternSearch.Success) { int_matches[4]++; patternSearch = patternSearch.NextMatch(); }
+                while (patternSearch.Success)
+                {
+                    bool isMatched = false;
+                    string str_curMatch = String.Format("{0}-{1}", patternSearch.Index, patternSearch.Index + patternSearch.Length);
 
-                //Deserialized
+                    if (!String.IsNullOrEmpty(str_matches[1]))
+                    {
+                        for (int i = 0; i < str_matches[1].Split('|').Length; i++)
+                        {
+                            string str_curSplit = str_matches[1].Split('|')[i];
+
+                            if (String.IsNullOrWhiteSpace(str_curSplit))
+                                continue;
+
+                            if (str_curMatch.Equals(str_curSplit))
+                                isMatched = true;
+                        }
+                    }
+
+                    if (!isMatched)
+                    {
+                        OffensiveCollision newEvent = CollisionParser.PSA.deserializeSpecialOffensiveCollision(patternSearch.ToString());
+                        psaEvents.Add(newEvent);
+                        lB_psa.Items.Add(newEvent);
+                    }
+
+                    patternSearch = patternSearch.NextMatch();
+                }
+
+                patternSearch = regex_PSA_throw.Match(str_clipboard);
+                while (patternSearch.Success)
+                {
+                    bool isMatched = false;
+                    string str_curMatch = String.Format("{0}-{1}", patternSearch.Index, patternSearch.Index + patternSearch.Length);
+
+                    if (!String.IsNullOrEmpty(str_matches[2]))
+                    {
+                        for (int i = 0; i < str_matches[2].Split('|').Length; i++)
+                        {
+                            string str_curSplit = str_matches[2].Split('|')[i];
+
+                            if (String.IsNullOrWhiteSpace(str_curSplit))
+                                continue;
+
+                            if (str_curMatch.Equals(str_curSplit))
+                                isMatched = true;
+                        }
+                    }
+
+                    if (!isMatched)
+                    {
+                        OffensiveCollision newEvent = CollisionParser.PSA.deserializeOffensiveCollision(patternSearch.ToString());
+                        psaEvents.Add(newEvent);
+                        lB_psa.Items.Add(newEvent);
+                    }
+
+                    patternSearch = patternSearch.NextMatch();
+                }
+                #endregion
+                #endregion
+                #region Deserialized
                 patternSearch = regex_plainText_offensive.Match(str_clipboard);
                 while (patternSearch.Success)
                 {
-                    int_matches[5]++;
-
                     OffensiveCollision newEvent = CollisionParser.plainToOffensiveCollision(patternSearch.ToString());
                     psaEvents.Add(newEvent);
                     lB_psa.Items.Add(newEvent);
@@ -257,8 +339,6 @@ namespace attackcalculator
                 patternSearch = regex_plainText_specialOffensive.Match(str_clipboard);
                 while (patternSearch.Success)
                 {
-                    int_matches[6]++;
-
                     OffensiveCollision newEvent = CollisionParser.plainToSpecialOffensiveCollision(patternSearch.ToString());
                     psaEvents.Add(newEvent);
                     lB_psa.Items.Add(newEvent);
@@ -269,30 +349,13 @@ namespace attackcalculator
                 patternSearch = regex_plainText_throw.Match(str_clipboard);
                 while (patternSearch.Success)
                 {
-                    int_matches[7]++;
-
                     ThrowSpecifier newEvent = CollisionParser.plainToThrowSpecifier(patternSearch.ToString());
                     psaEvents.Add(newEvent);
                     lB_psa.Items.Add(newEvent);
 
                     patternSearch = patternSearch.NextMatch();
                 }
-
-                //int_matches[0] == Number of serialized BrawlBox lines (OffensiveCollision)
-                //int_matches[1] == Number of serialized BrawlBox and PSA lines (OffensiveCollision)
-                //int_matches[2] == Number of serialized PSA lines (OffensiveCollision)
-                //int_matches[3] == Number of serialized BrawlBox lines (SpecialOffensiveCollision)
-                //int_matches[4] == Number of serialized PSA lines (SpecialOffensiveCollision)
-                //int_matches[5] == Number of deserialized lines (OffensiveCollision)
-                //int_matches[6] == Number of deserialized lines (SpecialOffensiveCollision)
-                //int_matches[7] == Number of deserialized lines (ThrowSpecifier)
-
-                int_matches[2] = int_matches[1] - int_matches[0]; //Number of PSA lines
-
-                /*
-                Debug.WriteLine(String.Format("int_matches[0] == {0}\nint_matches[1] == {1}\nint_matches[2] == {2}\nint_matches[3] == {3}\nint_matches[4] == {4}\nint_matches[5] == {5}\nint_matches[6] == {6}", int_matches[0]
-                    , int_matches[1], int_matches[2], int_matches[3], int_matches[4], int_matches[5], int_matches[6]));
-                    */
+                #endregion
             }
         }
 
@@ -332,7 +395,15 @@ namespace attackcalculator
 
         private void btnConvert_Click(object sender, EventArgs e)
         {
+            foreach (int i in lB_psa.SelectedIndices)
+            {
+                Collision curCollision = psaEvents[i];
+                curCollision.loadVictim(new Victim(0, false, false));
 
+
+                MessageBox.Show("");
+
+            }
         }
 
         private void lB_psa_SelectedIndexChanged(object sender, EventArgs e)

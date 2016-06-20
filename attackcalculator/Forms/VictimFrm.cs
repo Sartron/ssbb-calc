@@ -14,6 +14,8 @@ namespace attackcalculator
 {
     public partial class VictimFrm : Form
     {
+        Victim victim;
+
         public VictimFrm()
         {
             InitializeComponent();
@@ -28,21 +30,23 @@ namespace attackcalculator
             {
                 cb_characters.Items.Add(strReader_characters.ReadLine() + " - " + strReader_weights.ReadLine());
             }
-            //cb_characters.Items.Add("Custom");
+            cb_characters.Items.Add("Custom");
 
             //Set up values from settings.xml
-            txt_damage.Text = Calculator.Settings.Victim.readsetting(0);
-            cb_characters.SelectedIndex = Convert.ToInt16(Calculator.Settings.Victim.readsetting(1));
-            cb_charging.Checked = Convert.ToBoolean(Calculator.Settings.Victim.readsetting(2));
-            cb_crouchcancel.Checked = Convert.ToBoolean(Calculator.Settings.Victim.readsetting(3));
+            victim = Settings.Victim.Read();
+            txt_damage.Text = Settings.Victim.returnPercent();
+            cb_characters.SelectedIndex = victim.ID;
+            cb_crouchcancel.Checked = victim.Crouching;
+            cb_charging.Checked = victim.Charging;
         }
 
         private void btn_confirm_Click(object sender, EventArgs e)
         {
-            Calculator.Settings.Victim.writesetting(0, txt_damage.Text);
-            Calculator.Settings.Victim.writesetting(1, cb_characters.SelectedIndex.ToString());
-            Calculator.Settings.Victim.writesetting(2, cb_charging.Checked.ToString());
-            Calculator.Settings.Victim.writesetting(3, cb_crouchcancel.Checked.ToString());
+            victim.ID = cb_characters.SelectedIndex;
+            victim.Crouching = cb_crouchcancel.Checked;
+            victim.Charging = cb_charging.Checked;
+            Settings.Victim.Write(victim, txt_damage.Text);
+
             Close();
         }
 

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.ms_main = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,15 +51,17 @@
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.btnConvert = new System.Windows.Forms.ToolStripButton();
             this.tp_stats = new System.Windows.Forms.TabPage();
-            this.txt_generatedstats = new System.Windows.Forms.RichTextBox();
-            this.cms_generated = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cleanUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lB_generatedStats = new System.Windows.Forms.ListBox();
+            this.ts_generatedStats = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.ms_main.SuspendLayout();
             this.tc_tabs.SuspendLayout();
             this.tp_psacode.SuspendLayout();
             this.ts_psacode.SuspendLayout();
             this.tp_stats.SuspendLayout();
-            this.cms_generated.SuspendLayout();
+            this.ts_generatedStats.SuspendLayout();
             this.SuspendLayout();
             // 
             // ms_main
@@ -87,7 +88,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -103,14 +104,14 @@
             // outputToolStripMenuItem
             // 
             this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
-            this.outputToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.outputToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.outputToolStripMenuItem.Text = "Output";
             this.outputToolStripMenuItem.Click += new System.EventHandler(this.outputToolStripMenuItem_Click);
             // 
             // victimToolStripMenuItem
             // 
             this.victimToolStripMenuItem.Name = "victimToolStripMenuItem";
-            this.victimToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.victimToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.victimToolStripMenuItem.Text = "Victim";
             this.victimToolStripMenuItem.Click += new System.EventHandler(this.victimToolStripMenuItem_Click);
             // 
@@ -262,7 +263,8 @@
             // 
             // tp_stats
             // 
-            this.tp_stats.Controls.Add(this.txt_generatedstats);
+            this.tp_stats.Controls.Add(this.lB_generatedStats);
+            this.tp_stats.Controls.Add(this.ts_generatedStats);
             this.tp_stats.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tp_stats.ForeColor = System.Drawing.SystemColors.ControlText;
             this.tp_stats.Location = new System.Drawing.Point(4, 22);
@@ -273,33 +275,54 @@
             this.tp_stats.Text = "Generated Stats";
             this.tp_stats.UseVisualStyleBackColor = true;
             // 
-            // txt_generatedstats
+            // lB_generatedStats
             // 
-            this.txt_generatedstats.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_generatedstats.ContextMenuStrip = this.cms_generated;
-            this.txt_generatedstats.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txt_generatedstats.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_generatedstats.Location = new System.Drawing.Point(3, 3);
-            this.txt_generatedstats.Name = "txt_generatedstats";
-            this.txt_generatedstats.Size = new System.Drawing.Size(772, 187);
-            this.txt_generatedstats.TabIndex = 4;
-            this.txt_generatedstats.Text = "";
-            this.txt_generatedstats.WordWrap = false;
+            this.lB_generatedStats.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lB_generatedStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lB_generatedStats.Font = new System.Drawing.Font("Lucida Console", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lB_generatedStats.FormattingEnabled = true;
+            this.lB_generatedStats.HorizontalScrollbar = true;
+            this.lB_generatedStats.Location = new System.Drawing.Point(3, 28);
+            this.lB_generatedStats.Name = "lB_generatedStats";
+            this.lB_generatedStats.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lB_generatedStats.Size = new System.Drawing.Size(772, 162);
+            this.lB_generatedStats.TabIndex = 3;
             // 
-            // cms_generated
+            // ts_generatedStats
             // 
-            this.cms_generated.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cleanUpToolStripMenuItem});
-            this.cms_generated.Name = "cms_generated";
-            this.cms_generated.Size = new System.Drawing.Size(165, 26);
+            this.ts_generatedStats.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ts_generatedStats.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
+            this.toolStripButton2,
+            this.toolStripButton3});
+            this.ts_generatedStats.Location = new System.Drawing.Point(3, 3);
+            this.ts_generatedStats.Name = "ts_generatedStats";
+            this.ts_generatedStats.Size = new System.Drawing.Size(772, 25);
+            this.ts_generatedStats.TabIndex = 2;
+            this.ts_generatedStats.Text = "toolStrip1";
             // 
-            // cleanUpToolStripMenuItem
+            // toolStripButton1
             // 
-            this.cleanUpToolStripMenuItem.Name = "cleanUpToolStripMenuItem";
-            this.cleanUpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.cleanUpToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.cleanUpToolStripMenuItem.Text = "Clean Up";
-            this.cleanUpToolStripMenuItem.Click += new System.EventHandler(this.cleanUpToolStripMenuItem_Click);
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Enabled = false;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(39, 22);
+            this.toolStripButton1.Text = "Copy";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.Enabled = false;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(30, 22);
+            this.toolStripButton2.Text = "Cut";
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(39, 22);
+            this.toolStripButton3.Text = "Paste";
             // 
             // MainFrm
             // 
@@ -324,7 +347,9 @@
             this.ts_psacode.ResumeLayout(false);
             this.ts_psacode.PerformLayout();
             this.tp_stats.ResumeLayout(false);
-            this.cms_generated.ResumeLayout(false);
+            this.tp_stats.PerformLayout();
+            this.ts_generatedStats.ResumeLayout(false);
+            this.ts_generatedStats.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -340,11 +365,8 @@
         private System.Windows.Forms.TabControl tc_tabs;
         private System.Windows.Forms.TabPage tp_psacode;
         private System.Windows.Forms.TabPage tp_stats;
-        private System.Windows.Forms.RichTextBox txt_generatedstats;
         private System.Windows.Forms.ToolStripMenuItem outputToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem victimToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip cms_generated;
-        private System.Windows.Forms.ToolStripMenuItem cleanUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem miscellaneousCalculatorToolStripMenuItem;
         private System.Windows.Forms.ListBox lB_psa;
         private System.Windows.Forms.ToolStrip ts_psacode;
@@ -357,6 +379,11 @@
         private System.Windows.Forms.ToolStripButton btnConvert;
         private System.Windows.Forms.ToolStripButton btnAdd;
         private System.Windows.Forms.ToolStripButton btnDelete;
+        private System.Windows.Forms.ListBox lB_generatedStats;
+        private System.Windows.Forms.ToolStrip ts_generatedStats;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
     }
 }
 

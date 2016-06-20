@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculator.cs" />
     <Compile Include="Collision.cs" />
     <Compile Include="Forms\EditFrm.cs">
       <SubType>Form</SubType>
@@ -85,6 +84,8 @@
     <Compile Include="Forms\VictimFrm.Designer.cs">
       <DependentUpon>VictimFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="Victim.cs" />
     <EmbeddedResource Include="Forms\EditFrm.resx">
       <DependentUpon>EditFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,7 +128,9 @@
     <Content Include="icon.ico" />
     <None Include="Resources\weights.txt" />
     <None Include="Resources\characters.txt" />
-    <None Include="Resources\settings.xml" />
+    <None Include="Resources\settings.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

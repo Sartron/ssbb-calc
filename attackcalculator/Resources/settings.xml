@@ -2,20 +2,39 @@
 <settings>
   <output>
     <variables>
-      <var id="0" enabled="true">id</var>
-      <var id="1" enabled="true">size</var>
-      <var id="2" enabled="true">dmg</var>
-      <var id="3" enabled="true">sdmg</var>
-      <var id="4" enabled="true">angle</var>
+      <var id="0" enabled="true">
+        <name>id</name>
+      </var>
+      <var id="1" enabled="true">
+        <name>size</name>
+      </var>
+      <var id="2" enabled="true">
+        <name>dmg</name>
+      </var>
+      <var id="3" enabled="true">
+        <name>sdmg</name>
+      </var>
+      <var id="4" enabled="true">
+        <name>angle</name>
+      </var>
       <var id="5" enabled="true">
         <name>kbunits</name>
-        <weight>true</weight>
       </var>
-      <var id="6" enabled="true">bkb</var>
-      <var id="7" enabled="true">wdsk</var>
-      <var id="8" enabled="true">kbg</var>
-      <var id="9" enabled="true">hitlagmulti</var>
-      <var id="10" enabled="true">sdimulti</var>
+      <var id="6" enabled="true">
+        <name>bkb</name>
+      </var>
+      <var id="7" enabled="true">
+        <name>wdsk</name>
+      </var>
+      <var id="8" enabled="true">
+        <name>kbg</name>
+      </var>
+      <var id="9" enabled="true">
+        <name>hitlagmulti</name>
+      </var>
+      <var id="10" enabled="true">
+        <name>sdimulti</name>
+      </var>
       <var id="11" enabled="true">
         <name>clang</name>
         <datatype>0</datatype>
@@ -24,41 +43,52 @@
         <name>target</name>
         <print>1</print>
       </var>
-      <var id="13" enabled="true">effect</var>
-      <var id="14" enabled="true">hitstun</var>
-      <var id="15" enabled="true">shieldstun</var>
-      <var id="16" enabled="true">hitlag</var>
+      <var id="13" enabled="true">
+        <name>effect</name>
+      </var>
+      <var id="14" enabled="true">
+        <name>shieldstun</name>
+      </var>
+      <var id="15" enabled="true">
+        <name>hitstun</name>
+      </var>
+      <var id="16" enabled="true">
+        <name>launch</name>
+      </var>
       <var id="17" enabled="true">
+        <name>hitlag</name>
+      </var>
+      <var id="18" enabled="true">
         <name>hitlagadv</name>
         <print>1</print>
       </var>
-      <var id="18" enabled="true">
+      <var id="19" enabled="true">
         <name>rehitrate</name>
         <print>1</print>
       </var>
-      <var id="19" enabled="true">
+      <var id="20" enabled="true">
         <name>flinch</name>
         <datatype>0</datatype>
         <print>1</print>
       </var>
-      <var id="20" enabled="true">
+      <var id="21" enabled="true">
         <name>absorb</name>
         <datatype>0</datatype>
         <print>1</print>
       </var>
-      <var id="21" enabled="true">
+      <var id="22" enabled="true">
         <name>reflect</name>
         <datatype>0</datatype>
         <print>1</print>
       </var>
-      <var id="22" enabled="true">launch</var>
     </variables>
-    <format>id|dmg|angle°|bkb/wdsk/kbg</format>
-    <copyformat>false</copyformat>
+    <format>id|dmg/sdmg|angle|bkb/wdsk/kbg</format>
+    <copymode>0</copymode>
   </output>
   <victim>
-    <damage>0/100</damage> <!-- Should only be separated by '/' -->
-    <character>0</character>
+    <id>0</id>
+    <weight>100</weight>
+    <percent>0/100</percent> <!-- Should only be separated by '/' -->
     <charging>false</charging>
     <crouching>false</crouching>
   </victim>
