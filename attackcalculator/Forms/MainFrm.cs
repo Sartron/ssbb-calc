@@ -47,8 +47,8 @@ namespace attackcalculator
 
         private void miscellaneousCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form MiscCalcFrm = new MiscCalcFrm();
-            MiscCalcFrm.Show();
+            //Form MiscCalcFrm = new MiscCalcFrm();
+            //MiscCalcFrm.Show();
         }
         #endregion
         #region PSA Code Menu
@@ -290,7 +290,7 @@ namespace attackcalculator
         {
             Collision editEvent = psaEvents[lB_psa.SelectedIndex];
 
-            Form editFrm = new EditFrm();
+            Form editFrm = new EditFrm(editEvent);
             editFrm.Show();
         }
         
@@ -340,6 +340,9 @@ namespace attackcalculator
                     if (String.IsNullOrWhiteSpace(strStat))
                         return;
 
+                    //All throws calculate with the assumption of a weight of 100
+                    curCollision.Victim.Weight = 100;
+
                     ThrowSpecifier convertedCollision = (ThrowSpecifier)curCollision;
                     if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision)))
                         lB_generatedStats.Items.Add(fillEntries(strStat, convertedCollision));
@@ -347,6 +350,15 @@ namespace attackcalculator
             }
         }
 
+        private void btnMiscCalc_Click(object sender, EventArgs e)
+        {
+            Collision miscEvent = psaEvents[lB_psa.SelectedIndex];
+
+            Form MiscFrm = new MiscFrm(miscEvent);
+            MiscFrm.Show();
+        }
+
+        #region fillEntries() methods
         private string fillEntries(string line, OffensiveCollision collision)
         {
             string returnThis = line;
@@ -590,7 +602,10 @@ namespace attackcalculator
                         }
                         break;
                     case 13:
-                        returnThis = namePattern.Replace(returnThis, tempCollision.Effect.ToString());
+                        if (!tempCollision.Sleep)
+                            returnThis = namePattern.Replace(returnThis, tempCollision.Effect.ToString());
+                        else
+                            returnThis = namePattern.Replace(returnThis, tempCollision.Effect + " / Sleep");
                         break;
                     case 14:
                         returnThis = namePattern.Replace(returnThis, tempCollision.Shieldstun.ToString());
@@ -770,19 +785,96 @@ namespace attackcalculator
 
         private string fillEntries(string line, ThrowSpecifier collision)
         {
-            string returnThis = String.Empty;
+            string returnThis = line;
 
-            for (int i = 0; i < Settings.Output.varCount; i++)
+            for (int i = 0; i <= Settings.Output.varCount; i++)
             {
                 Settings.Output.outputVar curVar = Settings.Output.Read(i);
                 if (!curVar.Enabled)
                     continue;
 
+                Regex namePattern = new Regex(curVar.Name);
+                if (!namePattern.IsMatch(returnThis))
+                    continue;
+
+                ThrowSpecifier tempCollision = collision;
+                switch (i)
+                {
+                    case 0:
+                        returnThis = namePattern.Replace(returnThis, tempCollision.ID.ToString());
+                        break;
+                    case 2:
+                        returnThis = namePattern.Replace(returnThis, tempCollision.Damage.ToString());
+                        break;
+                    case 4:
+                        returnThis = namePattern.Replace(returnThis, tempCollision.Angle.ToString());
+                        break;
+                    case 5:
+                        string knockback = String.Empty;
+                        string[] victimPercents = Settings.Victim.returnPercent().Split('/');
+
+                        if (tempCollision.WeightKnockback == 0)
+                        {
+                            foreach (string str in victimPercents)
+                            {
+                                tempCollision.Victim.Percent = Convert.ToInt16(str);
+                                knockback += tempCollision.Knockback + "/";
+                            }
+                            returnThis = namePattern.Replace(returnThis, knockback.Substring(0, knockback.Length - 1));
+                        }
+                        else
+                            returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
+                        break;
+                    case 6:
+                        returnThis = namePattern.Replace(returnThis, tempCollision.BaseKnockback.ToString());
+                        break;
+                    case 7:
+                        returnThis = namePattern.Replace(returnThis, tempCollision.WeightKnockback.ToString());
+                        break;
+                    case 8:
+                        returnThis = namePattern.Replace(returnThis, tempCollision.KnockbackGrowth.ToString());
+                        break;
+                    case 13:
+                        returnThis = namePattern.Replace(returnThis, tempCollision.Element.ToString());
+                        break;
+                    case 15:
+                        string hitstun = String.Empty;
+                        string[] _victimPercents = Settings.Victim.returnPercent().Split('/');
+
+                        if (tempCollision.WeightKnockback == 0)
+                        {
+                            foreach (string str in _victimPercents)
+                            {
+                                tempCollision.Victim.Percent = Convert.ToInt16(str);
+                                hitstun += tempCollision.Hitstun + "/";
+                            }
+                            returnThis = namePattern.Replace(returnThis, hitstun.Substring(0, hitstun.Length - 1));
+                        }
+                        else
+                            returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
+                        break;
+                    case 16:
+                        string launch = String.Empty;
+                        string[] __victimPercents = Settings.Victim.returnPercent().Split('/');
+
+                        if (tempCollision.WeightKnockback == 0)
+                        {
+                            foreach (string str in __victimPercents)
+                            {
+                                tempCollision.Victim.Percent = Convert.ToInt16(str);
+                                launch += tempCollision.Hitstun + "/";
+                            }
+                            returnThis = namePattern.Replace(returnThis, launch.Substring(0, launch.Length - 1));
+                        }
+                        else
+                            returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
+                        break;
+                }
             }
 
-            return "ThrowSpecifier not implemented!";
-            //return returnThis;
+            return returnThis;
         }
+        #endregion
 
         private void lB_psa_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -817,18 +909,68 @@ namespace attackcalculator
             if (lB_psa.SelectedIndices.Count == 1)
             {
                 btnEdit.Enabled = true;
+                btnMiscCalc.Enabled = true;
             }
             else
             {
                 btnEdit.Enabled = false;
+                btnMiscCalc.Enabled = false;
             }
         }
 
         private void lB_psa_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
-            {
                 lB_psa.SelectedIndex = -1;
+        }
+        #endregion
+        #region Generated Stats Menu
+        private void _btnCopy_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (object row in lB_generatedStats.SelectedItems)
+            {
+                sb.Append(row);
+                sb.AppendLine();
+            }
+            sb.Remove(sb.Length - 1, 1);
+            Clipboard.SetData(DataFormats.Text, sb.ToString());
+        }
+
+        private void _btnCut_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (object row in lB_generatedStats.SelectedItems)
+            {
+                sb.Append(row);
+                sb.AppendLine();
+            }
+            sb.Remove(sb.Length - 1, 1);
+            Clipboard.SetData(DataFormats.Text, sb.ToString());
+
+            for (int i = lB_generatedStats.SelectedIndices.Count - 1; i >= 0; i--)
+                lB_generatedStats.Items.RemoveAt(lB_generatedStats.SelectedIndices[i]);
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            for (int i = lB_generatedStats.SelectedIndices.Count - 1; i >= 0; i--)
+                lB_generatedStats.Items.RemoveAt(lB_generatedStats.SelectedIndices[i]);
+        }
+
+        private void lB_generatedStats_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lB_generatedStats.SelectedIndices.Count == 0)
+            {
+                _btnCopy.Enabled = false;
+                _btnCut.Enabled = false;
+                btnRemove.Enabled = false;
+            }
+            else
+            {
+                _btnCopy.Enabled = true;
+                _btnCut.Enabled = true;
+                btnRemove.Enabled = true;
             }
         }
         #endregion

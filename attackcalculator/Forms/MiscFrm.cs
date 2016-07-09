@@ -10,11 +10,14 @@ using System.Windows.Forms;
 
 namespace attackcalculator
 {
-    public partial class MiscCalcFrm : Form
+    public partial class MiscFrm : Form
     {
-        public MiscCalcFrm()
+        private Collision curCollision;
+
+        public MiscFrm(Collision collision)
         {
             InitializeComponent();
+            curCollision = collision;
         }
     }
 }

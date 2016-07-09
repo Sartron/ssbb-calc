@@ -12,9 +12,12 @@ namespace attackcalculator
 {
     public partial class EditFrm : Form
     {
-        public EditFrm()
+        private Collision curCollision;
+
+        public EditFrm(Collision collision)
         {
             InitializeComponent();
+            curCollision = collision;
         }
     }
 }

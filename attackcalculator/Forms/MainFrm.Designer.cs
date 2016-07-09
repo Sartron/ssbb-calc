@@ -53,9 +53,11 @@
             this.tp_stats = new System.Windows.Forms.TabPage();
             this.lB_generatedStats = new System.Windows.Forms.ListBox();
             this.ts_generatedStats = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this._btnCopy = new System.Windows.Forms.ToolStripButton();
+            this._btnCut = new System.Windows.Forms.ToolStripButton();
+            this.btnRemove = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnMiscCalc = new System.Windows.Forms.ToolStripButton();
             this.ms_main.SuspendLayout();
             this.tc_tabs.SuspendLayout();
             this.tp_psacode.SuspendLayout();
@@ -179,7 +181,9 @@
             this.btnAdd,
             this.btnEdit,
             this.btnDelete,
-            this.btnConvert});
+            this.toolStripSeparator2,
+            this.btnConvert,
+            this.btnMiscCalc});
             this.ts_psacode.Location = new System.Drawing.Point(3, 3);
             this.ts_psacode.Name = "ts_psacode";
             this.ts_psacode.Size = new System.Drawing.Size(772, 25);
@@ -287,42 +291,61 @@
             this.lB_generatedStats.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lB_generatedStats.Size = new System.Drawing.Size(772, 162);
             this.lB_generatedStats.TabIndex = 3;
+            this.lB_generatedStats.SelectedIndexChanged += new System.EventHandler(this.lB_generatedStats_SelectedIndexChanged);
             // 
             // ts_generatedStats
             // 
             this.ts_generatedStats.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ts_generatedStats.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton3});
+            this._btnCopy,
+            this._btnCut,
+            this.btnRemove});
             this.ts_generatedStats.Location = new System.Drawing.Point(3, 3);
             this.ts_generatedStats.Name = "ts_generatedStats";
             this.ts_generatedStats.Size = new System.Drawing.Size(772, 25);
             this.ts_generatedStats.TabIndex = 2;
             this.ts_generatedStats.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // _btnCopy
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Enabled = false;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(39, 22);
-            this.toolStripButton1.Text = "Copy";
+            this._btnCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._btnCopy.Enabled = false;
+            this._btnCopy.Name = "_btnCopy";
+            this._btnCopy.Size = new System.Drawing.Size(39, 22);
+            this._btnCopy.Text = "Copy";
+            this._btnCopy.Click += new System.EventHandler(this._btnCopy_Click);
             // 
-            // toolStripButton2
+            // _btnCut
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Enabled = false;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(30, 22);
-            this.toolStripButton2.Text = "Cut";
+            this._btnCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this._btnCut.Enabled = false;
+            this._btnCut.Name = "_btnCut";
+            this._btnCut.Size = new System.Drawing.Size(30, 22);
+            this._btnCut.Text = "Cut";
+            this._btnCut.Click += new System.EventHandler(this._btnCut_Click);
             // 
-            // toolStripButton3
+            // btnRemove
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(39, 22);
-            this.toolStripButton3.Text = "Paste";
+            this.btnRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnRemove.Enabled = false;
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(54, 22);
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnMiscCalc
+            // 
+            this.btnMiscCalc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnMiscCalc.Enabled = false;
+            this.btnMiscCalc.Name = "btnMiscCalc";
+            this.btnMiscCalc.Size = new System.Drawing.Size(86, 22);
+            this.btnMiscCalc.Text = "Miscellaneous";
+            this.btnMiscCalc.Click += new System.EventHandler(this.btnMiscCalc_Click);
             // 
             // MainFrm
             // 
@@ -381,9 +404,11 @@
         private System.Windows.Forms.ToolStripButton btnDelete;
         private System.Windows.Forms.ListBox lB_generatedStats;
         private System.Windows.Forms.ToolStrip ts_generatedStats;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton _btnCopy;
+        private System.Windows.Forms.ToolStripButton _btnCut;
+        private System.Windows.Forms.ToolStripButton btnRemove;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton btnMiscCalc;
     }
 }
 
