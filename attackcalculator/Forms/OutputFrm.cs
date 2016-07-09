@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace attackcalculator
@@ -23,7 +16,7 @@ namespace attackcalculator
         private void OutputFrm_Load(object sender, EventArgs e)
         {
             cb_output.SelectedIndex = 0;
-
+            cB_outputType.SelectedIndex = 0;
         }
         #endregion
         #region Buttons
@@ -38,7 +31,7 @@ namespace attackcalculator
 
         private void btn_saveoutputformat_Click(object sender, EventArgs e)
         {
-            Settings.Output.miscWrite(0, txt_outputformat.Text);
+            Settings.Output.miscWrite(cB_outputType.SelectedIndex, txt_outputformat.Text);
         }
         #endregion
         #region Textboxes
@@ -93,7 +86,21 @@ namespace attackcalculator
             {
                 cb_print.Enabled = true;
             }
+            if (curVar.ID == 12)
+            {
+                cb_print.Items.Add("No Output");
+            }
+            else
+            {
+                if (cb_print.Items.Count == 3)
+                    cb_print.Items.RemoveAt(2);
+            }
             cb_print.SelectedIndex = curVar.PrintMode;
+        }
+
+        private void cB_outputType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txt_outputformat.Text = Settings.Output.miscRead(cB_outputType.SelectedIndex);
         }
     }
 }

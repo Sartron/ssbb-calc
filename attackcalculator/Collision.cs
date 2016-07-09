@@ -1,39 +1,35 @@
 ﻿using System;
-using System.Diagnostics;
+
+using System.Diagnostics; //Debug
 
 namespace attackcalculator
 {
-    public class Collision
+    public class Collision : object
     {
-        protected int int_id, int_bone, int_damage, int_angle, int_bkb, int_wdsk, int_kbg;
-        protected Victim _victim;
+        public int ID { get; set; }
+        public int Bone { get; set; }
+        public int Damage { get; set; }
+        public int Angle { get; set; }
+        public int BaseKnockback { get; set; }
+        public int WeightKnockback { get; set; }
+        public int KnockbackGrowth { get; set; }
+        public Victim Victim { get; set; }
 
         public Collision(int id, int bone, int damage, int angle, int baseKnockback, int weightKnockback, int knockbackGrowth)
         {
-            int_id = id;
-            int_bone = bone;
-            int_damage = damage;
-            int_angle = angle;
-            int_bkb = baseKnockback;
-            int_wdsk = weightKnockback;
-            int_kbg = knockbackGrowth;
-        }
-
-        public void loadVictim(Victim victim)
-        {
-            _victim = victim;
+            ID = id;
+            Bone = bone;
+            Damage = damage;
+            Angle = angle;
+            BaseKnockback = baseKnockback;
+            WeightKnockback = weightKnockback;
+            KnockbackGrowth = knockbackGrowth;
         }
 
         /// <summary>Returns the Collision's shieldstun.
+        /// Formula: Floor((Damage + 4.45) / 2.235)
         /// </summary>
-        public int Shieldstun
-        {
-            get
-            {
-                //Floor((Damage + 4.45) / 2.235)
-                return Convert.ToInt16(Math.Floor((int_damage + 4.45) / 2.235));
-            }
-        }
+        public int Shieldstun => Convert.ToInt16(Math.Floor((Damage + 4.45) / 2.235));
 
         /// <summary>Returns the Collision's knockback.
         /// </summary>
@@ -41,7 +37,12 @@ namespace attackcalculator
         {
             get
             {
-                return (int_wdsk == 0) ? _victim.doubleCharging * _victim.doubleCrouching * (int_bkb + 0.01 * int_kbg * (18 + ((200 / Convert.ToDouble(_victim.Weight + 100)) * 1.4 * 1 * ((int_damage * (int_damage + _victim.Percent) * 0.05) + (int_damage + _victim.Percent) * 0.1)))) : 56;
+                if (Victim == null)
+                    return -1;
+                
+                return WeightKnockback == 0 ?
+                    Victim.ChargingValue * Victim.CrouchingValue * (BaseKnockback + 0.01 * KnockbackGrowth * (18 + 200 / Convert.ToDouble(Victim.Weight + 100) * 1.4 * 1 * (Damage * (Damage + Victim.Percent) * 0.05 + (Damage + Victim.Percent) * 0.1))) : // Normal Knockback
+                    Victim.ChargingValue * Victim.CrouchingValue * (BaseKnockback + 0.01 * KnockbackGrowth * (18 + 200 / Convert.ToDouble(Victim.Weight + 100) * 1.4 * 1 * Convert.ToDouble(WeightKnockback * 10 * 0.05 + 1))); //Weight Dependent Knockback
             }
         }
 
@@ -51,99 +52,126 @@ namespace attackcalculator
         {
             get
             {
+                if (Victim == null)
+                    return -1;
+
                 //Floor(Knockback * 0.4)
                 return Convert.ToInt16(Math.Floor(Knockback * 0.4));
             }
         }
 
         /// <summary>Returns the Collision's launch speed.
+        /// Formula: Knockback * 0.03
         /// </summary>
-        public double launchSpeed
-        {
-            get
-            {
-                return Knockback * 0.03;
-            }
-        }
+        public double launchSpeed => Knockback * 0.03;
 
         /// <summary>Returns the Collision data as a string.
         /// </summary>
-        public override string ToString() //Copy Text
-        {
-            return String.Format("Blank Collision: ID={0}", int_id);
-        }
+        public override string ToString() => String.Format("Blank Collision: ID={0}", ID);
 
-        public virtual string ToPSA() { return String.Empty; }
+        /// <summary>Virtual Placeholder
+        /// </summary>
+        public virtual string ToBrawlBox() => String.Empty;
 
-        public virtual string ToBrawlBox() { return String.Empty; }
+        /// <summary>Virtual Placeholder
+        /// </summary>
+        public virtual string ToPSA() => String.Empty;
     }
 
     public class OffensiveCollision : Collision //Offensive Collision
     {
-        //Base Attributes
-        private string eventID = "06000D00";
-        protected float float_size, float_zOffset, float_yOffset, float_xOffset, float_tripRate, float_hitlagMultiplier, float_sdiMultiplier;
-        protected int int_shieldDamage, int_flags;
+        private const string eventID = "06000D00";
+
+        public float Size { get; set; }
+        public float ZOffset { get; set; }
+        public float YOffset { get; set; }
+        public float XOffset { get; set; }
+        public float TripRate { get; set; }
+        public float HitlagMultiplier { get; set; }
+        public float SdiMultiplier { get; set; }
+        public int ShieldDamage { get; set; }
+        public int Flags { get; set; }
 
         public OffensiveCollision(int id, int bone, int damage, int shieldDamage, int angle, int baseKnockback, int weightKnockback, int knockbackGrowth, float size, float zOffset,
             float yOffset, float xOffset, float tripRate, float hitlagMultiplier, float sdiMultiplier, int flags) : base(id, bone, damage, angle, baseKnockback, weightKnockback, knockbackGrowth)
         {
-            int_shieldDamage = shieldDamage;
-            int_flags = flags;
-            float_size = size;
-            float_zOffset = zOffset;
-            float_yOffset = yOffset;
-            float_xOffset = xOffset;
-            float_tripRate = tripRate;
-            float_hitlagMultiplier = hitlagMultiplier;
-            float_sdiMultiplier = sdiMultiplier;
+            ShieldDamage = shieldDamage;
+            Flags = flags;
+            Size = size;
+            ZOffset = zOffset;
+            YOffset = yOffset;
+            XOffset = xOffset;
+            TripRate = tripRate;
+            HitlagMultiplier = hitlagMultiplier;
+            SdiMultiplier = sdiMultiplier;
         }
 
         /// <summary>Returns the hitbox's victim hitlag.
+        /// Formula: Floor((Floor(Damage * 0.3333334 + 3) * Electric) * Hitlag Multiplier)
         /// </summary>
-        public int hitlag_victim()
-        {
-            //Floor((Floor(Damage * 0.3333334 + 3) * Electric) * Hitlag Multiplier)
-            return Convert.ToInt16(Math.Floor((Math.Floor(int_damage * 0.3333334 + 3) * /*Electric*/(Element == 3 ? 1.5 : 1)) * float_hitlagMultiplier));
-        }
+        public int HitlagVictim => Convert.ToInt16(Math.Floor(Math.Floor(Damage * 0.3333334 + 3) * (EffectID == 3 ? 1.5 : 1) * HitlagMultiplier));
 
         /// <summary>Returns the hitbox's attacker hitlag.
+        /// Formula: Floor(Damage * 0.3333334 + 3) * Hitlag Multiplier
         /// </summary>
-        public int hitlag_attacker()
-        {
-            //Floor(Damage * 0.3333334 + 3) * Hitlag Multiplier
-            return Convert.ToInt16(Math.Floor(int_damage * 0.3333334 + 3) * float_hitlagMultiplier);
-        }
+        public int HitlagAttacker => Convert.ToInt16(Math.Floor(Damage * 0.3333334 + 3) * HitlagMultiplier);
 
         #region Flag Calculations
+        /// <summary>String representation of EffectID
+        /// </summary>
+        public enum HitboxEffect { Normal, None, Slash, Electric, Freezing, Flame, Coin, Reverse, Slip, Sleep, Effect10, Bury, Stun, Light/*Effect13*/, Flower, GreenFlame/*Effect15*/, Effect16, Grass, Water, Darkness, Paralyze, Aura, Plunge, Down, Flinchless, Effect25, Effect26, Effect27, Effect28, Effect29, Effect30, Effect31 }
+
+        /// <summary>Returns the hitbox's effect ID.
+        /// </summary>
+        private int EffectID => Flags & 0x1F;
+
         /// <summary>Returns the hitbox's element.
         /// </summary>
-        private int Element
-        { get { return int_flags & 0x1F; } }
+        public HitboxEffect Effect => (HitboxEffect)EffectID;
+
+        /// <summary>String representation of Grounded/Aerial flags
+        /// </summary>
+        public enum HitboxTarget { All, Aerial, Grounded, None }
+
+        /// <summary>Returns the hitbox's target, taking into account normal Hitbox flags.
+        /// </summary>
+        public HitboxTarget Target
+        {
+            get
+            {
+                if (Aerial && Grounded)
+                {
+                    return 0;
+                }
+                if (Aerial && !Grounded)
+                {
+                    return (HitboxTarget)1;
+                }
+                if (!Aerial && Grounded)
+                {
+                    return (HitboxTarget)2;
+                }
+                return (HitboxTarget)3;
+            }
+        }
 
         /// <summary>Returns whether or not the hitbox can hit grounded opponents.
         /// </summary>
-        private bool Grounded
-        { get { return Convert.ToBoolean((int_flags >> 16) & 1); } }
+        private bool Grounded => Convert.ToBoolean((Flags >> 16) & 1);
 
         /// <summary>Returns whether or not the hitbox can hit aerial opponents.
         /// </summary>
-        private bool Aerial
-        { get { return Convert.ToBoolean((int_flags >> 17) & 1); } }
+        private bool Aerial => Convert.ToBoolean((Flags >> 17) & 1);
 
         /// <summary>Returns whether or not the hitbox can clank with other hitboxes.
         /// </summary>
-        public bool Clang
-        { get { return Convert.ToBoolean((int_flags >> 27) & 1); } }
+        public bool Clang => Convert.ToBoolean((Flags >> 27) & 1);
         #endregion
         #region Copy Functions
         /// <summary>Returns the Hitbox data as a string.
         /// </summary>
-        public override string ToString() //Copy Text
-        {
-            return String.Format("Hitbox: ID={0}, Damage={1}, ShieldDamage={2}, Angle={3}, BaseKnockback={4}, WeightKnockback={5}, KnockbackGrowth={6}, Size={7}, HitlagMultiplier={8}x, SDIMultiplier={9}x, Flags={10}", 
-                int_id, int_damage, int_shieldDamage, int_angle, int_bkb, int_wdsk, int_kbg, float_size, float_hitlagMultiplier, float_sdiMultiplier, int_flags);
-        }
+        public override string ToString() => String.Format("Hitbox: ID={0}, Damage={1}, ShieldDamage={2}, Angle={3}, BaseKnockback={4}, WeightKnockback={5}, KnockbackGrowth={6}, Size={7}, HitlagMultiplier={8}x, SDIMultiplier={9}x, Flags={10}", 
+                ID, Damage, ShieldDamage, Angle, BaseKnockback, WeightKnockback, KnockbackGrowth, Size, HitlagMultiplier, SdiMultiplier, Flags);
 
         /// <summary>Returns the Hitbox data as a serialized string for input into BrawlBox.
         /// </summary>
@@ -157,43 +185,43 @@ namespace attackcalculator
                 switch (i)
                 {
                     case 0:
-                        serializedCode += "0\\" + (((int_bone & 0xFFFF) << 16) + (int_id & 0xFFFF));
+                        serializedCode += "0\\" + (((Bone & 0xFFFF) << 16) + (ID & 0xFFFF));
                         break;
                     case 1:
-                        serializedCode += "0\\" + int_damage;
+                        serializedCode += "0\\" + Damage;
                         break;
                     case 2:
-                        serializedCode += "0\\" + int_angle;
+                        serializedCode += "0\\" + Angle;
                         break;
                     case 3:
-                        serializedCode += "0\\" + (((int_wdsk & 0xFFFF) << 16) + (int_kbg & 0xFFFF));
+                        serializedCode += "0\\" + (((WeightKnockback & 0xFFFF) << 16) + (KnockbackGrowth & 0xFFFF));
                         break;
                     case 4:
-                        serializedCode += "0\\" + (((int_shieldDamage & 0xFFFF) << 16) + (int_bkb & 0xFFFF));
+                        serializedCode += "0\\" + (((ShieldDamage & 0xFFFF) << 16) + (BaseKnockback & 0xFFFF));
                         break;
                     case 5:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_size);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(Size);
                         break;
                     case 6:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_zOffset);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(ZOffset);
                         break;
                     case 7:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_yOffset);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(YOffset);
                         break;
                     case 8:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_xOffset);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(XOffset);
                         break;
                     case 9:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_tripRate);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(TripRate);
                         break;
                     case 10:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_hitlagMultiplier);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(HitlagMultiplier);
                         break;
                     case 11:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_sdiMultiplier);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(SdiMultiplier);
                         break;
                     case 12:
-                        serializedCode += "0\\" + int_flags;
+                        serializedCode += "0\\" + Flags;
                         break;
                 }
                 serializedCode += '|';
@@ -214,43 +242,43 @@ namespace attackcalculator
                 switch (i)
                 {
                     case 0:
-                        serializedCode += String.Format("0\\{0}{1}", int_bone == 0 ? String.Empty : CollisionParser.Math.Hex(int_bone), int_bone == 0 ? String.Empty : CollisionParser.Math.Hex(int_id));
+                        serializedCode += String.Format("0\\{0}{1}", Bone == 0 ? String.Empty : CollisionParser.Math.Hex(Bone), Bone == 0 ? String.Empty : CollisionParser.Math.Hex(ID));
                         break;
                     case 1:
-                        serializedCode += "0\\" + CollisionParser.Math.Hex(int_damage);
+                        serializedCode += "0\\" + CollisionParser.Math.Hex(Damage);
                         break;
                     case 2:
-                        serializedCode += "0\\" + CollisionParser.Math.Hex(int_angle);
+                        serializedCode += "0\\" + CollisionParser.Math.Hex(Angle);
                         break;
                     case 3:
-                        serializedCode += String.Format("0\\{0}{1}", CollisionParser.Math.Hex(int_wdsk), CollisionParser.Math.Hex(int_kbg));
+                        serializedCode += String.Format("0\\{0}{1}", CollisionParser.Math.Hex(WeightKnockback), CollisionParser.Math.Hex(KnockbackGrowth));
                         break;
                     case 4:
-                        serializedCode += String.Format("0\\{0}{1}", CollisionParser.Math.Hex(int_shieldDamage), CollisionParser.Math.Hex(int_bkb));
+                        serializedCode += String.Format("0\\{0}{1}", CollisionParser.Math.Hex(ShieldDamage), CollisionParser.Math.Hex(BaseKnockback));
                         break;
                     case 5:
-                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(float_size));
+                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(Size));
                         break;
                     case 6:
-                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(float_zOffset));
+                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(ZOffset));
                         break;
                     case 7:
-                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(float_yOffset));
+                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(YOffset));
                         break;
                     case 8:
-                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(float_xOffset));
+                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(XOffset));
                         break;
                     case 9:
-                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(float_tripRate));
+                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(TripRate));
                         break;
                     case 10:
-                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(float_hitlagMultiplier));
+                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(HitlagMultiplier));
                         break;
                     case 11:
-                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(float_sdiMultiplier));
+                        serializedCode += "1\\" + CollisionParser.Math.Hex(CollisionParser.Math.Scalar(SdiMultiplier));
                         break;
                     case 12:
-                        serializedCode += "0\\" + int_flags;
+                        serializedCode += "0\\" + Flags;
                         break;
                 }
                 serializedCode += '|';
@@ -259,79 +287,110 @@ namespace attackcalculator
             return serializedCode;
         }
         #endregion
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            OffensiveCollision comparison = (OffensiveCollision)obj;
+
+            return (ID == comparison.ID) && (Bone == comparison.Bone) && (Damage == comparison.Damage) && (ShieldDamage == comparison.ShieldDamage) &&
+                (Angle == comparison.Angle) && (BaseKnockback == comparison.BaseKnockback) && (WeightKnockback == comparison.WeightKnockback) && (KnockbackGrowth == comparison.KnockbackGrowth) && (Size == comparison.Size) &&
+                (ZOffset == comparison.ZOffset) && (YOffset == comparison.YOffset) && (XOffset == comparison.XOffset) && (TripRate == comparison.TripRate) &&
+                (HitlagMultiplier == comparison.HitlagMultiplier) && (SdiMultiplier == comparison.SdiMultiplier) && (Flags == comparison.Flags);
+        }
     }
 
     public class SpecialOffensiveCollision : OffensiveCollision //Special Offensive Collision
     {
-        private string eventID = "06150F00";
-        private int int_rehitRate, int_specialFlags;
+        private const string eventID = "06150F00";
+
+        public int RehitRate { get; set; }
+        public int SpecialFlags { get; set; }
 
         public SpecialOffensiveCollision(int id, int bone, int damage, int shieldDamage, int angle, int baseKnockback, int weightKnockback, int knockbackGrowth, float size, float zOffset,
             float yOffset, float xOffset, float tripRate, float hitlagMultiplier, float sdiMultiplier, int flags, int rehitRate, int specialFlags) : base(id, bone, damage, shieldDamage, angle, 
                 baseKnockback, weightKnockback, knockbackGrowth, size, zOffset, yOffset, xOffset, tripRate, hitlagMultiplier, sdiMultiplier, flags)
         {
-            int_rehitRate = rehitRate;
-            int_specialFlags = specialFlags;
+            RehitRate = rehitRate;
+            SpecialFlags = specialFlags;
         }
 
         #region Special Flag Calculations
         /// <summary>Returns whether or not the hitbox stretches.
         /// </summary>
-        public int Stretches
-        { get { return ((int_specialFlags >> 4) & 1); } }
+        public int Stretches => (SpecialFlags >> 4) & 1;
+
+        /// <summary>String representation of Grounded/Aerial flags
+        /// </summary>
+        public new enum HitboxTarget { All, Aerial, Grounded, None, SSE }
+
+        /// <summary>Returns the hitbox's target, taking into account special Hit Flags.
+        /// </summary>
+        public new HitboxTarget Target
+        {
+            get
+            {
+                if (!CanHitMultiplayerCharacters)
+                {
+                    if (CanHitSSEenemies)
+                        return (HitboxTarget)4;
+                    else
+                        return (HitboxTarget)3;
+                }
+                else
+                {
+                    return (HitboxTarget)base.Target;
+                }
+            }
+        }
 
         /// <summary>Returns the hitbit specified by index, ranging from 0-13 (14 total.)
+        /// Max index is 13, starting with 0
         /// </summary>
-        private int GetHitBit(int index)
-        { return ((int_specialFlags >> (6 + index)) & 1); } //Max index is 13, starting with 0  CanHitMultiplayerCharacters = 0
+        private int GetHitBit(int index) => (SpecialFlags >> (6 + index)) & 1;
 
         /// <summary>Returns whether or not the hitbox can hit players.
         /// </summary>
-        public bool CanHitMultiplayerCharacters
-        { get { return Convert.ToBoolean(GetHitBit(0)); } }
+        public bool CanHitMultiplayerCharacters => Convert.ToBoolean(GetHitBit(0));
+
+        /// <summary>Returns whether or not the hitbox can SSE enemies.
+        /// </summary>
+        public bool CanHitSSEenemies => Convert.ToBoolean(GetHitBit(1));
 
         /// <summary>Returns whether or not the hitbox is shieldable.
         /// </summary>
-        public int Shieldable
-        { get { return ((int_specialFlags >> 22) & 1); } }
+        public bool Shieldable => Convert.ToBoolean((SpecialFlags >> 22) & 1);
 
         /// <summary>Returns whether or not the hitbox is reflectable.
         /// </summary>
-        public int Reflectable
-        { get { return ((int_specialFlags >> 23) & 1); } }
+        public bool Reflectable => Convert.ToBoolean((SpecialFlags >> 23) & 1);
 
         /// <summary>Returns whether or not the hitbox is absorbable.
         /// </summary>
-        public int Absorbable
-        { get { return ((int_specialFlags >> 24) & 1); } }
+        public bool Absorbable => Convert.ToBoolean((SpecialFlags >> 24) & 1);
 
         /// <summary>Returns whether or not the hitbox ignores invincibility.
         /// </summary>
-        public int IgnoreInvincibility
-        { get { return ((int_specialFlags >> 28) & 1); } }
+        public bool IgnoreInvincibility => Convert.ToBoolean((SpecialFlags >> 28) & 1);
 
         /// <summary>Returns whether or not the hitbox has hitlag.
         /// </summary>
-        public int NoHitlag
-        { get { return ((int_specialFlags >> 29) & 1); } }
+        public bool NoHitlag => Convert.ToBoolean((SpecialFlags >> 29) & 1);
 
         /// <summary>Returns whether or not the hitbox places the victim asleep.
         /// </summary>
-        public int Sleep
-        { get { return ((int_specialFlags >> 30) & 1); } }
+        public bool Sleep => Convert.ToBoolean((SpecialFlags >> 30) & 1);
 
         /// <summary>Returns whether or not the hitbox is flinchless.
         /// </summary>
-        public int Flinchless
-        { get { return ((int_specialFlags >> 31) & 1); } }
+        public bool Flinchless => Convert.ToBoolean((SpecialFlags >> 31) & 1);
         #endregion
 
         /// <summary>Returns the Hitbox data as a string.
         /// </summary>
-        public override string ToString() //Copy Text
-        {
-            return String.Format(base.ToString() + ", RehitRate={0}, SpecialFlags={1}", int_rehitRate, int_specialFlags);
-        }
+        public override string ToString() => String.Format(base.ToString() + ", RehitRate={0}, SpecialFlags={1}", RehitRate, SpecialFlags);
 
         /// <summary>Returns the Hitbox data as a serialized string for input into BrawlBox.
         /// </summary>
@@ -347,10 +406,10 @@ namespace attackcalculator
                 switch (i)
                 {
                     case 13:
-                        serializedCode += "0\\" + int_rehitRate;
+                        serializedCode += "0\\" + RehitRate;
                         break;
                     case 14:
-                        serializedCode += "0\\" + int_specialFlags;
+                        serializedCode += "0\\" + SpecialFlags;
                         break;
                 }
                 serializedCode += '|';
@@ -371,10 +430,10 @@ namespace attackcalculator
                 switch (i)
                 {
                     case 13:
-                        serializedCode += "0\\" + int_rehitRate;
+                        serializedCode += "0\\" + RehitRate;
                         break;
                     case 14:
-                        serializedCode += "0\\" + CollisionParser.Math.Hex(int_specialFlags);
+                        serializedCode += "0\\" + CollisionParser.Math.Hex(SpecialFlags);
                         break;
                 }
                 serializedCode += '|';
@@ -382,40 +441,59 @@ namespace attackcalculator
 
             return serializedCode;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            SpecialOffensiveCollision comparison = (SpecialOffensiveCollision)obj;
+
+            return (ID == comparison.ID) && (Bone == comparison.Bone) && (Damage == comparison.Damage) && (ShieldDamage == comparison.ShieldDamage) &&
+                (Angle == comparison.Angle) && (BaseKnockback == comparison.BaseKnockback) && (WeightKnockback == comparison.WeightKnockback) && (KnockbackGrowth == comparison.KnockbackGrowth) && (Size == comparison.Size) &&
+                (ZOffset == comparison.ZOffset) && (YOffset == comparison.YOffset) && (XOffset == comparison.XOffset) && (TripRate == comparison.TripRate) &&
+                (HitlagMultiplier == comparison.HitlagMultiplier) && (SdiMultiplier == comparison.SdiMultiplier) && (Flags == comparison.Flags) && (RehitRate == comparison.RehitRate) &&
+                (SpecialFlags == comparison.SpecialFlags);
+        }
     }
 
     public class ThrowSpecifier : Collision //Throw
     {
         private string eventID = "060E1100";
-        private bool bool_unknownE, bool_unknownF;
-        private float float_unknownA, float_unknownB, float_unknownC;
-        private int int_element, int_unknownD, int_sfx, int__direction, int_unknownG;
+
+        public bool UnknownE { get; set; }
+        public bool UnknownF { get; set; }
+        public float UnknownA { get; set; }
+        public float UnknownB { get; set; }
+        public float UnknownC { get; set; }
+        public int Element { get; set; }
+        public int UnknownD { get; set; }
+        public int SFX { get; set; }
+        public int Direction { get; set; }
+        public int UnknownG { get; set; }
 
         public ThrowSpecifier(int id, int bone, int damage, int angle, int knockbackGrowth, int weightKnockback, int baseKnockback, int element, float unknownA, float unknownB, float unknownC, 
-            int unknownD, int sfx, int _direction, bool unknownE, bool unknownF, int unknownG) : base(id, bone, damage, angle, baseKnockback, weightKnockback, knockbackGrowth)
+            int unknownD, int sfx, int direction, bool unknownE, bool unknownF, int unknownG) : base(id, bone, damage, angle, baseKnockback, weightKnockback, knockbackGrowth)
         {
-            int_element = element;
-            float_unknownA = unknownA;
-            float_unknownB = unknownB;
-            float_unknownC = unknownC;
-            int_unknownD = unknownD;
-            int_sfx = sfx;
-            int__direction = _direction;
-            bool_unknownE = unknownE;
-            bool_unknownF = unknownF;
-            int_unknownG = unknownG;
+            Element = element;
+            UnknownA = unknownA;
+            UnknownB = unknownB;
+            UnknownC = unknownC;
+            UnknownD = unknownD;
+            SFX = sfx;
+            Direction = direction;
+            UnknownE = unknownE;
+            UnknownF = unknownF;
+            UnknownG = unknownG;
         }
 
         /// <summary>Returns the Throw data as a string.
         /// </summary>
-        public override string ToString() //Copy Text
-        {
-            return String.Format("Throw: ID={0}, Damage={1}, Angle={2}, BaseKnockback={3}, WeightKnockback={4}, KnockbackGrowth={5}", int_id, int_damage, int_angle, int_bkb, int_wdsk, int_kbg);
-        }
+        public override string ToString() => String.Format("Throw: ID={0}, Damage={1}, Angle={2}, BaseKnockback={3}, WeightKnockback={4}, KnockbackGrowth={5}", ID, Damage, Angle, BaseKnockback, WeightKnockback, KnockbackGrowth);
 
         /// <summary>Returns the Hitbox data as a serialized string for input into BrawlBox.
         /// </summary>
-        public override string ToBrawlBox() //Decimal
+        public override string ToBrawlBox()
         {
             string serializedCode = eventID + "|";
             int int_attributeCount = byte.Parse(eventID.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
@@ -429,55 +507,55 @@ namespace attackcalculator
                 switch (i)
                 {
                     case 0:
-                        serializedCode += "0\\" + int_id;
+                        serializedCode += "0\\" + ID;
                         break;
                     case 1:
-                        serializedCode += "0\\" + int_bone;
+                        serializedCode += "0\\" + Bone;
                         break;
                     case 2:
-                        serializedCode += "0\\" + int_damage;
+                        serializedCode += "0\\" + Damage;
                         break;
                     case 3:
-                        serializedCode += "0\\" + int_angle;
+                        serializedCode += "0\\" + Angle;
                         break;
                     case 4:
-                        serializedCode += "0\\" + int_kbg;
+                        serializedCode += "0\\" + KnockbackGrowth;
                         break;
                     case 5:
-                        serializedCode += "0\\" + int_wdsk;
+                        serializedCode += "0\\" + WeightKnockback;
                         break;
                     case 6:
-                        serializedCode += "0\\" + int_bkb;
+                        serializedCode += "0\\" + BaseKnockback;
                         break;
                     case 7:
-                        serializedCode += "0\\" + int_element;
+                        serializedCode += "0\\" + Element;
                         break;
                     case 8:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_unknownA);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(UnknownA);
                         break;
                     case 9:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_unknownB);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(UnknownB);
                         break;
                     case 10:
-                        serializedCode += "1\\" + CollisionParser.Math.Scalar(float_unknownC);
+                        serializedCode += "1\\" + CollisionParser.Math.Scalar(UnknownC);
                         break;
                     case 11:
-                        serializedCode += "0\\" + int_unknownD;
+                        serializedCode += "0\\" + UnknownD;
                         break;
                     case 12:
-                        serializedCode += "0\\" + int_sfx;
+                        serializedCode += "0\\" + SFX;
                         break;
                     case 13:
-                        serializedCode += "0\\" + int__direction;
+                        serializedCode += "0\\" + Direction;
                         break;
                     case 14:
-                        serializedCode += "3\\" + Convert.ToInt16(bool_unknownE);
+                        serializedCode += "3\\" + Convert.ToInt16(UnknownE);
                         break;
                     case 15:
-                        serializedCode += "3\\" + Convert.ToInt16(bool_unknownF);
+                        serializedCode += "3\\" + Convert.ToInt16(UnknownF);
                         break;
                     case 16:
-                        serializedCode += "0\\" + int_unknownG;
+                        serializedCode += "0\\" + UnknownG;
                         break;
                 }
                 serializedCode += '|';
@@ -488,10 +566,23 @@ namespace attackcalculator
 
         /// <summary>Returns the Hitbox data as a serialized string for input into PSA.
         /// </summary>
-        public override string ToPSA() //Hex
+        public override string ToPSA()
         {
-
             return String.Empty;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            ThrowSpecifier comparison = (ThrowSpecifier)obj;
+
+            return (ID == comparison.ID) && (Bone == comparison.Bone) && (Damage == comparison.Damage) && (Angle == comparison.Angle) &&
+                (KnockbackGrowth == comparison.KnockbackGrowth) && (WeightKnockback == comparison.WeightKnockback) && (BaseKnockback == comparison.BaseKnockback) && (Element == comparison.Element) &&
+                (UnknownA == comparison.UnknownA) && (UnknownB == comparison.UnknownB) && (UnknownC == comparison.UnknownC) &&
+                (UnknownD == comparison.UnknownD) && (SFX == comparison.SFX) && (Direction == comparison.Direction) && (UnknownE == comparison.UnknownE) &&
+                (UnknownF == comparison.UnknownF) && (UnknownG == comparison.UnknownG);
         }
     }
 }

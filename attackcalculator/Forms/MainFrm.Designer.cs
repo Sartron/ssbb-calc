@@ -88,7 +88,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -104,14 +104,14 @@
             // outputToolStripMenuItem
             // 
             this.outputToolStripMenuItem.Name = "outputToolStripMenuItem";
-            this.outputToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.outputToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.outputToolStripMenuItem.Text = "Output";
             this.outputToolStripMenuItem.Click += new System.EventHandler(this.outputToolStripMenuItem_Click);
             // 
             // victimToolStripMenuItem
             // 
             this.victimToolStripMenuItem.Name = "victimToolStripMenuItem";
-            this.victimToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.victimToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.victimToolStripMenuItem.Text = "Victim";
             this.victimToolStripMenuItem.Click += new System.EventHandler(this.victimToolStripMenuItem_Click);
             // 

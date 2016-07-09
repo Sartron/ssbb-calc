@@ -43,6 +43,7 @@
             this.lbl_datatype = new System.Windows.Forms.Label();
             this.cb_print = new System.Windows.Forms.ComboBox();
             this.lbl_print = new System.Windows.Forms.Label();
+            this.cB_outputType = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // cb_output
@@ -70,9 +71,11 @@
             "Hitlag",
             "Hitlag Advantage",
             "Rehit Rate",
-            "Flinchless",
-            "Absorbability",
-            "Reflectability"});
+            "Shieldable",
+            "Reflectable",
+            "Absorbable",
+            "Ignore Invincibility",
+            "Flinchless"});
             this.cb_output.Location = new System.Drawing.Point(15, 25);
             this.cb_output.Name = "cb_output";
             this.cb_output.Size = new System.Drawing.Size(327, 21);
@@ -131,11 +134,11 @@
             // txt_outputformat
             // 
             this.txt_outputformat.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_outputformat.Location = new System.Drawing.Point(15, 178);
+            this.txt_outputformat.Location = new System.Drawing.Point(15, 205);
             this.txt_outputformat.Name = "txt_outputformat";
             this.txt_outputformat.Size = new System.Drawing.Size(327, 19);
             this.txt_outputformat.TabIndex = 6;
-            this.txt_outputformat.Text = "{id}|{dmg}/{sdmg}|{angle}|{bkb}/{wdsk}/{kbg}";
+            this.txt_outputformat.Text = "id|dmg/sdmg|angle|bkb/wdsk/kbg";
             // 
             // lbl_outputformat
             // 
@@ -156,7 +159,7 @@
             // 
             // btn_saveoutputformat
             // 
-            this.btn_saveoutputformat.Location = new System.Drawing.Point(15, 204);
+            this.btn_saveoutputformat.Location = new System.Drawing.Point(15, 231);
             this.btn_saveoutputformat.Name = "btn_saveoutputformat";
             this.btn_saveoutputformat.Size = new System.Drawing.Size(327, 23);
             this.btn_saveoutputformat.TabIndex = 9;
@@ -206,11 +209,26 @@
             this.lbl_print.TabIndex = 13;
             this.lbl_print.Text = "If Empty or False";
             // 
+            // cB_outputType
+            // 
+            this.cB_outputType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cB_outputType.FormattingEnabled = true;
+            this.cB_outputType.Items.AddRange(new object[] {
+            "OffensiveCollision",
+            "SpecialOffensiveCollision",
+            "ThrowSpecifier"});
+            this.cB_outputType.Location = new System.Drawing.Point(15, 178);
+            this.cB_outputType.Name = "cB_outputType";
+            this.cB_outputType.Size = new System.Drawing.Size(327, 21);
+            this.cB_outputType.TabIndex = 14;
+            this.cB_outputType.SelectedIndexChanged += new System.EventHandler(this.cB_outputType_SelectedIndexChanged);
+            // 
             // OutputFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(371, 239);
+            this.ClientSize = new System.Drawing.Size(371, 262);
+            this.Controls.Add(this.cB_outputType);
             this.Controls.Add(this.lbl_print);
             this.Controls.Add(this.cb_print);
             this.Controls.Add(this.lbl_datatype);
@@ -252,5 +270,6 @@
         private System.Windows.Forms.Label lbl_datatype;
         private System.Windows.Forms.ComboBox cb_print;
         private System.Windows.Forms.Label lbl_print;
+        private System.Windows.Forms.ComboBox cB_outputType;
     }
 }

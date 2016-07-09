@@ -1,13 +1,5 @@
-﻿using attackcalculator.Properties;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace attackcalculator
@@ -35,14 +27,14 @@ namespace attackcalculator
             //Set up values from settings.xml
             victim = Settings.Victim.Read();
             txt_damage.Text = Settings.Victim.returnPercent();
-            cb_characters.SelectedIndex = victim.ID;
+            cb_characters.SelectedIndex = victim.CharacterID;
             cb_crouchcancel.Checked = victim.Crouching;
             cb_charging.Checked = victim.Charging;
         }
 
         private void btn_confirm_Click(object sender, EventArgs e)
         {
-            victim.ID = cb_characters.SelectedIndex;
+            victim.CharacterID = cb_characters.SelectedIndex;
             victim.Crouching = cb_crouchcancel.Checked;
             victim.Charging = cb_charging.Checked;
             Settings.Victim.Write(victim, txt_damage.Text);

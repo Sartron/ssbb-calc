@@ -12,13 +12,13 @@
         <name>dmg</name>
       </var>
       <var id="3" enabled="true">
-        <name>sdmg</name>
+        <name>sDmg</name>
       </var>
       <var id="4" enabled="true">
         <name>angle</name>
       </var>
       <var id="5" enabled="true">
-        <name>kbunits</name>
+        <name>kbUnits</name>
       </var>
       <var id="6" enabled="true">
         <name>bkb</name>
@@ -30,10 +30,10 @@
         <name>kbg</name>
       </var>
       <var id="9" enabled="true">
-        <name>hitlagmulti</name>
+        <name>hitlagMulti</name>
       </var>
       <var id="10" enabled="true">
-        <name>sdimulti</name>
+        <name>sdiMulti</name>
       </var>
       <var id="11" enabled="true">
         <name>clang</name>
@@ -47,10 +47,10 @@
         <name>effect</name>
       </var>
       <var id="14" enabled="true">
-        <name>shieldstun</name>
+        <name>shieldStun</name>
       </var>
       <var id="15" enabled="true">
-        <name>hitstun</name>
+        <name>hitStun</name>
       </var>
       <var id="16" enabled="true">
         <name>launch</name>
@@ -59,31 +59,45 @@
         <name>hitlag</name>
       </var>
       <var id="18" enabled="true">
-        <name>hitlagadv</name>
+        <name>HitlagAdv</name>
         <print>1</print>
       </var>
       <var id="19" enabled="true">
-        <name>rehitrate</name>
+        <name>rehitRate</name>
         <print>1</print>
       </var>
       <var id="20" enabled="true">
-        <name>flinch</name>
+        <name>shieldable</name>
         <datatype>0</datatype>
         <print>1</print>
       </var>
       <var id="21" enabled="true">
-        <name>absorb</name>
+        <name>reflectable</name>
         <datatype>0</datatype>
         <print>1</print>
       </var>
       <var id="22" enabled="true">
-        <name>reflect</name>
+        <name>absorbable</name>
+        <datatype>0</datatype>
+        <print>1</print>
+      </var>
+      <var id="23" enabled="true">
+        <name>ignoreInv</name>
+        <datatype>0</datatype>
+        <print>1</print>
+      </var>
+      <var id="24" enabled="true">
+        <name>flinchless</name>
         <datatype>0</datatype>
         <print>1</print>
       </var>
     </variables>
-    <format>id|dmg/sdmg|angle|bkb/wdsk/kbg</format>
-    <copymode>0</copymode>
+    <format>
+      <OffensiveCollision>id|dmg/sDmg|angle|bkb/wdsk/kbg</OffensiveCollision>
+      <SpecialOffensiveCollision>id|dmg/sDmg|angle|bkb/wdsk/kbg</SpecialOffensiveCollision>
+      <ThrowSpecifier>id|dmg/sDmg|angle|bkb/wdsk/kbg</ThrowSpecifier>
+    </format>
+    <copymode>0</copymode> <!-- Does nothing -->
   </output>
   <victim>
     <id>0</id>

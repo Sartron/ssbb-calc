@@ -1,91 +1,90 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-using System.Diagnostics;
+using System.Diagnostics; //Debug
 
 namespace attackcalculator
 {
     public class CollisionParser
     {
-        public static OffensiveCollision plainToOffensiveCollision(string line)
+        public class PlainText
         {
-            int curIntIndex = 0, curFloatIndex = 0;
-            int[] int_attributes = new int[10];
-            float[] float_attributes = new float[6];
-
-            string[] str_attributes = line.Split(':')[1].Split(',');
-            for (int i = 0; i < str_attributes.Length; i++)
+            public static OffensiveCollision plainToOffensiveCollision(string line)
             {
-                if (i <= 7 || i == 12 || i == 15)
+                int curIntIndex = 0, curFloatIndex = 0;
+                int[] int_attributes = new int[10];
+                float[] float_attributes = new float[6];
+
+                string[] strAttributes = line.Split(':')[1].Split(',');
+                for (int i = 0; i < strAttributes.Length; i++)
                 {
-                    int_attributes[curIntIndex] = Convert.ToInt32(Regex.Replace(str_attributes[i], @"[^\d\.]", String.Empty));
-                    curIntIndex++;
+                    if (i <= 7 || i == 12 || i == 15)
+                    {
+                        int_attributes[curIntIndex] = Convert.ToInt32(Regex.Replace(strAttributes[i], @"[^\d\.]", String.Empty));
+                        curIntIndex++;
+                    }
+                    else
+                    {
+                        //Change it so that it converts the value to float.
+                        float_attributes[curFloatIndex] = Convert.ToSingle(Regex.Replace(strAttributes[i], @"[^\d\.]", String.Empty));
+                        curFloatIndex++;
+                    }
                 }
-                else
-                {
-                    //Change it so that it converts the value to float.
-                    float_attributes[curFloatIndex] = Convert.ToSingle(Regex.Replace(str_attributes[i], @"[^\d\.]", String.Empty));
-                    curFloatIndex++;
-                }
+
+                return new OffensiveCollision(int_attributes[0], int_attributes[1], int_attributes[2], int_attributes[3], int_attributes[4], int_attributes[5], int_attributes[6], int_attributes[7],
+                    float_attributes[0], float_attributes[1], float_attributes[2], float_attributes[3], int_attributes[8], float_attributes[4], float_attributes[5], int_attributes[9]);
             }
 
-            return new OffensiveCollision(int_attributes[0], int_attributes[1], int_attributes[2], int_attributes[3], int_attributes[4], int_attributes[5], int_attributes[6], int_attributes[7],
-                float_attributes[0], float_attributes[1], float_attributes[2], float_attributes[3], int_attributes[8], float_attributes[4], float_attributes[5], int_attributes[9]);
-        }
-
-        public static SpecialOffensiveCollision plainToSpecialOffensiveCollision(string line)
-        {
-            int curIntIndex = 0, curFloatIndex = 0;
-            int[] int_attributes = new int[12];
-            float[] float_attributes = new float[6];
-
-            string[] str_attributes = line.Split(':')[1].Split(',');
-            for (int i = 0; i < str_attributes.Length; i++)
+            public static SpecialOffensiveCollision plainToSpecialOffensiveCollision(string line)
             {
-                if (i <= 7 || i == 12 || i >= 15)
+                int curIntIndex = 0, curFloatIndex = 0;
+                int[] int_attributes = new int[12];
+                float[] float_attributes = new float[6];
+
+                string[] str_attributes = line.Split(':')[1].Split(',');
+                for (int i = 0; i < str_attributes.Length; i++)
                 {
-                    int_attributes[curIntIndex] = Convert.ToInt32(Regex.Replace(str_attributes[i], @"[^\d\.]", String.Empty));
-                    curIntIndex++;
+                    if (i <= 7 || i == 12 || i >= 15)
+                    {
+                        int_attributes[curIntIndex] = Convert.ToInt32(Regex.Replace(str_attributes[i], @"[^\d\.]", String.Empty));
+                        curIntIndex++;
+                    }
+                    else
+                    {
+                        //Change it so that it converts the value to float.
+                        float_attributes[curFloatIndex] = Convert.ToSingle(Regex.Replace(str_attributes[i], @"[^\d\.]", String.Empty));
+                        curFloatIndex++;
+                    }
                 }
-                else
-                {
-                    //Change it so that it converts the value to float.
-                    float_attributes[curFloatIndex] = Convert.ToSingle(Regex.Replace(str_attributes[i], @"[^\d\.]", String.Empty));
-                    curFloatIndex++;
-                }
+
+                return new SpecialOffensiveCollision(int_attributes[0], int_attributes[1], int_attributes[2], int_attributes[3], int_attributes[4], int_attributes[5], int_attributes[6], int_attributes[7],
+                    float_attributes[0], float_attributes[1], float_attributes[2], float_attributes[3], int_attributes[8], float_attributes[4], float_attributes[5], int_attributes[9], int_attributes[10], int_attributes[11]);
             }
 
-            return new SpecialOffensiveCollision(int_attributes[0], int_attributes[1], int_attributes[2], int_attributes[3], int_attributes[4], int_attributes[5], int_attributes[6], int_attributes[7],
-                float_attributes[0], float_attributes[1], float_attributes[2], float_attributes[3], int_attributes[8], float_attributes[4], float_attributes[5], int_attributes[9], int_attributes[10], int_attributes[11]);
-        }
-
-        public static ThrowSpecifier plainToThrowSpecifier(string line)
-        {
-            int curIntIndex = 0, curBoolIndex = 0;
-            int[] int_attributes = new int[15];
-            bool[] bool_attributes = new bool[2];
-
-            string[] str_attributes = line.Split(':')[1].Split(',');
-            for (int i = 0; i < str_attributes.Length; i++)
+            public static ThrowSpecifier plainToThrowSpecifier(string line)
             {
-                if (i <= 13 || i >= 16)
-                {
-                    int_attributes[curIntIndex] = Convert.ToInt32(Regex.Replace(str_attributes[i], @"[^\d\.]", String.Empty));
-                    curIntIndex++;
-                }
-                else
-                {
-                    bool_attributes[curBoolIndex] = Convert.ToBoolean(Regex.Replace(str_attributes[i], @"\sUnknown.=", String.Empty));
-                    curBoolIndex++;
-                }
-            }
+                int curIntIndex = 0, curBoolIndex = 0;
+                int[] int_attributes = new int[15];
+                bool[] bool_attributes = new bool[2];
 
-            return new ThrowSpecifier(int_attributes[0], int_attributes[1], int_attributes[2], int_attributes[3], int_attributes[4], int_attributes[5], int_attributes[6], int_attributes[7],
-                int_attributes[8], int_attributes[9], int_attributes[10], int_attributes[11], int_attributes[12], int_attributes[13], bool_attributes[0], bool_attributes[1], int_attributes[14]);
+                string[] str_attributes = line.Split(':')[1].Split(',');
+                for (int i = 0; i < str_attributes.Length; i++)
+                {
+                    if (i <= 13 || i >= 16)
+                    {
+                        int_attributes[curIntIndex] = Convert.ToInt32(Regex.Replace(str_attributes[i], @"[^\d\.]", String.Empty));
+                        curIntIndex++;
+                    }
+                    else
+                    {
+                        bool_attributes[curBoolIndex] = Convert.ToBoolean(Regex.Replace(str_attributes[i], @"\sUnknown.=", String.Empty));
+                        curBoolIndex++;
+                    }
+                }
+
+                return new ThrowSpecifier(int_attributes[0], int_attributes[1], int_attributes[2], int_attributes[3], int_attributes[4], int_attributes[5], int_attributes[6], int_attributes[7],
+                    int_attributes[8], int_attributes[9], int_attributes[10], int_attributes[11], int_attributes[12], int_attributes[13], bool_attributes[0], bool_attributes[1], int_attributes[14]);
+            }
         }
 
         public class BrawlBox
@@ -101,9 +100,8 @@ namespace attackcalculator
                 float size = 0.0f, zOffset = 0.0f, yOffset = 0.0f, xOffset = 0.0f, tripRate = 0.0f, hitlagMultiplier = 0.0f, sdiMultiplier = 0.0f;
 
                 //0-4, 12 = Value
-                //5-11 = Scalar 
+                //5-11 = Scalar
 
-                //i < 13 (OffensiveCollision) || i < 15 (SpecialOffensiveCollision) || i < 17 (ThrowSpecifier)
                 int int_attributeCount = byte.Parse(str_attributes[0].Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
                 for (int i = 0; i < int_attributeCount; i++)
                 {
@@ -171,7 +169,7 @@ namespace attackcalculator
                 float size = 0.0f, zOffset = 0.0f, yOffset = 0.0f, xOffset = 0.0f, tripRate = 0.0f, hitlagMultiplier = 0.0f, sdiMultiplier = 0.0f;
 
                 //0-4, 12-14 = Value
-                //5-11 = Scalar 
+                //5-11 = Scalar
 
                 int int_attributeCount = byte.Parse(str_attributes[0].Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
                 for (int i = 0; i < int_attributeCount; i++)
@@ -246,7 +244,7 @@ namespace attackcalculator
                 float float_unknownA = 0.0f, float_unknownB = 0.0f, float_unknownC = 0.0f;
                 int int_id = 0, int_bone = 0, int_damage = 0, int_angle = 0, int_bkb = 0, int_wdsk = 0, int_kbg = 0, int_element = 0, int_unknownD = 0, int_sfx = 0, int__direction = 0, int_unknownG = 0;
 
-                //0-7, 11-13, 16-17 = Value
+                //0-7, 11-13, 16 = Value
                 //8-10 = Scalar
                 //14-15 = Boolean
 
@@ -330,9 +328,8 @@ namespace attackcalculator
                 float size = 0.0f, zOffset = 0.0f, yOffset = 0.0f, xOffset = 0.0f, tripRate = 0.0f, hitlagMultiplier = 0.0f, sdiMultiplier = 0.0f;
 
                 //0-4, 12 = Value
-                //5-11 = Scalar 
+                //5-11 = Scalar
 
-                //i < 13 (OffensiveCollision) || i < 15 (SpecialOffensiveCollision) || i < 17 (ThrowSpecifier)
                 int int_attributeCount = byte.Parse(str_attributes[0].Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
                 for (int i = 0; i < int_attributeCount; i++)
                 {
@@ -381,7 +378,7 @@ namespace attackcalculator
                             sdiMultiplier = Math.UnScalar(Math.UnHex(str_value));
                             break;
                         case 12:
-                            flags = Convert.ToInt32(str_value);
+                            flags = Convert.ToInt32(Math.UnHex(str_value));
                             break;
                     }
                 }
@@ -463,20 +460,94 @@ namespace attackcalculator
 
                 return new SpecialOffensiveCollision(id, bone, damage, shieldDamage, angle, baseKnockback, weightKnockback, knockbackGrowth, size, zOffset, yOffset, xOffset, tripRate, hitlagMultiplier, sdiMultiplier, flags, rehitRate, specialFlags);
             }
+
+            public static ThrowSpecifier deserializeThrowSpecifier(string line)
+            {
+                string[] str_attributes = line.Split('|');
+
+                if (str_attributes[0].Length != 8)
+                    return null;
+
+                bool bool_unknownE = false, bool_unknownF = false;
+                float float_unknownA = 0.0f, float_unknownB = 0.0f, float_unknownC = 0.0f;
+                int int_id = 0, int_bone = 0, int_damage = 0, int_angle = 0, int_bkb = 0, int_wdsk = 0, int_kbg = 0, int_element = 0, int_unknownD = 0, int_sfx = 0, int__direction = 0, int_unknownG = 0;
+
+                //0-7, 11-13, 16 = Value
+                //8-10 = Scalar
+                //14-15 = Boolean
+
+                int int_attributeCount = byte.Parse(str_attributes[0].Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+                for (int i = 0; i < int_attributeCount; i++)
+                {
+                    string[] str_attribute = str_attributes[i + 1].Split('\\');
+                    string str_value = str_attribute[1];
+
+                    switch (i)
+                    {
+                        case 0:
+                            int_id = Convert.ToInt16(str_value);
+                            break;
+                        case 1:
+                            int_bone = Convert.ToInt16(str_value);
+                            break;
+                        case 2:
+                            int_damage = Math.UnHex(str_value);
+                            break;
+                        case 3:
+                            int_angle = Math.UnHex(str_value);
+                            break;
+                        case 4:
+                            int_kbg = Math.UnHex(str_value);
+                            break;
+                        case 5:
+                            int_wdsk = Math.UnHex(str_value);
+                            break;
+                        case 6:
+                            int_bkb = Math.UnHex(str_value);
+                            break;
+                        case 7:
+                            int_element = Convert.ToInt16(str_value);
+                            break;
+                        case 8:
+                            float_unknownA = Math.UnScalar(Math.UnHex(str_value));
+                            break;
+                        case 9:
+                            float_unknownB = Math.UnScalar(Math.UnHex(str_value));
+                            break;
+                        case 10:
+                            float_unknownC = Math.UnScalar(Math.UnHex(str_value));
+                            break;
+                        case 11:
+                            int_unknownD = Math.UnHex(str_value);
+                            break;
+                        case 12:
+                            int_sfx = Math.UnHex(str_value);
+                            break;
+                        case 13:
+                            int__direction = Math.UnHex(str_value);
+                            break;
+                        case 14:
+                            bool_unknownE = Convert.ToBoolean(Math.UnHex(str_value));
+                            break;
+                        case 15:
+                            bool_unknownF = Convert.ToBoolean(Math.UnHex(str_value));
+                            break;
+                        case 16:
+                            int_unknownG = Math.UnHex(str_value);
+                            break;
+                    }
+                }
+
+                return new ThrowSpecifier(int_id, int_bone, int_damage, int_angle, int_kbg, int_wdsk, int_bkb, int_element, float_unknownA, float_unknownB, float_unknownC, int_unknownD, int_sfx,
+                    int__direction, bool_unknownE, bool_unknownF, int_unknownG);
+            }
         }
 
         public class Math
         {
-            public static float UnScalar(long value)
-            { return (float)(value / 60000f); }
+            public static float UnScalar(long value) => (float)(value / 60000f);
 
-            public static long Scalar(float value)
-            {
-                if (value * 60000f < (float)(int.MaxValue))
-                    return Convert.ToInt32(value * 60000f);
-                else
-                    return int.MaxValue;
-            }
+            public static long Scalar(float value) => value * 60000f < (float)(int.MaxValue) ? Convert.ToInt32(value * 60000f) : int.MaxValue;
 
             public static string TruncateLeft(string strIn, int totalWidth)
             {
@@ -489,20 +560,15 @@ namespace attackcalculator
                 return strIn.Substring(strIn.Length - totalWidth);
             }
 
-            public static string Hex(int val)
-            { return TruncateLeft(val.ToString("X"), 8); }
+            public static string Hex(int val) => TruncateLeft(val.ToString("X"), 8);
 
-            public static string Hex(long val)
-            { return TruncateLeft(val.ToString("X"), 8); }
+            public static string Hex(long val) => TruncateLeft(val.ToString("X"), 8);
 
-            public static string Hex8(int val)
-            { return TruncateLeft(val.ToString("X"), 8).PadLeft(8, '0'); }
+            public static string Hex8(int val) => TruncateLeft(val.ToString("X"), 8).PadLeft(8, '0');
 
-            public static string Hex8(long val)
-            { return TruncateLeft(val.ToString("X"), 8).PadLeft(8, '0'); }
+            public static string Hex8(long val) => TruncateLeft(val.ToString("X"), 8).PadLeft(8, '0');
 
-            public static int UnHex(string val)
-            { return int.Parse(val, System.Globalization.NumberStyles.HexNumber); }
+            public static int UnHex(string val) => int.Parse(val, System.Globalization.NumberStyles.HexNumber);
 
             public static string WordH(string val, int wordNum)
             {
@@ -511,14 +577,6 @@ namespace attackcalculator
 
                 return TruncateLeft(val, 8).PadLeft(8, '0').Substring(wordNum * 4, 4);
             }
-
-            /*
-                case "\\half1":
-                    return WordH(Params[0], 0);
-                case "\\half2":
-                    return WordH(Params[0], 1);
-            */
-
         }
     }
 }

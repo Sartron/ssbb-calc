@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+
+using System.Diagnostics; //Debug
 
 namespace attackcalculator
 {
@@ -11,13 +12,7 @@ namespace attackcalculator
         private static XmlDocument xml_settings;
         private static string str_xmlpath = Application.StartupPath + "\\settings.xml";
 
-        public static bool Exists
-        {
-            get
-            {
-                return File.Exists(str_xmlpath);
-            }
-        }
+        public static bool Exists => File.Exists(str_xmlpath);
 
         public static void Load()
         {
@@ -35,49 +30,23 @@ namespace attackcalculator
 
         public static class Output
         {
+            public static int varCount => xml_settings.SelectNodes("/settings/output/variables/var").Count - 1;
+
             public struct outputVar
             {
-                private bool bool_enabled;
-                private int int_id, int_dataType, int_print;
-                private string str_name;
+                public int ID { get; set; }
+                public bool Enabled { get; set; }
+                public string Name { get; set; }
+                public int DataType { get; set; }
+                public int PrintMode { get; set; }
 
-                public int ID
+                public outputVar(int id, bool enabled, string name, int dataType, int printMode)
                 {
-                    get { return int_id; }
-                    set { int_id = value; }
-                }
-
-                public bool Enabled
-                {
-                    get { return bool_enabled; }
-                    set { bool_enabled = value; }
-                }
-
-                public string Name
-                {
-                    get { return str_name; }
-                    set { str_name = value; }
-                }
-
-                public int DataType
-                {
-                    get { return int_dataType; }
-                    set { int_dataType = value; }
-                }
-
-                public int PrintMode
-                {
-                    get { return int_print; }
-                    set { int_print = value; }
-                }
-
-                public outputVar(int id, bool enabled, string name, int dataType, int print)
-                {
-                    int_id = id;
-                    bool_enabled = enabled;
-                    str_name = name;
-                    int_dataType = dataType;
-                    int_print = print;
+                    ID = id;
+                    Enabled = enabled;
+                    Name = name;
+                    DataType = dataType;
+                    PrintMode = printMode;
                 }
             }
 
@@ -169,14 +138,18 @@ namespace attackcalculator
 
             public static string miscRead(int index)
             {
-                if (index < 0 || index > 1)
+                if (index < 0 || index > 3)
                     return "incorrect id error!";
 
                 switch (index)
                 {
                     case 0:
-                        return xml_settings.SelectSingleNode("/settings/output/format").InnerText;
+                        return xml_settings.SelectSingleNode("/settings/output/format/OffensiveCollision").InnerText;
                     case 1:
+                        return xml_settings.SelectSingleNode("/settings/output/format/SpecialOffensiveCollision").InnerText;
+                    case 2:
+                        return xml_settings.SelectSingleNode("/settings/output/format/ThrowSpecifier").InnerText;
+                    case 3:
                         return xml_settings.SelectSingleNode("/settings/output/copymode").InnerText;
                 }
 
@@ -185,15 +158,21 @@ namespace attackcalculator
 
             public static void miscWrite(int index, string write)
             {
-                if (index < 0 || index > 1)
+                if (index < 0 || index > 3)
                     return;
 
                 switch (index)
                 {
                     case 0:
-                        xml_settings.SelectSingleNode("/settings/output/format").InnerText = write;
+                        xml_settings.SelectSingleNode("/settings/output/format/OffensiveCollision").InnerText = write;
                         break;
                     case 1:
+                        xml_settings.SelectSingleNode("/settings/output/format/SpecialOffensiveCollision").InnerText = write;
+                        break;
+                    case 2:
+                        xml_settings.SelectSingleNode("/settings/output/format/ThrowSpecifier").InnerText = write;
+                        break;
+                    case 3:
                         xml_settings.SelectSingleNode("/settings/output/copymode").InnerText = write;
                         break;
                 }
@@ -215,27 +194,18 @@ namespace attackcalculator
                 bool_crouching = Convert.ToBoolean(xml_settings.SelectSingleNode("/settings/victim/crouching").InnerText);
 
                 if (int_characterId == 41) // Custom
-                {
                     return new attackcalculator.Victim(int_characterId, bool_charging, bool_crouching, int_weight);
-                }
                 else
-                {
                     return new attackcalculator.Victim(int_characterId, bool_charging, bool_crouching);
-                }
             }
 
-            public static string returnPercent()
-            {
-                return xml_settings.SelectSingleNode("/settings/victim/percent").InnerText;
-            }
+            public static string returnPercent() => xml_settings.SelectSingleNode("/settings/victim/percent").InnerText;
 
             public static void Write(attackcalculator.Victim victim, string percent)
             {
-                xml_settings.SelectSingleNode("/settings/victim/id").InnerText = victim.ID.ToString();
-                if (victim.ID == 41)
-                {
+                xml_settings.SelectSingleNode("/settings/victim/id").InnerText = victim.CharacterID.ToString();
+                if (victim.CharacterID == 41)
                     xml_settings.SelectSingleNode("/settings/victim/weight").InnerText = victim.Weight.ToString();
-                }
                 xml_settings.SelectSingleNode("/settings/victim/percent").InnerText = percent;
                 xml_settings.SelectSingleNode("/settings/victim/charging").InnerText = victim.Charging.ToString().ToLower();
                 xml_settings.SelectSingleNode("/settings/victim/crouching").InnerText = victim.Crouching.ToString().ToLower();
