@@ -1,7 +1,5 @@
 ﻿using System;
 
-using System.Diagnostics; //Debug
-
 namespace attackcalculator
 {
     public class Collision : object
@@ -234,6 +232,8 @@ namespace attackcalculator
         /// </summary>
         public override string ToPSA() //Hex
         {
+            return String.Empty; //Dead Code
+
             string serializedCode = eventID + "|";
             int int_attributeCount = byte.Parse(eventID.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
 
@@ -387,7 +387,7 @@ namespace attackcalculator
         /// </summary>
         public bool Flinchless => Convert.ToBoolean((SpecialFlags >> 31) & 1);
         #endregion
-
+        #region Copy Functions
         /// <summary>Returns the Hitbox data as a string.
         /// </summary>
         public override string ToString() => String.Format(base.ToString() + ", RehitRate={0}, SpecialFlags={1}", RehitRate, SpecialFlags);
@@ -398,9 +398,6 @@ namespace attackcalculator
         {
             string serializedCode = eventID + "|" + base.ToBrawlBox().Substring(9);
             int int_attributeCount = byte.Parse(eventID.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
-
-            Debug.WriteLine(serializedCode);
-
             for (int i = 13; i < int_attributeCount; i++)
             {
                 switch (i)
@@ -422,6 +419,8 @@ namespace attackcalculator
         /// </summary>
         public override string ToPSA() //Hex
         {
+            return String.Empty; //Dead Code
+
             string serializedCode = eventID + "|" + base.ToPSA().Substring(9);
             int int_attributeCount = byte.Parse(eventID.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
 
@@ -441,6 +440,7 @@ namespace attackcalculator
 
             return serializedCode;
         }
+        #endregion
 
         public override bool Equals(object obj)
         {
@@ -568,7 +568,7 @@ namespace attackcalculator
         /// </summary>
         public override string ToPSA()
         {
-            return String.Empty;
+            return String.Empty; //Dead Code
         }
 
         public override bool Equals(object obj)

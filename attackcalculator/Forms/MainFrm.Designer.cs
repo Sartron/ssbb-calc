@@ -49,15 +49,16 @@
             this.btnAdd = new System.Windows.Forms.ToolStripButton();
             this.btnEdit = new System.Windows.Forms.ToolStripButton();
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnConvert = new System.Windows.Forms.ToolStripButton();
+            this.btnMiscCalc = new System.Windows.Forms.ToolStripButton();
             this.tp_stats = new System.Windows.Forms.TabPage();
             this.lB_generatedStats = new System.Windows.Forms.ListBox();
             this.ts_generatedStats = new System.Windows.Forms.ToolStrip();
             this._btnCopy = new System.Windows.Forms.ToolStripButton();
             this._btnCut = new System.Windows.Forms.ToolStripButton();
             this.btnRemove = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnMiscCalc = new System.Windows.Forms.ToolStripButton();
+            this.btnClearAll = new System.Windows.Forms.ToolStripButton();
             this.ms_main.SuspendLayout();
             this.tc_tabs.SuspendLayout();
             this.tp_psacode.SuspendLayout();
@@ -256,6 +257,11 @@
             this.btnDelete.Text = "Delete";
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // btnConvert
             // 
             this.btnConvert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -264,6 +270,15 @@
             this.btnConvert.Size = new System.Drawing.Size(85, 22);
             this.btnConvert.Text = "Generate Data";
             this.btnConvert.Click += new System.EventHandler(this.btnConvert_Click);
+            // 
+            // btnMiscCalc
+            // 
+            this.btnMiscCalc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnMiscCalc.Enabled = false;
+            this.btnMiscCalc.Name = "btnMiscCalc";
+            this.btnMiscCalc.Size = new System.Drawing.Size(86, 22);
+            this.btnMiscCalc.Text = "Miscellaneous";
+            this.btnMiscCalc.Click += new System.EventHandler(this.btnMiscCalc_Click);
             // 
             // tp_stats
             // 
@@ -299,7 +314,8 @@
             this.ts_generatedStats.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._btnCopy,
             this._btnCut,
-            this.btnRemove});
+            this.btnRemove,
+            this.btnClearAll});
             this.ts_generatedStats.Location = new System.Drawing.Point(3, 3);
             this.ts_generatedStats.Name = "ts_generatedStats";
             this.ts_generatedStats.Size = new System.Drawing.Size(772, 25);
@@ -333,19 +349,14 @@
             this.btnRemove.Text = "Remove";
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
-            // toolStripSeparator2
+            // btnClearAll
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnMiscCalc
-            // 
-            this.btnMiscCalc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnMiscCalc.Enabled = false;
-            this.btnMiscCalc.Name = "btnMiscCalc";
-            this.btnMiscCalc.Size = new System.Drawing.Size(86, 22);
-            this.btnMiscCalc.Text = "Miscellaneous";
-            this.btnMiscCalc.Click += new System.EventHandler(this.btnMiscCalc_Click);
+            this.btnClearAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnClearAll.Enabled = false;
+            this.btnClearAll.Name = "btnClearAll";
+            this.btnClearAll.Size = new System.Drawing.Size(55, 22);
+            this.btnClearAll.Text = "Clear All";
+            this.btnClearAll.Click += new System.EventHandler(this.btnClearAll_Click);
             // 
             // MainFrm
             // 
@@ -409,6 +420,7 @@
         private System.Windows.Forms.ToolStripButton btnRemove;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton btnMiscCalc;
+        private System.Windows.Forms.ToolStripButton btnClearAll;
     }
 }
 

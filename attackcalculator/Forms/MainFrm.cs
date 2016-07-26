@@ -4,8 +4,6 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.Windows.Forms;
 
-using System.Diagnostics; //Debug
-
 namespace attackcalculator
 {
     public partial class MainFrm : Form
@@ -290,7 +288,7 @@ namespace attackcalculator
         {
             Collision editEvent = psaEvents[lB_psa.SelectedIndex];
 
-            Form editFrm = new EditFrm(editEvent);
+            Form editFrm = attackcalculator.EditFrm.GetInstance(editEvent, lB_psa.SelectedIndex);
             editFrm.Show();
         }
         
@@ -312,50 +310,54 @@ namespace attackcalculator
 
                 if (curCollision.GetType() == typeof(Collision))
                 {
-                    //Do nothing
+                    continue;
                 }
                 else if (curCollision.GetType() == typeof(OffensiveCollision))
                 {
                     string strStat = Settings.Output.miscRead(0);
                     if (String.IsNullOrWhiteSpace(strStat))
-                        return;
+                        continue;
 
                     OffensiveCollision convertedCollision = (OffensiveCollision)curCollision;
-                    if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision)))
+                    if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision))) //REMINDER: Running fillEntries() on this line executes it, which WILL result in two executions of the same code
                         lB_generatedStats.Items.Add(fillEntries(strStat, convertedCollision));
                 }
                 else if (curCollision.GetType() == typeof(SpecialOffensiveCollision))
                 {
                     string strStat = Settings.Output.miscRead(1);
                     if (String.IsNullOrWhiteSpace(strStat))
-                        return;
+                        continue;
 
                     SpecialOffensiveCollision convertedCollision = (SpecialOffensiveCollision)curCollision;
-                    if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision)))
+                    if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision))) //REMINDER: Running fillEntries() on this line executes it, which WILL result in two executions of the same code
                         lB_generatedStats.Items.Add(fillEntries(strStat, convertedCollision));
                 }
                 else if (curCollision.GetType() == typeof(ThrowSpecifier))
                 {
-                    string strStat = Settings.Output.miscRead(0);
+                    string strStat = Settings.Output.miscRead(2);
                     if (String.IsNullOrWhiteSpace(strStat))
-                        return;
+                        continue;
 
                     //All throws calculate with the assumption of a weight of 100
                     curCollision.Victim.Weight = 100;
 
                     ThrowSpecifier convertedCollision = (ThrowSpecifier)curCollision;
-                    if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision)))
+                    if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision))) //REMINDER: Running fillEntries() on this line executes it, which WILL result in two executions of the same code
                         lB_generatedStats.Items.Add(fillEntries(strStat, convertedCollision));
                 }
             }
+
+            if (lB_generatedStats.Items.Count > 0)
+                btnClearAll.Enabled = true;
         }
 
         private void btnMiscCalc_Click(object sender, EventArgs e)
         {
-            Collision miscEvent = psaEvents[lB_psa.SelectedIndex];
+            //No need to check the GetType() of miscEvent, as it is already checked in lB_psa_SelectedIndexChanged
+            OffensiveCollision miscEvent = (OffensiveCollision)psaEvents[lB_psa.SelectedIndex];
 
-            Form MiscFrm = new MiscFrm(miscEvent);
-            MiscFrm.Show();
+            Form miscFrm = attackcalculator.MiscFrm.GetInstance(miscEvent, lB_psa.SelectedIndex);
+            miscFrm.Show();
         }
 
         #region fillEntries() methods
@@ -487,15 +489,36 @@ namespace attackcalculator
                         returnThis = namePattern.Replace(returnThis, tempCollision.HitlagVictim.ToString());
                         break;
                     case 18:
-                        int[] hitlag = new int[2];
-                        hitlag[0] = tempCollision.HitlagAttacker;
-                        tempCollision.HitlagMultiplier = 1.0f;
-                        hitlag[1] = tempCollision.HitlagAttacker;
+                        if (tempCollision.HitlagMultiplier != 1.0f) //Hitlag Advantage can only be calculated if the Hitlag Multiplier is not equal to 1.0
+                        {
+                            int Hitlag_default, Hitlag_1x;
+                            float storeMultiplier = tempCollision.HitlagMultiplier;
 
-                        if (hitlag[0] < hitlag[1])
-                            returnThis = namePattern.Replace(returnThis, String.Format("+{0}", hitlag[1] - hitlag[0]));
-                        else if (hitlag[0] > hitlag[1])
-                            returnThis = namePattern.Replace(returnThis, String.Format("{0}", hitlag[1] - hitlag[0]));
+                            Hitlag_default = tempCollision.HitlagAttacker;
+                            tempCollision.HitlagMultiplier = 1.0f;
+                            Hitlag_1x = tempCollision.HitlagAttacker;
+                            tempCollision.HitlagMultiplier = storeMultiplier;
+
+                            if (Hitlag_default < Hitlag_1x)
+                            {
+                                returnThis = namePattern.Replace(returnThis, String.Format("+{0}", Hitlag_1x - Hitlag_default));
+                            }
+                            else if (Hitlag_default > Hitlag_1x)
+                            {
+                                returnThis = namePattern.Replace(returnThis, String.Format("{0}", Hitlag_1x - Hitlag_default));
+                            }
+                            else if (Hitlag_default == Hitlag_1x)
+                            {
+                                if (curVar.PrintMode == 0)
+                                {
+                                    returnThis = namePattern.Replace(returnThis, "±0");
+                                }
+                                else if (curVar.PrintMode == 1)
+                                {
+                                    returnThis = namePattern.Replace(returnThis, String.Empty);
+                                }
+                            }
+                        }
                         else
                         {
                             if (curVar.PrintMode == 0)
@@ -510,7 +533,6 @@ namespace attackcalculator
                         break;
                 }
             }
-
             return returnThis;
         }
 
@@ -908,12 +930,33 @@ namespace attackcalculator
 
             if (lB_psa.SelectedIndices.Count == 1)
             {
-                btnEdit.Enabled = true;
-                btnMiscCalc.Enabled = true;
+                if (psaEvents[lB_psa.SelectedIndex].GetType() == typeof(OffensiveCollision))
+                {
+                    OffensiveCollision tempCollision = (OffensiveCollision)psaEvents[lB_psa.SelectedIndex];
+                    if (tempCollision.Target != OffensiveCollision.HitboxTarget.None)
+                        btnMiscCalc.Enabled = true;
+                    else
+                        btnMiscCalc.Enabled = false;
+                }
+                else if (psaEvents[lB_psa.SelectedIndex].GetType() == typeof(SpecialOffensiveCollision))
+                {
+                    SpecialOffensiveCollision tempCollision = (SpecialOffensiveCollision) psaEvents[lB_psa.SelectedIndex];
+                    //Special hitboxes may need more checks done
+                    if (tempCollision.Target != SpecialOffensiveCollision.HitboxTarget.None)
+                        btnMiscCalc.Enabled = true;
+                    else
+                        btnMiscCalc.Enabled = false;
+                }
+                else
+                {
+                    btnMiscCalc.Enabled = false;
+                }
+
+                //btnEdit.Enabled = true;
             }
             else
             {
-                btnEdit.Enabled = false;
+                //btnEdit.Enabled = false;
                 btnMiscCalc.Enabled = false;
             }
         }
@@ -950,12 +993,27 @@ namespace attackcalculator
 
             for (int i = lB_generatedStats.SelectedIndices.Count - 1; i >= 0; i--)
                 lB_generatedStats.Items.RemoveAt(lB_generatedStats.SelectedIndices[i]);
+
+            if (lB_generatedStats.Items.Count == 0)
+                btnClearAll.Enabled = false;
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
             for (int i = lB_generatedStats.SelectedIndices.Count - 1; i >= 0; i--)
                 lB_generatedStats.Items.RemoveAt(lB_generatedStats.SelectedIndices[i]);
+
+            if (lB_generatedStats.Items.Count == 0)
+                btnClearAll.Enabled = false;
+        }
+
+        private void btnClearAll_Click(object sender, EventArgs e)
+        {
+            lB_generatedStats.Items.Clear();
+            _btnCopy.Enabled = false;
+            _btnCut.Enabled = false;
+            btnRemove.Enabled = false;
+            btnClearAll.Enabled = false;
         }
 
         private void lB_generatedStats_SelectedIndexChanged(object sender, EventArgs e)
