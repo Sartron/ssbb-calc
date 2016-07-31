@@ -1,4 +1,6 @@
 # "Attack Calculator" #
 
 * Converts BrawlBox/PSA lines into parsable data for reformatting or other purposes.
-* Still in partial re-development, commit 2bba97c can be considered version one. Newest commit is significantly better than that version, however.
+* Version Awful: Coded in VB.NET around 2014
+* Version 1.0: 2bba97c
+* Version 2.0: 73c7066
