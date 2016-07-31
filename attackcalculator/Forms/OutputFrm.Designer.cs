@@ -55,6 +55,7 @@
             "Size",
             "Damage",
             "Shield Damage",
+            "Extra Shield Damage",
             "Angle",
             "Knockback Units",
             "Base Knockback",

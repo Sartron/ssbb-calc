@@ -86,7 +86,7 @@ namespace attackcalculator
             {
                 cb_print.Enabled = true;
             }
-            if (curVar.ID == 12)
+            if (curVar.ID == 13)
             {
                 cb_print.Items.Add("No Output");
             }

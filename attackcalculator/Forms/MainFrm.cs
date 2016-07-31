@@ -388,12 +388,15 @@ namespace attackcalculator
                         returnThis = namePattern.Replace(returnThis, tempCollision.Damage.ToString());
                         break;
                     case 3:
-                        returnThis = namePattern.Replace(returnThis, tempCollision.ShieldDamage.ToString());
+                        returnThis = namePattern.Replace(returnThis, (tempCollision.Damage * 0.7 + tempCollision.ShieldDamage * 0.7).ToString());
                         break;
                     case 4:
-                        returnThis = namePattern.Replace(returnThis, tempCollision.Angle.ToString());
+                        returnThis = namePattern.Replace(returnThis, tempCollision.ShieldDamage.ToString());
                         break;
                     case 5:
+                        returnThis = namePattern.Replace(returnThis, tempCollision.Angle.ToString());
+                        break;
+                    case 6:
                         string knockback = String.Empty;
                         string[] victimPercents = Settings.Victim.returnPercent().Split('/');
 
@@ -409,28 +412,28 @@ namespace attackcalculator
                         else
                             returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
                         break;
-                    case 6:
+                    case 7:
                         returnThis = namePattern.Replace(returnThis, tempCollision.BaseKnockback.ToString());
                         break;
-                    case 7:
+                    case 8:
                         returnThis = namePattern.Replace(returnThis, tempCollision.WeightKnockback.ToString());
                         break;
-                    case 8:
+                    case 9:
                         returnThis = namePattern.Replace(returnThis, tempCollision.KnockbackGrowth.ToString());
                         break;
-                    case 9:
+                    case 10:
                         returnThis = namePattern.Replace(returnThis, tempCollision.HitlagMultiplier.ToString());
                         break;
-                    case 10:
+                    case 11:
                         returnThis = namePattern.Replace(returnThis, tempCollision.SdiMultiplier.ToString());
                         break;
-                    case 11:
+                    case 12:
                         if (curVar.DataType == 0)
                             returnThis = namePattern.Replace(returnThis, tempCollision.Clang.ToString());
                         else if (curVar.DataType == 1)
                             returnThis = namePattern.Replace(returnThis, Convert.ToInt16(tempCollision.Clang).ToString());
                         break;
-                    case 12:
+                    case 13:
                         if (curVar.PrintMode == 0) //Print All
                             returnThis = namePattern.Replace(returnThis, tempCollision.Target.ToString());
                         else if (curVar.PrintMode == 1) //Print only if NOT 'All' or 'None'
@@ -447,13 +450,13 @@ namespace attackcalculator
                                 return String.Empty;
                         }
                         break;
-                    case 13:
+                    case 14:
                         returnThis = namePattern.Replace(returnThis, tempCollision.Effect.ToString());
                         break;
-                    case 14:
+                    case 15:
                         returnThis = namePattern.Replace(returnThis, tempCollision.Shieldstun.ToString());
                         break;
-                    case 15:
+                    case 16:
                         string hitstun = String.Empty;
                         string[] _victimPercents = Settings.Victim.returnPercent().Split('/');
 
@@ -469,7 +472,7 @@ namespace attackcalculator
                         else
                             returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
                         break;
-                    case 16:
+                    case 17:
                         string launch = String.Empty;
                         string[] __victimPercents = Settings.Victim.returnPercent().Split('/');
 
@@ -485,10 +488,10 @@ namespace attackcalculator
                         else
                             returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
                         break;
-                    case 17:
+                    case 18:
                         returnThis = namePattern.Replace(returnThis, tempCollision.HitlagVictim.ToString());
                         break;
-                    case 18:
+                    case 19:
                         if (tempCollision.HitlagMultiplier != 1.0f) //Hitlag Advantage can only be calculated if the Hitlag Multiplier is not equal to 1.0
                         {
                             int Hitlag_default, Hitlag_1x;
@@ -563,12 +566,15 @@ namespace attackcalculator
                         returnThis = namePattern.Replace(returnThis, tempCollision.Damage.ToString());
                         break;
                     case 3:
-                        returnThis = namePattern.Replace(returnThis, tempCollision.ShieldDamage.ToString());
+                        returnThis = namePattern.Replace(returnThis, (tempCollision.Damage * 0.7 + tempCollision.ShieldDamage * 0.7).ToString());
                         break;
                     case 4:
-                        returnThis = namePattern.Replace(returnThis, tempCollision.Angle.ToString());
+                        returnThis = namePattern.Replace(returnThis, tempCollision.ShieldDamage.ToString());
                         break;
                     case 5:
+                        returnThis = namePattern.Replace(returnThis, tempCollision.Angle.ToString());
+                        break;
+                    case 6:
                         string knockback = String.Empty;
                         string[] victimPercents = Settings.Victim.returnPercent().Split('/');
 
@@ -583,28 +589,28 @@ namespace attackcalculator
                         }
                             returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
                         break;
-                    case 6:
+                    case 7:
                         returnThis = namePattern.Replace(returnThis, tempCollision.BaseKnockback.ToString());
                         break;
-                    case 7:
+                    case 8:
                         returnThis = namePattern.Replace(returnThis, tempCollision.WeightKnockback.ToString());
                         break;
-                    case 8:
+                    case 9:
                         returnThis = namePattern.Replace(returnThis, tempCollision.KnockbackGrowth.ToString());
                         break;
-                    case 9:
+                    case 10:
                         returnThis = namePattern.Replace(returnThis, tempCollision.HitlagMultiplier.ToString());
                         break;
-                    case 10:
+                    case 11:
                         returnThis = namePattern.Replace(returnThis, tempCollision.SdiMultiplier.ToString());
                         break;
-                    case 11:
+                    case 12:
                         if (curVar.DataType == 0)
                             returnThis = namePattern.Replace(returnThis, tempCollision.Clang.ToString());
                         else if (curVar.DataType == 1)
                             returnThis = namePattern.Replace(returnThis, Convert.ToInt16(tempCollision.Clang).ToString());
                         break;
-                    case 12:
+                    case 13:
                         if (curVar.PrintMode == 0) //Print All
                             returnThis = namePattern.Replace(returnThis, tempCollision.Target.ToString());
                         else if (curVar.PrintMode == 1) //Print only if NOT 'All' or 'None'
@@ -623,16 +629,16 @@ namespace attackcalculator
                                 return String.Empty;
                         }
                         break;
-                    case 13:
+                    case 14:
                         if (!tempCollision.Sleep)
                             returnThis = namePattern.Replace(returnThis, tempCollision.Effect.ToString());
                         else
                             returnThis = namePattern.Replace(returnThis, tempCollision.Effect + " / Sleep");
                         break;
-                    case 14:
+                    case 15:
                         returnThis = namePattern.Replace(returnThis, tempCollision.Shieldstun.ToString());
                         break;
-                    case 15:
+                    case 16:
                         string hitstun = String.Empty;
                         string[] _victimPercents = Settings.Victim.returnPercent().Split('/');
 
@@ -648,7 +654,7 @@ namespace attackcalculator
                         else
                             returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
                         break;
-                    case 16:
+                    case 17:
                         string launch = String.Empty;
                         string[] __victimPercents = Settings.Victim.returnPercent().Split('/');
 
@@ -664,13 +670,13 @@ namespace attackcalculator
                         else
                             returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
                         break;
-                    case 17:
+                    case 18:
                         if (!tempCollision.NoHitlag)
                             returnThis = namePattern.Replace(returnThis, tempCollision.HitlagVictim.ToString());
                         else
                             returnThis = namePattern.Replace(returnThis, "0");
                         break;
-                    case 18:
+                    case 19:
                         int[] hitlag = new int[2];
                         hitlag[0] = tempCollision.HitlagAttacker;
                         tempCollision.HitlagMultiplier = 1.0f;
@@ -688,13 +694,13 @@ namespace attackcalculator
                                 returnThis = namePattern.Replace(returnThis, String.Empty);
                         }
                         break;
-                    case 19:
+                    case 20:
                         if (curVar.PrintMode == 0)
                             returnThis = namePattern.Replace(returnThis, tempCollision.RehitRate.ToString());
                         else if (curVar.PrintMode == 1)
                             returnThis = namePattern.Replace(returnThis, String.Empty);
                         break;
-                    case 20:
+                    case 21:
                         if (curVar.PrintMode == 0)
                         {
                             if (curVar.DataType == 0)
@@ -715,7 +721,7 @@ namespace attackcalculator
                                 returnThis = namePattern.Replace(returnThis, String.Empty);
                         }
                         break;
-                    case 21:
+                    case 22:
                         if (curVar.PrintMode == 0)
                         {
                             if (curVar.DataType == 0)
@@ -736,7 +742,7 @@ namespace attackcalculator
                                 returnThis = namePattern.Replace(returnThis, String.Empty);
                         }
                         break;
-                    case 22:
+                    case 23:
                         if (curVar.PrintMode == 0)
                         {
                             if (curVar.DataType == 0)
@@ -757,7 +763,7 @@ namespace attackcalculator
                                 returnThis = namePattern.Replace(returnThis, String.Empty);
                         }
                         break;
-                    case 23:
+                    case 24:
                         if (curVar.PrintMode == 0)
                         {
                             if (curVar.DataType == 0)
@@ -778,7 +784,7 @@ namespace attackcalculator
                                 returnThis = namePattern.Replace(returnThis, String.Empty);
                         }
                         break;
-                    case 24:
+                    case 25:
                         if (curVar.PrintMode == 0)
                         {
                             if (curVar.DataType == 0)
@@ -828,10 +834,10 @@ namespace attackcalculator
                     case 2:
                         returnThis = namePattern.Replace(returnThis, tempCollision.Damage.ToString());
                         break;
-                    case 4:
+                    case 5:
                         returnThis = namePattern.Replace(returnThis, tempCollision.Angle.ToString());
                         break;
-                    case 5:
+                    case 6:
                         string knockback = String.Empty;
                         string[] victimPercents = Settings.Victim.returnPercent().Split('/');
 
@@ -847,19 +853,19 @@ namespace attackcalculator
                         else
                             returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
                         break;
-                    case 6:
+                    case 7:
                         returnThis = namePattern.Replace(returnThis, tempCollision.BaseKnockback.ToString());
                         break;
-                    case 7:
+                    case 8:
                         returnThis = namePattern.Replace(returnThis, tempCollision.WeightKnockback.ToString());
                         break;
-                    case 8:
+                    case 9:
                         returnThis = namePattern.Replace(returnThis, tempCollision.KnockbackGrowth.ToString());
                         break;
-                    case 13:
+                    case 14:
                         returnThis = namePattern.Replace(returnThis, tempCollision.Element.ToString());
                         break;
-                    case 15:
+                    case 16:
                         string hitstun = String.Empty;
                         string[] _victimPercents = Settings.Victim.returnPercent().Split('/');
 
@@ -875,7 +881,7 @@ namespace attackcalculator
                         else
                             returnThis = namePattern.Replace(returnThis, collision.Knockback.ToString());
                         break;
-                    case 16:
+                    case 17:
                         string launch = String.Empty;
                         string[] __victimPercents = Settings.Victim.returnPercent().Split('/');
 
