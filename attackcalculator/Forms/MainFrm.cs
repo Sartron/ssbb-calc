@@ -78,6 +78,9 @@ namespace attackcalculator
                 psaEvents.RemoveAt(lB_psa.SelectedIndices[i]);
                 lB_psa.Items.RemoveAt(lB_psa.SelectedIndices[i]);
             }
+
+            if (lB_psa.Items.Count == 0)
+                btnDeleteAll.Enabled = false;
         }
         
         private void btnPaste_Click(object sender, EventArgs e)
@@ -263,6 +266,9 @@ namespace attackcalculator
                 patternSearch = patternSearch.NextMatch();
             }
             #endregion
+
+            if (lB_psa.Items.Count > 0 && !btnDelete.Enabled)
+                btnDeleteAll.Enabled = true;
         }
 
         private void btnCopyText_Click(object sender, EventArgs e)
@@ -282,6 +288,9 @@ namespace attackcalculator
             Collision newEvent = new Collision(lB_psa.Items.Count + 1, 0, 0, 0, 0, 0, 0);
             psaEvents.Add(newEvent);
             lB_psa.Items.Add(newEvent);
+
+            if (!btnDeleteAll.Enabled)
+                btnDeleteAll.Enabled = true;
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -299,6 +308,20 @@ namespace attackcalculator
                 psaEvents.RemoveAt(lB_psa.SelectedIndices[i]);
                 lB_psa.Items.RemoveAt(lB_psa.SelectedIndices[i]);
             }
+
+            if (lB_psa.Items.Count == 0)
+                btnDeleteAll.Enabled = false;
+        }
+
+        private void btnDeleteAll_Click(object sender, EventArgs e)
+        {
+            for (int i = lB_psa.Items.Count - 1; i >= 0; i--)
+            {
+                psaEvents.RemoveAt(i);
+                lB_psa.Items.RemoveAt(i);
+            }
+
+            btnDeleteAll.Enabled = false;
         }
 
         private void btnConvert_Click(object sender, EventArgs e)
@@ -320,7 +343,7 @@ namespace attackcalculator
 
                     OffensiveCollision convertedCollision = (OffensiveCollision)curCollision;
                     if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision))) //REMINDER: Running fillEntries() on this line executes it, which WILL result in two executions of the same code
-                        lB_generatedStats.Items.Add(fillEntries(strStat, convertedCollision));
+                        lB_generatedData.Items.Add(fillEntries(strStat, convertedCollision));
                 }
                 else if (curCollision.GetType() == typeof(SpecialOffensiveCollision))
                 {
@@ -330,7 +353,7 @@ namespace attackcalculator
 
                     SpecialOffensiveCollision convertedCollision = (SpecialOffensiveCollision)curCollision;
                     if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision))) //REMINDER: Running fillEntries() on this line executes it, which WILL result in two executions of the same code
-                        lB_generatedStats.Items.Add(fillEntries(strStat, convertedCollision));
+                        lB_generatedData.Items.Add(fillEntries(strStat, convertedCollision));
                 }
                 else if (curCollision.GetType() == typeof(ThrowSpecifier))
                 {
@@ -343,11 +366,11 @@ namespace attackcalculator
 
                     ThrowSpecifier convertedCollision = (ThrowSpecifier)curCollision;
                     if (!String.IsNullOrWhiteSpace(fillEntries(strStat, convertedCollision))) //REMINDER: Running fillEntries() on this line executes it, which WILL result in two executions of the same code
-                        lB_generatedStats.Items.Add(fillEntries(strStat, convertedCollision));
+                        lB_generatedData.Items.Add(fillEntries(strStat, convertedCollision));
                 }
             }
 
-            if (lB_generatedStats.Items.Count > 0)
+            if (lB_generatedData.Items.Count > 0)
                 btnClearAll.Enabled = true;
         }
 
@@ -977,7 +1000,7 @@ namespace attackcalculator
         private void _btnCopy_Click(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (object row in lB_generatedStats.SelectedItems)
+            foreach (object row in lB_generatedData.SelectedItems)
             {
                 sb.Append(row);
                 sb.AppendLine();
@@ -989,7 +1012,7 @@ namespace attackcalculator
         private void _btnCut_Click(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (object row in lB_generatedStats.SelectedItems)
+            foreach (object row in lB_generatedData.SelectedItems)
             {
                 sb.Append(row);
                 sb.AppendLine();
@@ -997,25 +1020,25 @@ namespace attackcalculator
             sb.Remove(sb.Length - 1, 1);
             Clipboard.SetData(DataFormats.Text, sb.ToString());
 
-            for (int i = lB_generatedStats.SelectedIndices.Count - 1; i >= 0; i--)
-                lB_generatedStats.Items.RemoveAt(lB_generatedStats.SelectedIndices[i]);
+            for (int i = lB_generatedData.SelectedIndices.Count - 1; i >= 0; i--)
+                lB_generatedData.Items.RemoveAt(lB_generatedData.SelectedIndices[i]);
 
-            if (lB_generatedStats.Items.Count == 0)
+            if (lB_generatedData.Items.Count == 0)
                 btnClearAll.Enabled = false;
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            for (int i = lB_generatedStats.SelectedIndices.Count - 1; i >= 0; i--)
-                lB_generatedStats.Items.RemoveAt(lB_generatedStats.SelectedIndices[i]);
+            for (int i = lB_generatedData.SelectedIndices.Count - 1; i >= 0; i--)
+                lB_generatedData.Items.RemoveAt(lB_generatedData.SelectedIndices[i]);
 
-            if (lB_generatedStats.Items.Count == 0)
+            if (lB_generatedData.Items.Count == 0)
                 btnClearAll.Enabled = false;
         }
 
         private void btnClearAll_Click(object sender, EventArgs e)
         {
-            lB_generatedStats.Items.Clear();
+            lB_generatedData.Items.Clear();
             _btnCopy.Enabled = false;
             _btnCut.Enabled = false;
             btnRemove.Enabled = false;
@@ -1024,7 +1047,7 @@ namespace attackcalculator
 
         private void lB_generatedStats_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lB_generatedStats.SelectedIndices.Count == 0)
+            if (lB_generatedData.SelectedIndices.Count == 0)
             {
                 _btnCopy.Enabled = false;
                 _btnCut.Enabled = false;
