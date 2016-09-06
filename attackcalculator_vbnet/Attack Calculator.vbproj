@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A171EC8E-03C8-4B04-9890-C7A01E441CAA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Attack_Calculator.My.MyApplication</StartupObject>
+    <RootNamespace>Attack_Calculator</RootNamespace>
+    <AssemblyName>Attack Calculator</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Attack Calculator.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Attack Calculator.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutFrm.Designer.vb">
+      <DependentUpon>AboutFrm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AboutFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BlockCalcFrm.designer.vb">
+      <DependentUpon>BlockCalcFrm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BlockCalcFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CharacterSettingsFrm.Designer.vb">
+      <DependentUpon>CharacterSettingsFrm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CharacterSettingsFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FlagFrm.Designer.vb">
+      <DependentUpon>FlagFrm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FlagFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Functionality.vb" />
+    <Compile Include="KBCalc.Designer.vb">
+      <DependentUpon>KBCalc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="KBCalc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainFrm.Designer.vb">
+      <DependentUpon>MainFrm.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="OutputSettingsFrm.Designer.vb">
+      <DependentUpon>OutputSettingsFrm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="OutputSettingsFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SmashChargeFrm.Designer.vb">
+      <DependentUpon>SmashChargeFrm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SmashChargeFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThrowFrm.Designer.vb">
+      <DependentUpon>ThrowFrm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ThrowFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutFrm.resx">
+      <DependentUpon>AboutFrm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BlockCalcFrm.resx">
+      <DependentUpon>BlockCalcFrm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CharacterSettingsFrm.resx">
+      <DependentUpon>CharacterSettingsFrm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlagFrm.resx">
+      <DependentUpon>FlagFrm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KBCalc.resx">
+      <DependentUpon>KBCalc.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainFrm.resx">
+      <DependentUpon>MainFrm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutputSettingsFrm.resx">
+      <DependentUpon>OutputSettingsFrm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SmashChargeFrm.resx">
+      <DependentUpon>SmashChargeFrm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThrowFrm.resx">
+      <DependentUpon>ThrowFrm.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
