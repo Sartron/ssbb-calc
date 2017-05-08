@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -41,6 +42,8 @@ namespace attackcalculator
             txtValue2.Text = String.Empty;
             txtValue3.Text = String.Empty;
             txtOutput.Text = String.Empty;
+            chkBox_bbCode.Checked = false;
+            chkBox_bbCode.Enabled = false;
 
             txtValue1.Enabled = false;
             txtValue2.Enabled = false;
@@ -55,6 +58,8 @@ namespace attackcalculator
                     lblValue1.Text = "Hit Frame";
                     lblValue2.Text = "Duration/IASA - 1";
                     lblOutput.Text = "Advantage";
+                    chkBox_bbCode.Location = new Point(347, 43);
+                    chkBox_bbCode.Enabled = true;
 
                     txtValue1.Enabled = true;
                     txtValue2.Enabled = true;
@@ -62,14 +67,18 @@ namespace attackcalculator
                 case 1:
                     lblValue1.Text = "Landing Lag";
                     lblOutput.Text = "Advantage";
+                    chkBox_bbCode.Location = new Point(347, 43);
+                    chkBox_bbCode.Enabled = true;
 
                     txtValue1.Enabled = true;
                     break;
                 case 2:
                     lblValue1.Text = "Last Hit Frame";
-                    lblValue2.Text = "Window Frame"; //First Window Frame preferably
+                    lblValue2.Text = "Window Frame"; //First Window Frame is the most optimal
                     lblValue3.Text = "Landing Lag";
                     lblOutput.Text = "Advantage";
+                    chkBox_bbCode.Location = new Point(347, 43);
+                    chkBox_bbCode.Enabled = true;
 
                     txtValue1.Enabled = true;
                     txtValue2.Enabled = true;
@@ -77,6 +86,7 @@ namespace attackcalculator
                     break;
                 case 3:
                     lblOutput.Text = "Damage";
+                    chkBox_bbCode.Location = new Point(335, 43);
 
                     calculateChargeDamage();
                     break;
@@ -120,6 +130,36 @@ namespace attackcalculator
             calculateAerialACAdvantage();
         }
 
+        private string colorcodeAdvantage(int advantage)
+        {
+            if (advantage >= 4) // x >= 4   Medium+ Advantage
+            {
+                return $"[COLOR=#4dff4d]+{advantage}[/COLOR]";
+            }
+            else if (advantage < 4 && advantage >= 1) // 1 <> 3 Light Advantage
+            {
+                return $"[COLOR=#a6ff4d]+{advantage}[/COLOR]";
+            }
+            else if (advantage == 0) // 0   Neutral
+            {
+                return $"[COLOR=#ffffff]±{advantage}[/COLOR]";
+            }
+            else if (advantage < 0 && advantage >= -3) // -1 <> -3  Unpunishable
+            {
+                return $"[COLOR=#ffff4d]{advantage}[/COLOR]";
+            }
+            else if (advantage < -3 && advantage >= -6) // -4 <> -6    Light Punish
+            {
+                return $"[COLOR=#ffa64d]{advantage}[/COLOR]";
+            }
+            else if (advantage < -6) // x >= -7   Medium+ Punish
+            {
+                return $"[COLOR=#ff4d4d]{advantage}[/COLOR]";
+            }
+
+            return null;
+        }
+
         private void calculateAdvantage()
         {
             if ((!String.IsNullOrEmpty(txtValue1.Text) && !Regex.IsMatch(txtValue1.Text, @"[^\d]")) && (!String.IsNullOrEmpty(txtValue2.Text) && !Regex.IsMatch(txtValue2.Text, @"[^\d]")))
@@ -139,7 +179,15 @@ namespace attackcalculator
                     hitlagAdvantage = Hitlag_1x - Hitlag_default;
                 }
 
-                txtOutput.Text = (Convert.ToInt32(txtValue1.Text) + curCollision.Shieldstun - Convert.ToInt32(txtValue2.Text) + hitlagAdvantage).ToString();
+                
+                if (chkBox_bbCode.Checked) // Use BB color coding
+                {
+                    txtOutput.Text = colorcodeAdvantage(Convert.ToInt32(txtValue1.Text) + curCollision.Shieldstun - Convert.ToInt32(txtValue2.Text) + hitlagAdvantage);
+                }
+                else // Use plaintext
+                {
+                    txtOutput.Text = (Convert.ToInt32(txtValue1.Text) + curCollision.Shieldstun - Convert.ToInt32(txtValue2.Text) + hitlagAdvantage).ToString();
+                }
             }
         }
 
@@ -161,9 +209,20 @@ namespace attackcalculator
 
                     hitlagAdvantage = Hitlag_1x - Hitlag_default;
                 }
-
-                txtOutput.Text = String.Format("{0}/{1}", (curCollision.Shieldstun + hitlagAdvantage) - Convert.ToInt32(txtValue1.Text),
-                    (curCollision.Shieldstun + hitlagAdvantage) - Math.Floor(Convert.ToDouble(txtValue1.Text) / 2));
+                
+                if (chkBox_bbCode.Checked) // Use BB color coding
+                {
+                    txtOutput.Text = String.Format("{0}/{1}",
+                        colorcodeAdvantage((curCollision.Shieldstun + hitlagAdvantage) - Convert.ToInt32(txtValue1.Text)),
+                        colorcodeAdvantage((curCollision.Shieldstun + hitlagAdvantage) - Convert.ToInt32(Math.Floor(Convert.ToDouble(txtValue1.Text) / 2)))
+                    );
+                }
+                else // Use plaintext
+                {
+                    txtOutput.Text = String.Format("{0}/{1}",
+                        (curCollision.Shieldstun + hitlagAdvantage) - Convert.ToInt32(txtValue1.Text),
+                        (curCollision.Shieldstun + hitlagAdvantage) - Math.Floor(Convert.ToDouble(txtValue1.Text) / 2));
+                }
             }
         }
 
@@ -189,14 +248,39 @@ namespace attackcalculator
 
                 //Last Hit Frame + Stun - (First Auto-cancel Window Frame - 1) - Auto-cancel Landing Lag
 
-                txtOutput.Text = (Convert.ToInt32(txtValue1.Text) + (curCollision.Shieldstun + hitlagAdvantage) -
-                     (Convert.ToInt32(txtValue2.Text) - 1) - Convert.ToInt32(txtValue3.Text)).ToString();
+                if (chkBox_bbCode.Checked) // Use BB color coding
+                {
+                    txtOutput.Text = colorcodeAdvantage(Convert.ToInt32(txtValue1.Text) + (curCollision.Shieldstun + hitlagAdvantage) -
+                         (Convert.ToInt32(txtValue2.Text) - 1) - Convert.ToInt32(txtValue3.Text));
+                }
+                else // Use plaintext
+                {
+                    txtOutput.Text = (Convert.ToInt32(txtValue1.Text) + (curCollision.Shieldstun + hitlagAdvantage) -
+                         (Convert.ToInt32(txtValue2.Text) - 1) - Convert.ToInt32(txtValue3.Text)).ToString();
+                }
+
             }
         }
 
         private void calculateChargeDamage()
         {
             txtOutput.Text = Math.Floor(curCollision.Damage * 1.3667).ToString();
+        }
+
+        private void chkBox_bbCode_CheckedChanged(object sender, EventArgs e)
+        {
+            switch (comboMode.SelectedIndex)
+            {
+                case 0:
+                    calculateAdvantage();
+                    break;
+                case 1:
+                    calculateAerialAdvantage();
+                    break;
+                case 2:
+                    calculateAerialACAdvantage();
+                    break;
+            }
         }
     }
 }

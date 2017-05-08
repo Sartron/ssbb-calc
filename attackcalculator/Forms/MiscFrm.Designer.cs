@@ -39,6 +39,7 @@
             this.lblValue2 = new System.Windows.Forms.Label();
             this.txtValue3 = new System.Windows.Forms.TextBox();
             this.lblValue3 = new System.Windows.Forms.Label();
+            this.chkBox_bbCode = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // comboMode
@@ -142,11 +143,22 @@
             this.lblValue3.TabIndex = 8;
             this.lblValue3.Text = "Value3";
             // 
+            // chkBox_bbCode
+            // 
+            this.chkBox_bbCode.AutoSize = true;
+            this.chkBox_bbCode.Location = new System.Drawing.Point(327, 43);
+            this.chkBox_bbCode.Name = "chkBox_bbCode";
+            this.chkBox_bbCode.Size = new System.Drawing.Size(15, 14);
+            this.chkBox_bbCode.TabIndex = 10;
+            this.chkBox_bbCode.UseVisualStyleBackColor = true;
+            this.chkBox_bbCode.CheckedChanged += new System.EventHandler(this.chkBox_bbCode_CheckedChanged);
+            // 
             // MiscFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 93);
+            this.Controls.Add(this.chkBox_bbCode);
             this.Controls.Add(this.txtValue3);
             this.Controls.Add(this.lblValue3);
             this.Controls.Add(this.txtValue2);
@@ -179,5 +191,6 @@
         private System.Windows.Forms.Label lblValue2;
         private System.Windows.Forms.TextBox txtValue3;
         private System.Windows.Forms.Label lblValue3;
+        private System.Windows.Forms.CheckBox chkBox_bbCode;
     }
 }
