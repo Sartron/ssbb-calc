@@ -1,6 +1,7 @@
-# "Attack Calculator" #
+# Attack Calculator
+Converts BrawlBox/Project Smash Attacks lines into human readable data for reformatting or other purposes.
 
-* Converts BrawlBox/PSA lines into parsable data for reformatting or other purposes.
-* Version Awful: Coded in VB.NET around 2014
-* Version 1.0: 2bba97c
-* Version 2.0: 73c7066
+## Projects
+This repository contains two projects:
+* A new project written in C#: `./attackcalculator`
+* An old project written in VB.NET: `./attackcalculator_vbnet`

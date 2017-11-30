@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Attack Calculator", "attackcalculator\Attack Calculator.csproj", "{EFEEB3C3-159A-4703-BF1B-C839B0480A6E}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Legacy Attack Calculator", "attackcalculator_vbnet\Legacy Attack Calculator.vbproj", "{A171EC8E-03C8-4B04-9890-C7A01E441CAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{EFEEB3C3-159A-4703-BF1B-C839B0480A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFEEB3C3-159A-4703-BF1B-C839B0480A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFEEB3C3-159A-4703-BF1B-C839B0480A6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A171EC8E-03C8-4B04-9890-C7A01E441CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A171EC8E-03C8-4B04-9890-C7A01E441CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A171EC8E-03C8-4B04-9890-C7A01E441CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A171EC8E-03C8-4B04-9890-C7A01E441CAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
