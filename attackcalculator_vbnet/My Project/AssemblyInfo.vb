@@ -10,9 +10,9 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("Attack Calculator")> 
 <Assembly: AssemblyDescription("Calculate moveset data for Project M")> 
-<Assembly: AssemblyCompany("Smash Laboratory")> 
+<Assembly: AssemblyCompany("Sartron")> 
 <Assembly: AssemblyProduct("Attack Calculator")> 
-<Assembly: AssemblyCopyright("Creative Commons Attribution 3.0 Unported")> 
+<Assembly: AssemblyCopyright("MIT License")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
